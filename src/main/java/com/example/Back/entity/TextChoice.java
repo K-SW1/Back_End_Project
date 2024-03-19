@@ -6,23 +6,33 @@ import jakarta.persistence.GeneratedValue; //엔티티의 기본 키 값을 자�
 import jakarta.persistence.GenerationType; //여기서 열거형을 사용하여 IDENTITY 전략을 사용.
 import jakarta.persistence.Id; //엔티티 클래스의 기본 키를 지정.
 import lombok.Data; // Lombok 라이브러리 제공(getter, setter, equals, hashCode, toString 등)
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity
 @Data
-public class TextQuizOption {
+public class TextChoice {
 
+    
+    //기본키
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //.IDENTITY으로 설정하여 auto-increment으로 값 저장됨.
-    private int option_id;
+    private int choice_id;
 
     @ManyToOne //TextQuiz테이블하고 관계가 다대일로 관계.
     @JoinColumn(name = "text_quiz_id")
     private TextQuiz text_quiz_id;
 
-    private String option_text;
+    //선택지
+    @Getter
+    @Setter
+    private String choice_text;
 
-    private boolean is_correct;
+    //정답
+    @Getter
+    @Setter
+    private boolean answer;
 
 
 }

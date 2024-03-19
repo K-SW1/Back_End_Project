@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66cb0536-249e-4cfa-bc2a-864638f04b74" name="변경" comment="변경">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/Back/repository/TextQuizOptionRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/Back/repository/TextChoiceRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Back/entity/TextQuiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Back/entity/TextQuiz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Back/entity/TextQuizOption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Back/entity/TextChoice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Back/repository/TextQuizOptionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Back/repository/TextQuizRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/Back/repository/TextQuizRepository.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,9 +37,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="AnnotationType" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -111,7 +114,13 @@
       <workItem from="1710257864819" duration="81000" />
       <workItem from="1710390841554" duration="93000" />
       <workItem from="1710392141638" duration="311000" />
-      <workItem from="1710392938970" duration="4345000" />
+      <workItem from="1710392938970" duration="4622000" />
+      <workItem from="1710408778501" duration="818000" />
+      <workItem from="1710587237828" duration="7656000" />
+      <workItem from="1710597608353" duration="8557000" />
+      <workItem from="1710675426381" duration="1006000" />
+      <workItem from="1710744513059" duration="23108000" />
+      <workItem from="1710825352228" duration="8010000" />
     </task>
     <task id="LOCAL-00001" summary="변경">
       <option name="closed" value="true" />
@@ -126,6 +135,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="변경" />
