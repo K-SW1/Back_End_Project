@@ -1,11 +1,13 @@
 package ksw.BackEnd.RecallQuest.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Entity
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "distractor_image")
+@Entity
 public class DistractorImage {
 
     @Id
@@ -17,5 +19,17 @@ public class DistractorImage {
     @JoinColumn(name = "image_quiz_distractor_id")
     private ImageQuizDistractor imageQuizDistractor;
 
-    private String imagePath;
+    private String originFilename; //원본 이름
+    private String storeFilename; //파일을 저장한 이름, 원본 이름에서 중복이 날 수 있기 때문에 생성
+    private String type; //타입
+    private String filePath; //경로
+
+    @Builder
+    public DistractorImage(String originFilename, String storeFilename, String type, String filePath, ImageQuizDistractor imageQuizDistractor) { //이게 맞나..?ㅜ
+        this.originFilename = originFilename;
+        this.storeFilename = storeFilename;
+        this.type = type;
+        this.filePath = filePath;
+        this.imageQuizDistractor = imageQuizDistractor;
+    }
 }

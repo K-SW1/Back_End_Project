@@ -1,6 +1,8 @@
 package ksw.BackEnd.RecallQuest.domain;
 
 import jakarta.persistence.*;
+import ksw.BackEnd.RecallQuest.dto.MemberSaveRequestDto;
+import ksw.BackEnd.RecallQuest.imagequiz.ImageQuizRequestDto;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -8,8 +10,8 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "image_quiz")
+@AllArgsConstructor
 @Entity
 public class ImageQuiz {
 
@@ -32,11 +34,17 @@ public class ImageQuiz {
     @OneToMany(mappedBy = "imageQuiz", cascade = CascadeType.ALL)
     private List<ImageQuizDistractor> imageQuizDistractors = new ArrayList<>();
 
+
     @Builder
-    public ImageQuiz(String question, String hint, List<QuestionImage> questionImages) {
+    public ImageQuiz(String question, String hint) {
         this.question = question;
         this.hint = hint;
-        this.questionImages = questionImages;
     }
+
+    public void changeInfo (ImageQuizRequestDto imageQuizRequestDto) {
+        this.question = imageQuizRequestDto.getQuestion();
+        this.hint =  imageQuizRequestDto.getHint();
+    }
+
 
 }

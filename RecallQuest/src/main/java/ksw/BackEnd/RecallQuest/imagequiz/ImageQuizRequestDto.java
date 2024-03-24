@@ -1,4 +1,4 @@
-package ksw.BackEnd.RecallQuest.dto;
+package ksw.BackEnd.RecallQuest.imagequiz;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,10 +11,8 @@ import java.util.List;
 @Setter
 public class ImageQuizRequestDto {
 
+    private String userLoginId; //회원 아이디
     private String question;
-
     private String hint;
-
-    private List<MultipartFile> images = new ArrayList<>();
 
 }

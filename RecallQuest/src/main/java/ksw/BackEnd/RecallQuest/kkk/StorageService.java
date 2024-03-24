@@ -18,34 +18,22 @@ public class StorageService {
     @Autowired
     private FileDataRepository fileDataRepository;
 
+    @Autowired
+    private QuizRepository quizRepository;
+
     private final String FOLDER_PATH="/Users/gim-yena/Desktop/imageFile/";
 
-//    public String uploadImage(MultipartFile file) throws IOException {
-//        ImageData imageData = repository.save(ImageData.builder()
-//                .name(file.getOriginalFilename())
-//                .type(file.getContentType())
-//                .imageData(ImageUtils.compressImage(file.getBytes())).build());
-//        if (imageData != null) {
-//            return "file uploaded successfully : " + file.getOriginalFilename();
-//        }
-//        return null;
-//    }
-//
-//
-//
-//    public byte[] downloadImage(String fileName) {
-//        Optional<ImageData> dbImageData = repository.findByName(fileName);
-//        byte[] images = ImageUtils.decompressImage(dbImageData.get().getImageData());
-//        return images;
-//    }
-
-
-    public String uploadImageToFileSystem(MultipartFile file) throws IOException {
+    public String uploadImageToFileSystem(String question, MultipartFile file) throws IOException {
         String filePath=FOLDER_PATH+file.getOriginalFilename();
+
+        Quiz quiz = Quiz.builder().question(question).build();
+
+        quizRepository.save(quiz);
 
         FileData fileData=fileDataRepository.save(FileData.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
+                .quiz(quiz)
                 .filePath(filePath).build());
 
         file.transferTo(new File(filePath));

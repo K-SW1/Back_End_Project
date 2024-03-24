@@ -13,6 +13,8 @@ public interface MemberService {
 
     Member findMember(Long memberSeq);
 
+    Member findMemberId(String userLoginId);
+
     List<Member> findMembers();
 
     Member updateMember(MemberSaveRequestDto memberSaveRequestDto);

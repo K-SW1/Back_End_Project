@@ -1,14 +1,18 @@
 package ksw.BackEnd.RecallQuest.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import ksw.BackEnd.RecallQuest.imagequiz.ImageQuizDistractorRequestDto;
+import ksw.BackEnd.RecallQuest.imagequiz.ImageQuizRequestDto;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@NoArgsConstructor
+@Table(name = "image_quiz_distractor")
+@AllArgsConstructor
 @Entity
-@Getter @Setter
 public class ImageQuizDistractor {
 
     @Id
@@ -26,4 +30,16 @@ public class ImageQuizDistractor {
 
     @OneToMany(mappedBy = "imageQuizDistractor", cascade = CascadeType.ALL)
     private List<DistractorImage> distractorImages = new ArrayList<>();
+
+    @Builder
+    public ImageQuizDistractor(String imageQuizDistractor, boolean validation) {
+        this.imageQuizDistractor = imageQuizDistractor;
+        this.validation = validation;
+    }
+
+    public void changeInfo (ImageQuizDistractorRequestDto imageQuizDistractorRequestDto) {
+        this.imageQuizDistractor = imageQuizDistractorRequestDto.getImageQuizDistractor();
+        this.validation = imageQuizDistractorRequestDto.isValidation();
+    }
+
 }

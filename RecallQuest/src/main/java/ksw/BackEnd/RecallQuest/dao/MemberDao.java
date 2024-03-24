@@ -12,6 +12,8 @@ public interface MemberDao {
 
     Member findMemberSeq(Long memberSeq);
 
+//    Member findMemberId(String userLoginId);
+
     List<Member> findAll();
 
     Member delete(Long memberSeq);

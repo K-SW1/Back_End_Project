@@ -63,6 +63,14 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public Member findMemberId(String userLoginId) {
+        Login login = loginDao.findByUserLoginId(userLoginId);
+        Member member = memberDao.findMemberSeq(login.getMember().getMemberSeq());
+        return member;
+    }
+
+
+    @Override
     public List<Member> findMembers() {
         List<Member> members = memberDao.findAll();
         return members;
