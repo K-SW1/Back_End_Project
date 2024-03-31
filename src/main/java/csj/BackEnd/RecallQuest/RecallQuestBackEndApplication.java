@@ -1,4 +1,4 @@
-package com.example.recallquestbackend;
+package csj.BackEnd.RecallQuest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
