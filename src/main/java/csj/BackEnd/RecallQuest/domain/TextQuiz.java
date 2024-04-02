@@ -24,4 +24,5 @@ public class TextQuiz {
     private String question;
 
     private String hint;
+
 }

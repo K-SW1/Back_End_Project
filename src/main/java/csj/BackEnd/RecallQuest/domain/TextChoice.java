@@ -34,6 +34,7 @@ public class TextChoice {
         this.answer = answer;
     }
 
+
     // 기본 생성자 추가 (JPA 사용 시 필요) 객채 필드로 초기화 해줌.
     public TextChoice() {}
 }

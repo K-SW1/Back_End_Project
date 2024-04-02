@@ -7,6 +7,11 @@ import csj.BackEnd.RecallQuest.domain.TextQuiz;
 import csj.BackEnd.RecallQuest.domain.TextChoice;
 import csj.BackEnd.RecallQuest.repository.TextQuizRepository;
 import csj.BackEnd.RecallQuest.repository.TextChoiceRepository;
+import csj.BackEnd.RecallQuest.dto.TextQuizRequestDto;
+import csj.BackEnd.RecallQuest.dto.TextQuizResponseDto;
+import csj.BackEnd.RecallQuest.dto.TextChoiceRequestDto;
+import csj.BackEnd.RecallQuest.dto.TextChoiceResponseDto;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.ArrayList;
@@ -24,94 +29,126 @@ public class TextQuizService {
     @Autowired
     private final TextChoiceRepository textChoiceRepository;
 
-//조회
-    // [TextQuiz]조회 서비스
-    public List<TextQuiz> getAllTextQuizzes() {
-        return textQuizRepository.findAll();
-    }
-    
-    // [TextQuiz](선택지)(정답) 조회 서비스
-    public List<Map<String, Object>> getTextChoicesByQuizId(int textQuizId) {
-        // 텍스트 퀴즈 ID에 해당하는 선택지를 데이터베이스에서 조회하고 퀴즈 ID에 해당하는 선택지들을 찾음.
-        List<TextChoice> textChoices = textChoiceRepository.findByTextQuiz_TextQuizId(textQuizId);
-        // 조회된 선택지를 맵 형식으로 변환함. convertToMaps()에서 맵 형식으로 변환함.
-        return convertToMaps(textChoices);
-    }
-    // TextChoice 엔티티를 Map의 name:string, value:object 키와 값의 쌍으로 이루어진 구조인 맵 형식으로 맵 리스트로 변환함.
-    private List<Map<String, Object>> convertToMaps(List<TextChoice> textChoices) {
-        // 변환한 맵들을 담을 리스트를 생성합니다.
-        List<Map<String, Object>> maps = new ArrayList<>();
-
-        // 선택지 리스트를 순회하면서 각 선택지를 맵 형식으로 변환합니다.
-        for (TextChoice textChoice : textChoices) {
-            // 선택지의 정보를 담을 새로운 맵을 생성합니다.
-            Map<String, Object> map = new HashMap<>();
-
-            // 맵에 선택지의 "choiceText"와 "answer" 값을 추가합니다.
-            map.put("choiceText", textChoice.getChoiceText());
-            map.put("answer", textChoice.isAnswer());
-
-            // 변환된 맵을 리스트에 추가합니다.
-            maps.add(map);
-        }
-
-        // 모든 선택지에 대한 맵을 담은 리스트를 반환합니다.
-        return maps;
-    }
 
 
-//추가    
     // [TextQuiz]추가 서비스
-    public TextQuiz addTextQuiz(TextQuiz textQuiz) {
-        return textQuizRepository.save(textQuiz);
+    public TextQuizResponseDto addTextQuiz(TextQuizRequestDto requestDto) {
+        // 요청 DTO를 엔티티로 변환합니다
+        TextQuiz textQuiz = new TextQuiz();
+        textQuiz.setMemberInfoId(requestDto.getMemberInfoId());
+        textQuiz.setQuestion(requestDto.getQuestion());
+        textQuiz.setHint(requestDto.getHint());
+
+        // 엔티티를 저장하고 생성된 ID를 받아옵니다
+        TextQuiz savedTextQuiz = textQuizRepository.save(textQuiz);
+
+        // 엔티티를 응답 DTO로 변환합니다
+        TextQuizResponseDto responseDto = new TextQuizResponseDto();
+        responseDto.setTextQuizId(savedTextQuiz.getTextQuizId());
+        responseDto.setMemberInfoId(savedTextQuiz.getMemberInfoId());
+        responseDto.setQuestion(savedTextQuiz.getQuestion());
+        responseDto.setHint(savedTextQuiz.getHint());
+
+        return responseDto;
     }
 
     // [TextQuiz](선택지)(정답) 추가 서비스
-    public List<TextChoice> addTextChoicesToQuiz(int textQuizId, List<TextChoice> choices) {
-        TextQuiz textQuiz = textQuizRepository.findById(textQuizId) //textQuizId로 데이터베이스에서 TextQuiz 객체를 찾아옴.
-                .orElseThrow(() -> new RuntimeException("TextQuiz not found")); //TextQuiz가 없다면 RuntimeException을 발생.
+    public List<TextChoice> addTextChoicesToQuiz(int textQuizId, List<TextChoiceRequestDto> requestDtos) {
+        // 텍스트 퀴즈 ID에 해당하는 텍스트 퀴즈 엔티티를 가져옵니다.
+        TextQuiz textQuiz = textQuizRepository.findById(textQuizId)
+                .orElseThrow(() -> new RuntimeException("TextQuiz not found"));
 
-        //choices 선택지 리스트안에 저장 된 값에 대해 반복하면서 각 선택지의 TextQuiz를 설정.
-        for (TextChoice choice : choices) {
-            choice.setTextQuiz(textQuiz);
-        }
+        // TextChoiceRequestDto를 TextChoice 엔티티로 변환하여 저장합니다.
+        List<TextChoice> choices = requestDtos.stream()
+                .map(requestDto -> {
+                    TextChoice choice = new TextChoice();
+                    choice.setChoiceText(requestDto.getChoiceText());
+                    choice.setAnswer(requestDto.isAnswer());
+                    // 텍스트 퀴즈 엔티티를 설정합니다.
+                    choice.setTextQuiz(textQuiz);
+                    return choice;
+                })
+                .collect(Collectors.toList());
 
+        // 저장된 선택지 엔티티들을 반환합니다.
         return textChoiceRepository.saveAll(choices);
     }
 
 
-//삭제
-    // [TextQuiz][TextChoice] 삭제 서비스 //[TextChoice]먼저 삭제 후 [TextQuiz] 삭제 되는 방식. 외래키 제약 조건
-    @Transactional
-    public void deleteTextQuiz(int textQuizId) {
-        TextQuiz textQuiz = textQuizRepository.findById(textQuizId)
-            .orElseThrow(() -> new RuntimeException("TextQuiz not found"));
 
-        // 텍스트 퀴즈와 관련된 선택지들을 먼저 삭제합니다.
-        textChoiceRepository.deleteByTextQuiz(textQuiz);
 
-        // 이후 텍스트 퀴즈를 삭제합니다.
-        textQuizRepository.delete(textQuiz);
+
+
+    // [TextQuiz]조회 서비스
+    public List<TextQuiz> getAllTextQuizzes() {
+        return textQuizRepository.findAll();
     }
 
-//수정
+
+    // [TextQuiz](선택지)(정답) 조회 서비스
+    public List<TextChoiceResponseDto> getTextChoicesByQuizId(int textQuizId) {
+        // 텍스트 퀴즈 ID에 해당하는 선택지를 데이터베이스에서 조회
+        List<TextChoice> textChoices = textChoiceRepository.findByTextQuiz_TextQuizId(textQuizId);
+        // 조회된 선택지를 DTO 형식으로 변환하여 반환
+        return convertToResponseDtos(textChoices);
+    }
+    // TextChoice 엔티티를 TextChoiceResponseDto로 변환하는 메서드
+    private List<TextChoiceResponseDto> convertToResponseDtos(List<TextChoice> textChoices) {
+        // 변환한 DTO들을 담을 리스트를 생성합니다.
+        List<TextChoiceResponseDto> dtos = new ArrayList<>();
+
+        // 선택지 리스트를 순회하면서 각 선택지를 DTO로 변환합니다.
+        for (TextChoice textChoice : textChoices) {
+            // 선택지 엔티티를 DTO로 변환하여 리스트에 추가합니다.
+            dtos.add(convertToResponseDto(textChoice));
+        }
+
+        // 모든 선택지에 대한 DTO를 담은 리스트를 반환합니다.
+        return dtos;
+    }
+    // TextChoice 엔티티를 TextChoiceResponseDto로 변환하는 메서드
+    private TextChoiceResponseDto convertToResponseDto(TextChoice textChoice) {
+        TextChoiceResponseDto responseDto = new TextChoiceResponseDto();
+        responseDto.setChoiceText(textChoice.getChoiceText());
+        responseDto.setAnswer(textChoice.isAnswer());
+        return responseDto;
+    }
+
+
+
+
+
+
+
     // [TextQuiz] 수정 서비스
-    public TextQuiz updateTextQuiz(int textQuizId, TextQuiz updatedTextQuiz) {
+    public TextQuizResponseDto updateTextQuiz(int textQuizId, TextQuizRequestDto updatedTextQuizRequestDto) {
+        // 텍스트 퀴즈 ID에 해당하는 텍스트 퀴즈를 가져옴
         TextQuiz existingTextQuiz = textQuizRepository.findById(textQuizId)
                 .orElseThrow(() -> new RuntimeException("TextQuiz not found"));
 
-        // 기존 텍스트 퀴즈의 내용을 업데이트합니다.
-        existingTextQuiz.setQuestion(updatedTextQuiz.getQuestion());
-        existingTextQuiz.setHint(updatedTextQuiz.getHint());
+        // 업데이트할 내용을 새로운 값으로 설정
+        existingTextQuiz.setQuestion(updatedTextQuizRequestDto.getQuestion());
+        existingTextQuiz.setHint(updatedTextQuizRequestDto.getHint());
 
-        // 업데이트된 텍스트 퀴즈를 저장하고 반환합니다.
-        return textQuizRepository.save(existingTextQuiz);
+        // 업데이트된 텍스트 퀴즈를 저장하고 반환
+        TextQuiz updatedTextQuiz = textQuizRepository.save(existingTextQuiz);
+
+        // 엔티티를 DTO로 변환하여 반환
+        return convertToResponseDto(updatedTextQuiz);
+    }
+    // TextQuiz 엔티티를 TextQuizResponseDto로 변환하는 메서드
+    private TextQuizResponseDto convertToResponseDto(TextQuiz textQuiz) {
+        TextQuizResponseDto responseDto = new TextQuizResponseDto();
+        responseDto.setTextQuizId(textQuiz.getTextQuizId());
+        responseDto.setQuestion(textQuiz.getQuestion());
+        responseDto.setHint(textQuiz.getHint());
+        return responseDto;
     }
 
 
-    // [TextQuiz] 선택지 수정 서비스
+    // [TextQuiz](선택지) 수정 서비스
     @Transactional
-    public List<TextChoice> updateTextChoices(int textQuizId, List<TextChoice> updatedChoices) {
+    public List<TextChoiceResponseDto> updateTextChoices(int textQuizId, List<TextChoiceRequestDto> updatedChoicesRequestDto) {
         // 텍스트 퀴즈 ID로 해당하는 텍스트 퀴즈를 찾습니다.
         TextQuiz textQuiz = textQuizRepository.findById(textQuizId)
                 .orElseThrow(() -> new RuntimeException("TextQuiz not found"));
@@ -121,13 +158,48 @@ public class TextQuizService {
         textChoiceRepository.deleteAll(existingChoices);
 
         // 새로운 선택지들을 텍스트 퀴즈에 추가합니다.
-        for (TextChoice choice : updatedChoices) {
+        List<TextChoice> updatedChoices = new ArrayList<>();
+        for (TextChoiceRequestDto choiceRequestDto : updatedChoicesRequestDto) {
+            TextChoice choice = new TextChoice();
+            choice.setChoiceText(choiceRequestDto.getChoiceText());
+            choice.setAnswer(choiceRequestDto.isAnswer());
             choice.setTextQuiz(textQuiz);
+            updatedChoices.add(choice);
         }
         List<TextChoice> savedChoices = textChoiceRepository.saveAll(updatedChoices);
 
-        // 수정된 선택지들을 반환합니다.
-        return savedChoices;
+        // 수정된 선택지들을 응답 DTO로 변환하여 반환합니다.
+        return savedChoices.stream()
+                .map(choice -> {
+                    TextChoiceResponseDto responseDto = new TextChoiceResponseDto();
+                    responseDto.setChoiceText(choice.getChoiceText());
+                    responseDto.setAnswer(choice.isAnswer());
+                    return responseDto;
+                })
+                .collect(Collectors.toList());
     }
+
+
+
+
+
+    // [TextQuiz][TextChoice] 삭제 서비스 //[TextChoice]먼저 삭제 후 [TextQuiz] 삭제 되는 방식. 외래키 제약 조건 //트래젝션은 두가지 일을 하나로 묶어서 진행하되, 중간에 오류 발생 시 롤백.
+    @Transactional
+    public void deleteTextQuiz(int textQuizId) {
+        TextQuiz textQuiz = textQuizRepository.findById(textQuizId)
+                .orElseThrow(() -> new RuntimeException("TextQuiz not found"));
+
+        // 텍스트 퀴즈와 관련된 선택지들을 먼저 삭제합니다.
+        textChoiceRepository.deleteByTextQuiz(textQuiz);
+
+        // 이후 텍스트 퀴즈를 삭제합니다.
+        textQuizRepository.delete(textQuiz);
+    }
+
+
+
+
+
+
 }
 
