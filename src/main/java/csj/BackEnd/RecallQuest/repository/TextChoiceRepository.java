@@ -9,13 +9,8 @@ import java.util.List;
 @Repository
 public interface TextChoiceRepository extends JpaRepository<TextChoice, Integer> {
 
-//    List<TextChoice> findByTextQuizTextQuizId(int textQuizId);
-
     List<TextChoice> findByTextQuiz_TextQuizId(int textQuizId);
-
-
     void deleteByTextQuiz(TextQuiz textQuiz);
-
     void deleteByTextChoiceId(Long choiceId);
 
 }

@@ -12,4 +12,5 @@ public interface TextQuizRepository extends JpaRepository<TextQuiz, Integer> {
 
     void deleteByTextQuizId(Long textQuizId);
 
+
 }
