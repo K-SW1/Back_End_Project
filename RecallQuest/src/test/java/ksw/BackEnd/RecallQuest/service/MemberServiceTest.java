@@ -2,10 +2,10 @@
 //
 //import ksw.BackEnd.RecallQuest.domain.Login;
 //import ksw.BackEnd.RecallQuest.domain.Member;
-//import ksw.BackEnd.RecallQuest.dto.LoginDto;
-//import ksw.BackEnd.RecallQuest.dto.MemberDto;
-//import ksw.BackEnd.RecallQuest.dto.MemberSaveRequestDto;
-//import ksw.BackEnd.RecallQuest.repository.MemberRepository;
+//import ksw.BackEnd.RecallQuest.member.dto.LoginDto;
+//import ksw.BackEnd.RecallQuest.member.dto.MemberDto;
+//import ksw.BackEnd.RecallQuest.member.dto.MemberSaveRequestDto;
+//import ksw.BackEnd.RecallQuest.member.repository.MemberRepository;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;

@@ -1,7 +1,6 @@
 package ksw.BackEnd.RecallQuest.kkk;
 
 import jakarta.persistence.*;
-import ksw.BackEnd.RecallQuest.domain.ImageQuiz;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
