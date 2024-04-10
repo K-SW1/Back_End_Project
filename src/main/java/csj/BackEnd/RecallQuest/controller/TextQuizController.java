@@ -28,12 +28,9 @@ import csj.BackEnd.RecallQuest.common.model.ResBodyModel;
 @RequestMapping("/quiz/quizs/textquiz")
 public class TextQuizController {
 
+
     @Autowired
     private final TextQuizService textQuizService;
-
-
-
-    //추가) 특정 텍스트 퀴즈 조회
 
 
 
@@ -101,6 +98,17 @@ public class TextQuizController {
         responseDto.setHint(textQuiz.getHint());
         return responseDto;
     }
+
+
+    // [TextQuiz](힌트) 특정 조회
+    @GetMapping("/{textQuizId}")
+    public ResponseEntity<ResBodyModel> getTextQuizById(@PathVariable int textQuizId) {
+        TextQuizResponseDto textQuiz = textQuizService.getTextQuizById(textQuizId);
+
+        // AetResponse를 사용하여 ResponseEntity를 생성
+        return AetResponse.toResponse(SuccessCode.SUCCESS, textQuiz);
+    }
+
 
     // [TextQuiz](선택지)(정답) 조회
     @GetMapping("/{textQuizId}/choices")

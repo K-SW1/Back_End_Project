@@ -85,6 +85,17 @@ public class TextQuizService {
     }
 
 
+    // [TextQuiz] 특정 조회 서비스
+    public TextQuizResponseDto getTextQuizById(int textQuizId) {
+        // 특정 ID에 해당하는 텍스트 퀴즈를 가져옵니다.
+        TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId)
+                .orElseThrow(() -> new RuntimeException("TextQuiz not found"));
+
+        // TextQuiz 엔티티를 TextQuizResponseDto로 변환하여 반환합니다.
+        return convertToResponseDto(textQuiz);
+    }
+
+
     // [TextQuiz](선택지)(정답) 조회 서비스
     public List<TextChoiceResponseDto> getTextChoicesByQuizId(int textQuizId) {
         // 텍스트 퀴즈 ID에 해당하는 선택지를 데이터베이스에서 조회
