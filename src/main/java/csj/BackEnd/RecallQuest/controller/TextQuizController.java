@@ -19,7 +19,9 @@ import java.util.stream.Collectors;
 import java.awt.*;
 import lombok.Data;
 import org.springframework.ui.Model;
-
+import csj.BackEnd.RecallQuest.common.AetResponse;
+import csj.BackEnd.RecallQuest.common.code.SuccessCode;
+import csj.BackEnd.RecallQuest.common.model.ResBodyModel;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,34 +32,32 @@ public class TextQuizController {
     private final TextQuizService textQuizService;
 
 
+
     //추가) 특정 텍스트 퀴즈 조회
 
 
 
-// [TextQuiz](힌트) 추가
+    // [TextQuiz](힌트) 추가  + AetResponse 변경 완료
     @PostMapping("/add")
-    public ResponseEntity<TextQuizResponseDto> addTextQuiz(@RequestBody TextQuizRequestDto requestDto) {
+    public ResponseEntity<ResBodyModel> addTextQuiz(@RequestBody TextQuizRequestDto requestDto) {
         // 요청 DTO를 엔티티로 변환합니다
         TextQuizResponseDto responseDto = textQuizService.addTextQuiz(requestDto);
 
         // 적절한 상태와 함께 응답 DTO를 반환합니다
-        return ResponseEntity.ok().body(responseDto);
+        return AetResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
-// [TextQuiz](선택지)(정답) 추가
+    // [TextQuiz](선택지)(정답) 추가
     @PostMapping("/{textQuizId}/choices/add")
-    public List<TextChoiceResponseDto> addTextChoicesToQuiz(@PathVariable("textQuizId") int textQuizId,
-                                                            @RequestBody List<TextChoice> choices) {
-        // 2. TextChoice 엔티티를 TextChoiceRequestDto로 변환하여 리스트 생성 - 변환 된 DTO객체를 리스트로 모아서 반환
+    public ResponseEntity<ResBodyModel> addTextChoicesToQuiz(@PathVariable("textQuizId") int textQuizId,
+                                                             @RequestBody List<TextChoice> choices) {
         List<TextChoiceRequestDto> requestDtos = choices.stream()
                 .map(this::convertToRequestDto)
                 .collect(Collectors.toList());
 
-        // 3. 서비스 메서드 호출 - 텍스트 퀴즈 ID와 선택지 목록을 서비스에 전달 후 데이터베이스에 저장
         List<TextChoice> savedChoices = textQuizService.addTextChoicesToQuiz(textQuizId, requestDtos);
 
-        // 4. 서비스에서 반환된 엔티티를 응답 DTO로 변환하여 반환 .map 중간연사자로 새로운 스트림 만듬 .collect이걸로 스트림 요소 리스트 수집하고 반환
-        return savedChoices.stream()
+        List<TextChoiceResponseDto> responseDtos = savedChoices.stream()
                 .map(choice -> {
                     TextChoiceResponseDto responseDto = new TextChoiceResponseDto();
                     responseDto.setChoiceText(choice.getChoiceText());
@@ -65,8 +65,10 @@ public class TextQuizController {
                     return responseDto;
                 })
                 .collect(Collectors.toList());
+
+        // AetResponse를 사용하여 ResponseEntity를 생성
+        return AetResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
     }
-    // 1. TextChoice 엔티티를 TextChoiceRequestDto로 변환하는 메서드
     private TextChoiceRequestDto convertToRequestDto(TextChoice choice) {
         TextChoiceRequestDto requestDto = new TextChoiceRequestDto();
         requestDto.setChoiceText(choice.getChoiceText());
@@ -78,17 +80,19 @@ public class TextQuizController {
 
 
 
-// [TextQuiz](힌트) 조회
+
+    // [TextQuiz](힌트) 조회 + AetResponse 변경 완료
     @GetMapping("/all")
-    public List<TextQuizResponseDto> getAllTextQuizzes() {
+    public ResponseEntity<ResBodyModel> getAllTextQuizzes() {
         List<TextQuiz> textQuizzes = textQuizService.getAllTextQuizzes();
 
-        // TextQuiz 엔티티를 TextQuizResponseDto로 변환하여 반환
-        return textQuizzes.stream()
+        List<TextQuizResponseDto> responseDtos = textQuizzes.stream()
                 .map(this::convertToResponseDto)
                 .collect(Collectors.toList());
+
+        // AetResponse를 사용하여 ResponseEntity를 생성
+        return AetResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
     }
-    // TextQuiz 엔티티를 TextQuizResponseDto로 변환하는 메서드
     private TextQuizResponseDto convertToResponseDto(TextQuiz textQuiz) {
         TextQuizResponseDto responseDto = new TextQuizResponseDto();
         responseDto.setTextQuizId(textQuiz.getTextQuizId());
@@ -98,12 +102,13 @@ public class TextQuizController {
         return responseDto;
     }
 
-
-// [TextQuiz](선택지)(정답) 조회
+    // [TextQuiz](선택지)(정답) 조회
     @GetMapping("/{textQuizId}/choices")
-    public List<TextChoiceResponseDto> getTextChoicesByQuizId(@PathVariable("textQuizId") int textQuizId) {
-        // 텍스트 퀴즈 ID에 해당하는 선택지를 가져와서 반환
-        return textQuizService.getTextChoicesByQuizId(textQuizId);
+    public ResponseEntity<ResBodyModel> getTextChoicesByQuizId(@PathVariable("textQuizId") int textQuizId) {
+        List<TextChoiceResponseDto> textChoices = textQuizService.getTextChoicesByQuizId(textQuizId);
+
+        // AetResponse를 사용하여 ResponseEntity를 생성
+        return AetResponse.toResponse(SuccessCode.SUCCESS, textChoices);
     }
 
 
@@ -111,31 +116,39 @@ public class TextQuizController {
 
 
 
-// [TextQuiz] 수정 컨트롤러
+
+    // [TextQuiz] 수정 컨트롤러 + AetResponse 변경 완료
     @PutMapping("/{textQuizId}/update")
-    public ResponseEntity<TextQuizResponseDto> updateTextQuiz(@PathVariable int textQuizId,
-                                                              @RequestBody TextQuizRequestDto updatedTextQuizRequestDto) {
+    public ResponseEntity<ResBodyModel> updateTextQuiz(@PathVariable int textQuizId,
+                                                       @RequestBody TextQuizRequestDto updatedTextQuizRequestDto) {
         TextQuizResponseDto updatedQuiz = textQuizService.updateTextQuiz(textQuizId, updatedTextQuizRequestDto);
-        return ResponseEntity.ok().body(updatedQuiz);
-    }
 
-// [TextQuiz](선택지) 수정 컨트롤러
+        // AetResponse를 사용하여 ResponseEntity를 생성
+        return AetResponse.toResponse(SuccessCode.SUCCESS, updatedQuiz);
+    }
+    // [TextQuiz](선택지) 수정 컨트롤러
     @PutMapping("/{textQuizId}/choices/update")
-    public ResponseEntity<List<TextChoiceResponseDto>> updateTextChoices(@PathVariable int textQuizId,
-                                                                         @RequestBody List<TextChoiceRequestDto> updatedChoicesRequestDto) {
+    public ResponseEntity<ResBodyModel> updateTextChoices(@PathVariable int textQuizId,
+                                                          @RequestBody List<TextChoiceRequestDto> updatedChoicesRequestDto) {
         // 서비스 메서드 호출
         List<TextChoiceResponseDto> updatedChoicesResponseDto = textQuizService.updateTextChoices(textQuizId, updatedChoicesRequestDto);
-        return ResponseEntity.ok().body(updatedChoicesResponseDto);
+
+        // AetResponse를 사용하여 ResponseEntity를 생성
+        return AetResponse.toResponse(SuccessCode.SUCCESS, updatedChoicesResponseDto);
     }
 
 
 
 
-    // [TextQuiz][TextChoice] 삭제
+
+    // [TextQuiz][TextChoice] 삭제 + AetResponse 변경 완료
     @DeleteMapping("/{textQuizId}/delete")
-    public ResponseEntity<?> deleteTextQuiz(@PathVariable("textQuizId") int textQuizId) {
+    public ResponseEntity<ResBodyModel> deleteTextQuiz(@PathVariable("textQuizId") int textQuizId) {
+        // 텍스트 퀴즈 삭제 서비스 호출
         textQuizService.deleteTextQuiz(textQuizId);
-        return ResponseEntity.ok().build();
+
+        // 삭제 성공을 응답으로 반환
+        return AetResponse.toResponse(SuccessCode.SUCCESS, null);
     }
 
 

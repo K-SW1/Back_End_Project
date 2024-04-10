@@ -6,11 +6,8 @@ import java.util.List;
 
 public interface TextQuizDao {
 
-    TextQuiz save(TextQuiz textQuiz);
-
-    TextQuiz findByName(String name);
-
-    List<TextQuiz> findAll();
-
+//    TextQuiz save(TextQuiz textQuiz);
+//
+//    List<TextQuiz> findAll();
 
 }

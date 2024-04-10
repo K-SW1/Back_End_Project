@@ -7,11 +7,9 @@ import java.util.List;
 
 public interface TextChoiceDao {
 
-    TextChoice save(TextChoice textChoice);
-
-    TextChoice findByName(String name);
-
-    List<TextChoice> findAll();
+//    TextChoice save(TextChoice textChoice);
+//
+//    List<TextChoice> findAll();
 
 
 }
