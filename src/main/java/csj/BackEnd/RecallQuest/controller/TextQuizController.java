@@ -11,10 +11,13 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.ArrayList;
+
 import csj.BackEnd.RecallQuest.dto.TextQuizRequestDto;
 import csj.BackEnd.RecallQuest.dto.TextQuizResponseDto;
 import csj.BackEnd.RecallQuest.dto.TextChoiceRequestDto;
 import csj.BackEnd.RecallQuest.dto.TextChoiceResponseDto;
+import csj.BackEnd.RecallQuest.dto.TextQuizWithChoicesResponseDto;
+
 import java.util.stream.Collectors;
 import java.awt.*;
 import lombok.Data;
@@ -29,7 +32,7 @@ import csj.BackEnd.RecallQuest.common.model.ResBodyModel;
 public class TextQuizController {
 
 
-    @Autowired
+
     private final TextQuizService textQuizService;
 
 
@@ -120,7 +123,26 @@ public class TextQuizController {
     }
 
 
+    // [TextQuiz](힌트)(선택지)(정답) 특정 조회
+    @GetMapping("/{textQuizId}/details")
+    public ResponseEntity<ResBodyModel> getTextQuizWithChoices(@PathVariable int textQuizId) {
+        // 텍스트 퀴즈와 해당하는 선택지를 가져오는 서비스 메서드를 호출합니다.
+        TextQuizWithChoicesResponseDto responseDto = textQuizService.getTextQuizWithChoices(textQuizId);
 
+        // AetResponse를 사용하여 응답을 반환합니다.
+        return AetResponse.toResponse(SuccessCode.SUCCESS, responseDto);
+    }
+
+
+    // [TextQuiz](힌트)(선택지)(정답) 전체 조회
+    @GetMapping("/every")
+    public ResponseEntity<ResBodyModel> getAllTextQuizzesWithChoices() {
+        // 모든 텍스트 퀴즈와 해당하는 선택지를 가져오는 서비스 메서드를 호출합니다.
+        List<TextQuizWithChoicesResponseDto> responseDtos = textQuizService.getAllTextQuizzesWithChoices();
+
+        // AetResponse를 사용하여 응답을 반환합니다.
+        return AetResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
+    }
 
 
 

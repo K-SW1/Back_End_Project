@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import csj.BackEnd.RecallQuest.domain.TextQuiz;
 import csj.BackEnd.RecallQuest.domain.TextChoice;
+
 import csj.BackEnd.RecallQuest.dto.TextQuizRequestDto;
 import csj.BackEnd.RecallQuest.dto.TextQuizResponseDto;
 import csj.BackEnd.RecallQuest.dto.TextChoiceRequestDto;
 import csj.BackEnd.RecallQuest.dto.TextChoiceResponseDto;
+import csj.BackEnd.RecallQuest.dto.TextQuizWithChoicesResponseDto;
+
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
@@ -125,8 +128,45 @@ public class TextQuizService {
         return responseDto;
     }
 
+    // [TextQuiz](힌트)(선택지)(정답) 특정 조회 서비스
+    public TextQuizWithChoicesResponseDto getTextQuizWithChoices(int textQuizId) {
+        // ID로 텍스트 퀴즈를 가져옵니다.
+        TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId)
+                .orElseThrow(() -> new RuntimeException("TextQuiz not found"));
 
+        // 텍스트 퀴즈에 해당하는 선택지를 가져옵니다.
+        List<TextChoiceResponseDto> choices = getTextChoicesByQuizId(textQuizId);
 
+        // 텍스트 퀴즈와 선택지를 포함하는 응답 DTO를 생성합니다.
+        TextQuizWithChoicesResponseDto responseDto = new TextQuizWithChoicesResponseDto();
+        responseDto.setTextQuizId(textQuiz.getTextQuizId());
+        responseDto.setQuestion(textQuiz.getQuestion());
+        responseDto.setHint(textQuiz.getHint());
+        responseDto.setChoices(choices);
+
+        return responseDto;
+    }
+
+    // [TextQuiz](힌트)(선택지)(정답) 전체 조회 서비스
+    public List<TextQuizWithChoicesResponseDto> getAllTextQuizzesWithChoices() {
+        // 모든 텍스트 퀴즈를 가져옵니다.
+        List<TextQuiz> allTextQuizzes = jpaTextQuizDao.findAll();
+
+        // 각 텍스트 퀴즈에 대해 선택지를 가져와서 DTO로 만듭니다.
+        List<TextQuizWithChoicesResponseDto> responseDtos = new ArrayList<>();
+        for (TextQuiz textQuiz : allTextQuizzes) {
+            TextQuizWithChoicesResponseDto responseDto = new TextQuizWithChoicesResponseDto();
+            responseDto.setTextQuizId(textQuiz.getTextQuizId());
+            responseDto.setQuestion(textQuiz.getQuestion());
+            responseDto.setHint(textQuiz.getHint());
+            // 각 퀴즈에 대한 선택지를 가져옵니다.
+            List<TextChoiceResponseDto> choices = getTextChoicesByQuizId(textQuiz.getTextQuizId());
+            responseDto.setChoices(choices);
+            responseDtos.add(responseDto);
+        }
+
+        return responseDtos;
+    }
 
 
 
