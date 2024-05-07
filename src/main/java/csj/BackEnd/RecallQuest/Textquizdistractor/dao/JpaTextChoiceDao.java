@@ -1,10 +1,9 @@
-package csj.BackEnd.RecallQuest.dao;
+package csj.BackEnd.RecallQuest.Textquizdistractor.dao;
 
 
-import csj.BackEnd.RecallQuest.domain.TextChoice;
-import csj.BackEnd.RecallQuest.domain.TextQuiz;
-import csj.BackEnd.RecallQuest.repository.TextChoiceRepository;
-import csj.BackEnd.RecallQuest.repository.TextQuizRepository;
+import csj.BackEnd.RecallQuest.entity.TextChoice;
+import csj.BackEnd.RecallQuest.entity.TextQuiz;
+import csj.BackEnd.RecallQuest.Textquizdistractor.repository.TextChoiceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import java.util.List;

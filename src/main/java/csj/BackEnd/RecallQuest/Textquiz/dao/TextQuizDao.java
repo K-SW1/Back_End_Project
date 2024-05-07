@@ -1,8 +1,4 @@
-package csj.BackEnd.RecallQuest.dao;
-
-import csj.BackEnd.RecallQuest.domain.TextQuiz;
-
-import java.util.List;
+package csj.BackEnd.RecallQuest.Textquiz.dao;
 
 public interface TextQuizDao {
 

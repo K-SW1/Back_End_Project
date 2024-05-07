@@ -1,17 +1,15 @@
-package csj.BackEnd.RecallQuest.dto;
+package csj.BackEnd.RecallQuest.Textquiz.dto;
 
-import csj.BackEnd.RecallQuest.domain.TextQuiz;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Setter
 @Getter
-public class TextQuizResponseDto {
-
-    private int textQuizId;
+public class TextQuizRequestDto {
 
     private int memberInfoId;
 

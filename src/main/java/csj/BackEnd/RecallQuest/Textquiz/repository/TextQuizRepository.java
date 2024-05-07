@@ -1,6 +1,6 @@
-package csj.BackEnd.RecallQuest.repository;
+package csj.BackEnd.RecallQuest.Textquiz.repository;
 
-import csj.BackEnd.RecallQuest.domain.TextQuiz;
+import csj.BackEnd.RecallQuest.entity.TextQuiz;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;

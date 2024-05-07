@@ -1,5 +1,6 @@
-package csj.BackEnd.RecallQuest.dto;
+package csj.BackEnd.RecallQuest.Textquiz.dto;
 
+import csj.BackEnd.RecallQuest.Textquizdistractor.dto.TextChoiceResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
