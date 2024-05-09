@@ -1,6 +1,6 @@
 package csj.BackEnd.RecallQuest.Textquiz.dto;
 
-import csj.BackEnd.RecallQuest.Textquizdistractor.dto.TextChoiceResponseDto;
+import csj.BackEnd.RecallQuest.Textquizdistractor.dto.TextDistractorResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class TextQuizWithChoicesResponseDto {
+public class TextQuizWithDistractorsResponseDto {
 
     private int textQuizId;
 
@@ -18,6 +18,6 @@ public class TextQuizWithChoicesResponseDto {
 
     private String hint;
 
-    private List<TextChoiceResponseDto> choices; // choices inside (choiceText, answer)
+    private List<TextDistractorResponseDto> Distractors; // choices inside (choiceText, answer)
 
 }

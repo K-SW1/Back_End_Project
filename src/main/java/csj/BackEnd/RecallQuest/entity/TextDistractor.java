@@ -11,30 +11,30 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-@Table(name = "textchoice")
-public class TextChoice {
+@Table(name = "textdistractor")
+public class TextDistractor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "text_choice_id")
-    private int textChoiceId;
+    @Column(name = "text_distractor_id")
+    private int textDistractorId;
 
     @ManyToOne
     @JoinColumn(name = "text_quiz_id")
     private TextQuiz textQuiz;
 
-    @Column(name = "choice_text")
-    private String choiceText;
+    @Column(name = "textzQuiz_Distractor")
+    private String textzQuizDistractor;
 
-    private boolean answer;
+    private boolean validation;
 
     // 생성자 추가
-    public TextChoice(String choiceText, boolean answer) {
-        this.choiceText = choiceText;
-        this.answer = answer;
+    public TextDistractor(String textzQuizDistractor, boolean validation) {
+        this.textzQuizDistractor = textzQuizDistractor;
+        this.validation = validation;
     }
 
 
     // 기본 생성자 추가 (JPA 사용 시 필요) 객채 필드로 초기화 해줌.
-    public TextChoice() {}
+    public TextDistractor() {}
 }

@@ -1,6 +1,6 @@
 package csj.BackEnd.RecallQuest.Textquiz.service;
 
-import csj.BackEnd.RecallQuest.Textquizdistractor.dao.JpaTextChoiceDao;
+import csj.BackEnd.RecallQuest.Textquizdistractor.dao.JpaTextDistractorDao;
 import csj.BackEnd.RecallQuest.Textquiz.dao.JpaTextQuizDao;
 
 import jakarta.transaction.Transactional;
@@ -21,7 +21,7 @@ public class TextQuizService {
 
 
     private final JpaTextQuizDao jpaTextQuizDao;
-    private final JpaTextChoiceDao jpaTextChoiceDao;
+    private final JpaTextDistractorDao jpaTextChoiceDao;
 
 
 

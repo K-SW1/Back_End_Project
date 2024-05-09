@@ -115,19 +115,19 @@ public class TextQuizController {
 
 //[
 //  {
-//   "choiceText": "봄",
+//   "textzQuizDistractor": "봄",
 //   "answer": false
 //   },
 //   {
-//   "choiceText": "여름",
+//   "textzQuizDistractor": "여름",
 //   "answer": false
 //    },
 //    {
-//    "choiceText": "가을",
+//    "textzQuizDistractor": "가을",
 //     "answer": false
 //    },
 //    {
-//      "choiceText": "겨울",
+//      "textzQuizDistractor": "겨울",
 //      "answer": true
 //    }
 //]

@@ -2,13 +2,12 @@ package csj.BackEnd.RecallQuest.Textquizdistractor.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import java.util.List;
 
 @Setter
 @Getter
-public class TextChoiceResponseDto {
+public class TextDistractorResponseDto {
 
-    private String choiceText;
-    private boolean answer;
+    private String textzQuizDistractor;
+    private boolean validation;
 
 }
