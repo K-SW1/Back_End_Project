@@ -38,21 +38,16 @@ public class TextDistractorService {
 
         // TextDistractorRequestDto를 TextDistractor 엔티티로 변환하여 저장합니다.
         List<TextDistractor> Distractors = requestDtos.stream()
-                .map(requestDto -> {
-                    TextDistractor Distractor = new TextDistractor();
-                    Distractor.setTextzQuizDistractor(requestDto.getTextzQuizDistractor());
-                    Distractor.setValidation(requestDto.isValidation());
-                    // 텍스트 퀴즈 엔티티를 설정합니다.
-                    Distractor.setTextQuiz(textQuiz);
-                    return Distractor;
-                })
+                .map(requestDto -> TextDistractor.builder()
+                        .textzQuizDistractor(requestDto.getTextzQuizDistractor())
+                        .validation(requestDto.isValidation())
+                        .textQuiz(textQuiz)
+                        .build())
                 .collect(Collectors.toList());
 
         // 저장된 선택지 엔티티들을 반환합니다.
         return jpaTextDistractorDao.saveAll(Distractors);
     }
-
-
 
     // [TextQuiz](힌트)(선택지)(정답) 특정 조회 서비스
     public TextQuizWithDistractorsResponseDto getTextQuizWithDistractors(int textQuizId) {
@@ -64,13 +59,12 @@ public class TextDistractorService {
         List<TextDistractorResponseDto> Distractors = getTextDistractorsByQuizId(textQuizId);
 
         // 텍스트 퀴즈와 선택지를 포함하는 응답 DTO를 생성합니다.
-        TextQuizWithDistractorsResponseDto responseDto = new TextQuizWithDistractorsResponseDto();
-        responseDto.setTextQuizId(textQuiz.getTextQuizId());
-        responseDto.setQuestion(textQuiz.getQuestion());
-        responseDto.setHint(textQuiz.getHint());
-        responseDto.setDistractors(Distractors);
-
-        return responseDto;
+        return TextQuizWithDistractorsResponseDto.builder()
+                .textQuizId(textQuiz.getTextQuizId())
+                .question(textQuiz.getQuestion())
+                .hint(textQuiz.getHint())
+                .Distractors(Distractors)
+                .build();
     }
 
     // [TextQuiz](힌트)(선택지)(정답) 전체 조회 서비스
@@ -81,13 +75,13 @@ public class TextDistractorService {
         // 각 텍스트 퀴즈에 대해 선택지를 가져와서 DTO로 만듭니다.
         List<TextQuizWithDistractorsResponseDto> responseDtos = new ArrayList<>();
         for (TextQuiz textQuiz : allTextQuizzes) {
-            TextQuizWithDistractorsResponseDto responseDto = new TextQuizWithDistractorsResponseDto();
-            responseDto.setTextQuizId(textQuiz.getTextQuizId());
-            responseDto.setQuestion(textQuiz.getQuestion());
-            responseDto.setHint(textQuiz.getHint());
-            // 각 퀴즈에 대한 선택지를 가져옵니다.
-            List<TextDistractorResponseDto> distractors = getTextDistractorsByQuizId(textQuiz.getTextQuizId());
-            responseDto.setDistractors(distractors);
+            TextQuizWithDistractorsResponseDto responseDto = TextQuizWithDistractorsResponseDto.builder()
+                    .textQuizId(textQuiz.getTextQuizId())
+                    .question(textQuiz.getQuestion())
+                    .hint(textQuiz.getHint())
+                    // 각 퀴즈에 대한 선택지를 가져옵니다.
+                    .Distractors(getTextDistractorsByQuizId(textQuiz.getTextQuizId()))
+                    .build();
             responseDtos.add(responseDto);
         }
 
@@ -121,11 +115,12 @@ public class TextDistractorService {
     }
     // TextDistractor 엔티티를 TextDistractorResponseDto로 변환하는 메서드
     private TextDistractorResponseDto convertToResponseDto(TextDistractor textDistractor) {
-        TextDistractorResponseDto responseDto = new TextDistractorResponseDto();
-        responseDto.setTextzQuizDistractor(textDistractor.getTextzQuizDistractor());
-        responseDto.setValidation(textDistractor.isValidation());
-        return responseDto;
+        return TextDistractorResponseDto.builder()
+                .textzQuizDistractor(textDistractor.getTextzQuizDistractor())
+                .validation(textDistractor.isValidation())
+                .build();
     }
+
 
 
 
@@ -144,26 +139,20 @@ public class TextDistractorService {
         // 새로운 선택지들을 텍스트 퀴즈에 추가합니다.
         List<TextDistractor> updatedDistractors = new ArrayList<>();
         for (TextDistractorRequestDto distractorRequestDto : updatedDistractorsRequestDto) {
-            TextDistractor distractor = new TextDistractor();
-            distractor.setTextzQuizDistractor(distractorRequestDto.getTextzQuizDistractor());
-            distractor.setValidation(distractorRequestDto.isValidation());
-            distractor.setTextQuiz(textQuiz);
+            TextDistractor distractor = TextDistractor.builder()
+                    .textzQuizDistractor(distractorRequestDto.getTextzQuizDistractor())
+                    .validation(distractorRequestDto.isValidation())
+                    .textQuiz(textQuiz)
+                    .build();
             updatedDistractors.add(distractor);
         }
         List<TextDistractor> savedDistractors = jpaTextDistractorDao.saveAll(updatedDistractors);
 
         // 수정된 선택지들을 응답 DTO로 변환하여 반환합니다.
         return savedDistractors.stream()
-                .map(distractor -> {
-                    TextDistractorResponseDto responseDto = new TextDistractorResponseDto();
-                    responseDto.setTextzQuizDistractor(distractor.getTextzQuizDistractor());
-                    responseDto.setValidation(distractor.isValidation());
-                    return responseDto;
-                })
+                .map(this::convertToResponseDto)
                 .collect(Collectors.toList());
     }
-
-
 
 
 
