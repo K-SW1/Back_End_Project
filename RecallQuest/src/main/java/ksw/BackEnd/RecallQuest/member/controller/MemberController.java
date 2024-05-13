@@ -1,6 +1,6 @@
 package ksw.BackEnd.RecallQuest.member.controller;
 
-import ksw.BackEnd.RecallQuest.common.AetResponse;
+import ksw.BackEnd.RecallQuest.common.KsResponse;
 import ksw.BackEnd.RecallQuest.common.code.SuccessCode;
 import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
 import ksw.BackEnd.RecallQuest.entity.Member;
@@ -25,7 +25,7 @@ public class MemberController {
 
         Member member = memberService.saveMember(memberSaveRequestDto);
         MemberResponseDto memberResponseDto = MemberResponseDto.buildDto(member);
-        return AetResponse.toResponse(SuccessCode.SUCCESS, memberResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, memberResponseDto);
     }
 
     @GetMapping("/{memberName}")
@@ -33,7 +33,7 @@ public class MemberController {
 
         Member member = memberService.findMember(memberName);
         MemberResponseDto memberResponseDto = MemberResponseDto.buildDto(member);
-        return AetResponse.toResponse(SuccessCode.SUCCESS, memberResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, memberResponseDto);
     }
 
     @GetMapping("/seq/{memberSeq}")
@@ -41,7 +41,7 @@ public class MemberController {
 
         Member member = memberService.findMember(memberSeq);
         MemberResponseDto memberResponseDto = MemberResponseDto.buildDto(member);
-        return AetResponse.toResponse(SuccessCode.SUCCESS, memberResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, memberResponseDto);
     }
 
     @GetMapping("/loginId/{loginId}")
@@ -49,7 +49,7 @@ public class MemberController {
 
         Member member = memberService.findMemberId(loginId);
         MemberResponseDto memberResponseDto = MemberResponseDto.buildDto(member);
-        return AetResponse.toResponse(SuccessCode.SUCCESS, memberResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, memberResponseDto);
     }
 
     @GetMapping("/all")
@@ -57,21 +57,20 @@ public class MemberController {
 
         List<Member> members = memberService.findMembers();
         List<MemberResponseDto> memberResponseDtoList = MemberResponseDto.buildMemberDtoList(members);
-        return AetResponse.toResponse(SuccessCode.SUCCESS, memberResponseDtoList);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, memberResponseDtoList);
     }
 
     @PatchMapping("/update")
     public ResponseEntity<ResBodyModel> updateMember(@RequestBody MemberSaveRequestDto memberSaveRequestDto){
         Member member = memberService.updateMember(memberSaveRequestDto);
         MemberResponseDto memberResponseDto = MemberResponseDto.buildDto(member);
-        return AetResponse.toResponse(SuccessCode.SUCCESS, memberResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, memberResponseDto);
     }
 
     @DeleteMapping("/delete/{userSeq}")
     public ResponseEntity<ResBodyModel> deleteMember(@PathVariable Long userSeq){
-        Member member = memberService.deleteMember(userSeq);
-        MemberResponseDto memberResponseDto = MemberResponseDto.buildDto(member);
-        return AetResponse.toResponse(SuccessCode.SUCCESS, memberResponseDto);
+        memberService.deleteMember(userSeq);
+        return KsResponse.toResponse(SuccessCode.SUCCESS);
     }
 
 }

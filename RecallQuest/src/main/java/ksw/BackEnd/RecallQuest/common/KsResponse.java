@@ -2,12 +2,13 @@ package ksw.BackEnd.RecallQuest.common;
 
 import ksw.BackEnd.RecallQuest.common.code.BodyCode;
 import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class AetResponse {
+public class KsResponse {
 
     private static ResBodyModel toBody(BodyCode bodyCode) {
         return ResBodyModel.builder()
@@ -27,8 +28,23 @@ public class AetResponse {
                 .build();
     }
 
+    public static ResponseEntity<ResBodyModel> toResponse(BodyCode bodyCode) {
+        return ResponseEntity.ok().body(toBody(bodyCode));
+    }
+
+    public static ResponseEntity<ResBodyModel> toResponse(BodyCode bodyCode, int status) {
+        return ResponseEntity.status(status).body(toBody(bodyCode));
+    }
+
     public static ResponseEntity<ResBodyModel> toResponse(BodyCode bodyCode, Object body) {
         return ResponseEntity.ok().body(toBody(bodyCode, body));
+    }
+    public static ResponseEntity<ResBodyModel> toResponse(BodyCode bodyCode, Object body, int status) {
+        return ResponseEntity.status(status).body(toBody(bodyCode, body));
+    }
+
+    public static ResponseEntity<ResBodyModel> toResponse(BodyCode bodyCode, Object body, int status, HttpHeaders headers) {
+        return ResponseEntity.status(status).headers(headers).body(toBody(bodyCode, body));
     }
 
 

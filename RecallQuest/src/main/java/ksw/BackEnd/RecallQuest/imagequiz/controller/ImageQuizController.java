@@ -1,6 +1,8 @@
 package ksw.BackEnd.RecallQuest.imagequiz.controller;
 
+import ksw.BackEnd.RecallQuest.common.KsResponse;
 import ksw.BackEnd.RecallQuest.common.code.SuccessCode;
+import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
 import ksw.BackEnd.RecallQuest.entity.ImageQuiz;
 import ksw.BackEnd.RecallQuest.entity.ImageQuizDistractor;
 import ksw.BackEnd.RecallQuest.imagequiz.dto.*;
@@ -39,64 +41,59 @@ public class ImageQuizController {
 
 
     @PostMapping("/save")
-    public ResponseEntity<?> createImageQuiz(
+    public ResponseEntity<ResBodyModel> createImageQuiz(
             @RequestPart(value="imageQuizRequestDto") ImageQuizRequestDto imageQuizRequestDto,
             @RequestPart(value="file", required = false) List<MultipartFile> files
     ) throws IOException {
         ImageQuiz imageQuiz = imageQuizService.imageQuizSave(imageQuizRequestDto, files);
         List<Map<String, Object>> imageList = quizMapper.quizPhotoMapping(imageQuiz.getQuestionImages());
         ImageQuizResponseDto imageQuizResponseDto = new ImageQuizResponseDto(imageQuiz, imageList);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(imageQuizResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizResponseDto);
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<?> updateImageQuiz(
+    public ResponseEntity<ResBodyModel> updateImageQuiz(
             @RequestPart(value="updateRequestDto") UpdateRequestDto updateRequestDto,
             @RequestPart(value="file", required = false) List<MultipartFile> files
     ) throws IOException {
         ImageQuiz imageQuiz = imageQuizService.updateImageQuiz(updateRequestDto, files);
         List<Map<String, Object>> imageList = quizMapper.quizPhotoMapping(imageQuiz.getQuestionImages());
         ImageQuizResponseDto imageQuizResponseDto = new ImageQuizResponseDto(imageQuiz, imageList);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(imageQuizResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizResponseDto);
     }
 
     //문제보기 단일 조회 - 문제 내용으로 검색
     @GetMapping("/read/question")
-    public ResponseEntity<?> findByQuestion(@RequestBody ImageQuizReadDto imageQuizReadDto) throws IOException {
+    public ResponseEntity<ResBodyModel> findByQuestion(@RequestBody ImageQuizReadDto imageQuizReadDto) throws IOException {
         ImageQuiz imageQuiz = imageQuizService.findImageQuiz(imageQuizReadDto);
         List<Map<String, Object>> imageList = quizMapper.quizPhotoMapping(imageQuiz.getQuestionImages());
         log.info("result={}", imageList);
         ImageQuizResponseDto imageQuizResponseDto = new ImageQuizResponseDto(imageQuiz, imageList);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(imageQuizResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizResponseDto);
     }
 
 
 
     //문제보기 단일 조회 - 문제랑 이미지만 나오게
     @GetMapping("/read/seq/{seq}")
-    public ResponseEntity<?> findBySeq(@PathVariable Long seq) throws IOException {
+    public ResponseEntity<ResBodyModel> findBySeq(@PathVariable Long seq) throws IOException {
         ImageQuiz imageQuiz = imageQuizService.findImageQuiz(seq);
         List<Map<String, Object>> imageList = quizMapper.quizPhotoMapping(imageQuiz.getQuestionImages());
         ImageQuizResponseDto imageQuizResponseDto = new ImageQuizResponseDto(imageQuiz, imageList);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(imageQuizResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizResponseDto);
     }
 
     //문제보기 모두 조회 - 문제랑 이미지만 나오게
     @GetMapping("/read/all")
-    public ResponseEntity<?> findByImageQuizzes() throws IOException {
+    public ResponseEntity<ResBodyModel> findByImageQuizzes() throws IOException {
         List<ImageQuiz> ImageQuizList = imageQuizService.findImageQuizzes();
         List<ImageQuizResponseDto> imageQuizResponseDtoList = quizMapper.toResponse(ImageQuizList);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(imageQuizResponseDtoList);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizResponseDtoList);
     }
 
     //문제보기 단일 조회 - 문제와 보기가 함께 나오게
     @GetMapping("/read/complete/{seq}")
-    public ResponseEntity<?> findByImageQuizzesAndDistractor(@PathVariable Long seq) throws IOException {
+    public ResponseEntity<ResBodyModel> findByImageQuizzesAndDistractor(@PathVariable Long seq) throws IOException {
 //        ImageQuiz imageQuiz = imageQuizService.findImageQuiz(seq);
 //        List<Map<String, Object>> imageList = quizMapper.quizPhotoMapping(imageQuiz.getQuestionImages());
 //
@@ -109,13 +106,12 @@ public class ImageQuizController {
         List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorService.findByImageQuizId(seq);
         CompleteImageQuizResponseDto completeImageQuizResponseDto = completeMapper.toCompleteResponse(imageQuiz, imageQuizDistractors);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(completeImageQuizResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, completeImageQuizResponseDto);
     }
 
     //문제보기 전체 조회 - 문제와 보기가 함께 나오게
     @GetMapping("/read/complete/all")
-    public ResponseEntity<?> findAllByImageQuizzesAndDistractor() throws IOException {
+    public ResponseEntity<ResBodyModel> findAllByImageQuizzesAndDistractor() throws IOException {
         List<CompleteImageQuizResponseDto> completeImageQuizResponseDtoList = new ArrayList<>();
         List<ImageQuiz> ImageQuizList = imageQuizService.findImageQuizzes();
 
@@ -125,13 +121,12 @@ public class ImageQuizController {
             completeImageQuizResponseDtoList.add(completeImageQuizResponseDto);
         }
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(completeImageQuizResponseDtoList);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, completeImageQuizResponseDtoList);
     }
 
     //문제보기 전체 조회 - 문제와 보기가 함께 나오게, 회원 시퀀스로 검색
     @GetMapping("/read/complete/member/{memberSeq}")
-    public ResponseEntity<?> findAllByImageQuizzesAndDistractors(@PathVariable Long memberSeq) throws IOException {
+    public ResponseEntity<ResBodyModel> findAllByImageQuizzesAndDistractors(@PathVariable Long memberSeq) throws IOException {
         List<CompleteImageQuizResponseDto> completeImageQuizResponseDtoList = new ArrayList<>();
         List<ImageQuiz> ImageQuizList = imageQuizService.findImageQuizzes(memberSeq);
 
@@ -144,13 +139,12 @@ public class ImageQuizController {
             completeImageQuizResponseDtoList.add(completeImageQuizResponseDto);
         }
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(completeImageQuizResponseDtoList);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, completeImageQuizResponseDtoList);
     }
 
     //문제보기 전체 조회 - 문제와 보기가 함께 나오게, 회원 로그인아이디로 검색
     @GetMapping("/read/complete/loginId/{loginId}")
-    public ResponseEntity<?> findAllByLoginId(@PathVariable String loginId) throws IOException {
+    public ResponseEntity<ResBodyModel> findAllByLoginId(@PathVariable String loginId) throws IOException {
         List<CompleteImageQuizResponseDto> completeImageQuizResponseDtoList = new ArrayList<>();
         List<ImageQuiz> ImageQuizList = imageQuizService.findImageQuizzes(loginId);
 
@@ -163,22 +157,19 @@ public class ImageQuizController {
             completeImageQuizResponseDtoList.add(completeImageQuizResponseDto);
         }
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(completeImageQuizResponseDtoList);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, completeImageQuizResponseDtoList);
     }
 
     @DeleteMapping("/delete/{imageSeq}")
-    public ResponseEntity<?> deleteImageQuiz(@PathVariable Long imageSeq) throws IOException {
+    public ResponseEntity<ResBodyModel> deleteImageQuiz(@PathVariable Long imageSeq) throws IOException {
         imageQuizService.deleteImageQuiz(imageSeq);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(SuccessCode.SUCCESS);
+        return KsResponse.toResponse(SuccessCode.SUCCESS);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteImageQuizByQuestion(@RequestBody ImageQuizReadDto imageQuizReadDto) throws IOException {
+    public ResponseEntity<ResBodyModel> deleteImageQuizByQuestion(@RequestBody ImageQuizReadDto imageQuizReadDto) throws IOException {
         imageQuizService.deleteImageQuizByQuestion(imageQuizReadDto);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(SuccessCode.SUCCESS);
+        return KsResponse.toResponse(SuccessCode.SUCCESS);
     }
 
 }

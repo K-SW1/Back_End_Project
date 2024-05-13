@@ -90,6 +90,7 @@ public class SecurityConfig {
         http
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class);
 
+
 //        http
 //                .authorizeHttpRequests((auth) -> auth
 //                        .requestMatchers("/login", "/", "/members/join").permitAll() //모든 사용자 접근 가능

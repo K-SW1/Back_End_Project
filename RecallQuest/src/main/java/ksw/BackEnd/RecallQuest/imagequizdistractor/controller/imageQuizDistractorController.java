@@ -1,5 +1,8 @@
 package ksw.BackEnd.RecallQuest.imagequizdistractor.controller;
 
+import ksw.BackEnd.RecallQuest.common.KsResponse;
+import ksw.BackEnd.RecallQuest.common.code.SuccessCode;
+import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
 import ksw.BackEnd.RecallQuest.entity.DistractorImage;
 import ksw.BackEnd.RecallQuest.entity.ImageQuizDistractor;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.dto.DistractorReadDto;
@@ -31,90 +34,67 @@ public class imageQuizDistractorController {
     private final ImageQuizDistractorService imageQuizDistractorService;
     private final DistractorMapper distractorMapper;
 
-
     @PostMapping("/save")
-    public ResponseEntity<?> createImageQuizDistractor(
+    public ResponseEntity<ResBodyModel> createImageQuizDistractor(
             @RequestPart(value="imageQuizDistractorRequestDto") ImageQuizDistractorRequestDto imageQuizDistractorRequestDto,
             @RequestPart(value="file", required = false) List<MultipartFile> files
     ) throws IOException {
         ImageQuizDistractor imageQuizDistractor = imageQuizDistractorService.svaeImageQuizDistractor(imageQuizDistractorRequestDto, files);
         List<Map<String, Object>> imageList = distractorMapper.distractorPhotoMapping(imageQuizDistractor.getDistractorImages());
         ImageQuizDistractorResponseDto imageQuizDistractorResponseDto = new ImageQuizDistractorResponseDto(imageQuizDistractor, imageList);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(imageQuizDistractorResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizDistractorResponseDto);
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<?> updateImageQuizDistractor(
+    public ResponseEntity<ResBodyModel> updateImageQuizDistractor(
             @RequestPart(value="updateRequestDto") UpdateRequestDto updateRequestDto,
             @RequestPart(value="file", required = false) List<MultipartFile> files
     ) throws IOException {
         ImageQuizDistractor imageQuizDistractor = imageQuizDistractorService.updateImageQuizDistractor(updateRequestDto, files);
         List<Map<String, Object>> imageList = distractorMapper.distractorPhotoMapping(imageQuizDistractor.getDistractorImages());
         ImageQuizDistractorResponseDto imageQuizDistractorResponseDto = new ImageQuizDistractorResponseDto(imageQuizDistractor, imageList);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(imageQuizDistractorResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizDistractorResponseDto);
     }
-
-//
-//    @GetMapping("/read/content/{content}")
-//    public ResponseEntity<?> findByDistractorContent(@PathVariable String content) {
-//        ImageQuizDistractor imageQuizDistractor = imageQuizDistractorService.findImageQuizDistractor(content);
-//        ImageQuizDistractorResponseDto imageQuizDistractorResponseDto = new ImageQuizDistractorResponseDto(imageQuizDistractor);
-//        return ResponseEntity.status(HttpStatus.OK)
-//                .body(imageQuizDistractorResponseDto);
-//    }
-
 
     //보기 전체 조회 - 보기랑 이미지만 나오게
     @GetMapping("/read/all")
-    public ResponseEntity<?> findByDistractorContents() throws IOException {
+    public ResponseEntity<ResBodyModel> findByDistractorContents() throws IOException {
 
         List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorService.findImageQuizDistractors();
 
         List<ImageQuizDistractorResponseDto> imageQuizDistractorResponseDtoList = distractorMapper.toResponse(imageQuizDistractors);
-        return ResponseEntity.status(HttpStatus.OK).body(imageQuizDistractorResponseDtoList);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizDistractorResponseDtoList);
     }
 
     //보기 단일 조회 - 보기랑 이미지만 나오게, 시퀀스로 조회
     @GetMapping("/read/seq/{seq}")
-    public ResponseEntity<?> findBySeq(@PathVariable Long seq) throws IOException {
+    public ResponseEntity<ResBodyModel> findBySeq(@PathVariable Long seq) throws IOException {
         ImageQuizDistractor imageQuizDistractor = imageQuizDistractorService.findImageQuizDistractor(seq);
         List<Map<String, Object>> imageList = distractorMapper.distractorPhotoMapping(imageQuizDistractor.getDistractorImages());
         ImageQuizDistractorResponseDto imageQuizDistractorResponseDto = new ImageQuizDistractorResponseDto(imageQuizDistractor, imageList);
-        log.info("응답객체 = {}", imageQuizDistractorResponseDto.getImageQuizDistractor());
-        return ResponseEntity.status(HttpStatus.OK).body(imageQuizDistractorResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizDistractorResponseDto);
     }
 
     //보기 단일 조회 - 보기랑 이미지만 나오게, 내용으로 조회
     @GetMapping("/read/distractor")
-    public ResponseEntity<?> findByContent(@RequestBody DistractorReadDto distractorReadDto) throws IOException {
+    public ResponseEntity<ResBodyModel> findByContent(@RequestBody DistractorReadDto distractorReadDto) throws IOException {
         ImageQuizDistractor imageQuizDistractor = imageQuizDistractorService.findImageQuizDistractor(distractorReadDto);
         List<Map<String, Object>> imageList = distractorMapper.distractorPhotoMapping(imageQuizDistractor.getDistractorImages());
         ImageQuizDistractorResponseDto imageQuizDistractorResponseDto = new ImageQuizDistractorResponseDto(imageQuizDistractor, imageList);
-        log.info("응답객체 = {}", imageQuizDistractorResponseDto.getImageQuizDistractor());
-        return ResponseEntity.status(HttpStatus.OK).body(imageQuizDistractorResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizDistractorResponseDto);
     }
 
     @DeleteMapping("/delete/{distractorSeq}")
-    public ResponseEntity<?> deleteImageQuizDistractor(@PathVariable Long distractorSeq) throws IOException {
+    public ResponseEntity<ResBodyModel> deleteImageQuizDistractor(@PathVariable Long distractorSeq) throws IOException {
         imageQuizDistractorService.deleteImageQuizDistractor(distractorSeq);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return KsResponse.toResponse(SuccessCode.SUCCESS);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteImageQuizDistractor(@RequestBody DistractorReadDto distractorReadDto) throws IOException {
+    public ResponseEntity<ResBodyModel> deleteImageQuizDistractor(@RequestBody DistractorReadDto distractorReadDto) throws IOException {
         imageQuizDistractorService.deleteImageQuizDistractor(distractorReadDto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return KsResponse.toResponse(SuccessCode.SUCCESS);
     }
-
-//    @GetMapping(value = "/{fileName}")
-//    public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String fileName) throws IOException {
-//        byte[] imageData = imageQuizDistractorService.downloadImageFromFileSystem(fileName);
-//        return ResponseEntity.status(HttpStatus.OK)
-//                .contentType(MediaType.valueOf("image/png"))
-//                .body(imageData);
-//    }
 
 
 }
