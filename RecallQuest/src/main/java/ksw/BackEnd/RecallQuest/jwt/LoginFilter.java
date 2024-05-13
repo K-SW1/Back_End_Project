@@ -77,6 +77,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String username = customUserDetails.getUsername();
 
+        //권한 가져오기
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities(); //사용자에게 부여된 권한 목록을 가져옴, 스프링 시큐리티는 권한을 GrantedAuthority 객체의 컬렉션으로 관리
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator(); //이터레이터를 사용하여 권한 컬렉션을 순회
         GrantedAuthority auth = iterator.next(); //이터레이터를 사용하여 첫 번째 권한 객체를 가져옵
@@ -87,12 +88,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String access = jwtUtil.createJwt("access", username, role, 600000L);
         String refresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
 
-        //refresh토큰 저장
+        //refresh토큰 DB에 저장
         addRefreshEntity(username, refresh, 86400000L);
 
         //응답 설정
-        response.setHeader("access", access);
-        response.addCookie(createCookie("refresh", refresh));
+        response.setHeader("access", access); //엑세스는 헤더에
+        response.addCookie(createCookie("refresh", refresh)); //리프레시는 쿠키에
         response.setStatus(HttpStatus.OK.value());
     }
 

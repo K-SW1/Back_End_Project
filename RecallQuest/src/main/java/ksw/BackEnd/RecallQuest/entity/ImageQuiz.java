@@ -2,10 +2,13 @@ package ksw.BackEnd.RecallQuest.entity;
 
 import jakarta.persistence.*;
 import ksw.BackEnd.RecallQuest.imagequiz.dto.ImageQuizRequestDto;
+import ksw.BackEnd.RecallQuest.imagequiz.dto.UpdateRequestDto;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,10 +31,18 @@ public class ImageQuiz {
 
     private String hint;
 
-    @OneToMany(mappedBy = "imageQuiz", cascade = CascadeType.ALL) //문제에 대한 이미지
+    @OneToMany(
+            mappedBy = "imageQuiz",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true
+    ) //문제에 대한 이미지
     private List<QuestionImage> questionImages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "imageQuiz", cascade = CascadeType.ALL)
+    @OneToMany(
+            mappedBy = "imageQuiz",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true
+    )
     private List<ImageQuizDistractor> imageQuizDistractors = new ArrayList<>();
 
 
@@ -42,9 +53,13 @@ public class ImageQuiz {
         this.member = member;
     }
 
-    public void changeInfo (ImageQuizRequestDto imageQuizRequestDto) {
-        this.question = imageQuizRequestDto.getQuestion();
-        this.hint =  imageQuizRequestDto.getHint();
+    public void changeInfo (UpdateRequestDto updateRequestDto) {
+        this.question = updateRequestDto.getRevisedQuestion();
+        this.hint =  updateRequestDto.getHint();
+    }
+
+    public void addImage (QuestionImage questionImage) {
+        this.questionImages.add(questionImage);
     }
 
 //    public static ImageQuiz createdImageQuiz(Member member, OrderItem orderItem){

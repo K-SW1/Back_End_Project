@@ -11,4 +11,6 @@ public interface QuestionImageRepository extends JpaRepository<QuestionImage, Lo
     Optional<QuestionImage> findByOriginFilename(String fileName);
 
     void deleteByImageQuiz(ImageQuiz imageQuiz);
+
+    Optional<QuestionImage> findByStoreFilename(String fileName);
 }

@@ -11,4 +11,8 @@ public interface DistractorImageRepository extends JpaRepository<DistractorImage
     Optional<DistractorImage> findByOriginFilename(String fileName);
 
     void deleteByImageQuizDistractor(ImageQuizDistractor imageQuizDistractor);
+
+    void deleteByImageQuizDistractorId(Long imageQuizDistractorId);
+
+    Optional<DistractorImage> findByStoreFilename(String fileName);
 }

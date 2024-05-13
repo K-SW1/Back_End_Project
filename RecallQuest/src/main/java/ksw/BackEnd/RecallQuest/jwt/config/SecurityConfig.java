@@ -24,7 +24,6 @@ import java.util.Collections;
 
 @Configuration //나는 컨피그다 설정 파일이다
 @EnableWebSecurity //시큐리티를 위한 컨피그임
-
 public class SecurityConfig {
 
 
@@ -91,12 +90,17 @@ public class SecurityConfig {
         http
                 .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class);
 
+//        http
+//                .authorizeHttpRequests((auth) -> auth
+//                        .requestMatchers("/login", "/", "/members/join").permitAll() //모든 사용자 접근 가능
+//                        .requestMatchers("/admin").hasRole("ADMIN") //어드민만 접근 가능
+//                        .requestMatchers("/reissue").permitAll()
+//                        .anyRequest().authenticated()); //나머지는 로그인한 사용자만 접근 가능
+
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/", "/members/join").permitAll() //모든 사용자 접근 가능
-                        .requestMatchers("/admin").hasRole("ADMIN") //어드민만 접근 가능
-                        .requestMatchers("/reissue").permitAll()
-                        .anyRequest().authenticated()); //나머지는 로그인한 사용자만 접근 가능
+                        .anyRequest().permitAll() // 모든 요청에 대해 접근 허용
+                );
 
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);

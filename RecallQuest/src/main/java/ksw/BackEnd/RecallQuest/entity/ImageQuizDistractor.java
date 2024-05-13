@@ -2,6 +2,7 @@ package ksw.BackEnd.RecallQuest.entity;
 
 import jakarta.persistence.*;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.dto.ImageQuizDistractorRequestDto;
+import ksw.BackEnd.RecallQuest.imagequizdistractor.dto.UpdateRequestDto;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -27,7 +28,11 @@ public class ImageQuizDistractor {
 
     private boolean validation;
 
-    @OneToMany(mappedBy = "imageQuizDistractor", cascade = CascadeType.ALL)
+    @OneToMany(
+            mappedBy = "imageQuizDistractor",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true
+    )
     private List<DistractorImage> distractorImages = new ArrayList<>();
 
     @Builder
@@ -37,9 +42,13 @@ public class ImageQuizDistractor {
         this.imageQuiz = imageQuiz;
     }
 
-    public void changeInfo (ImageQuizDistractorRequestDto imageQuizDistractorRequestDto) {
-        this.imageQuizDistractor = imageQuizDistractorRequestDto.getImageQuizDistractor();
-        this.validation = imageQuizDistractorRequestDto.isValidation();
+    public void changeInfo (UpdateRequestDto updateRequestDto) {
+        this.imageQuizDistractor = updateRequestDto.getRevisedDistractor();
+        this.validation = updateRequestDto.isValidation();
+    }
+
+    public void addImage (DistractorImage distractorImage) {
+        this.distractorImages.add(distractorImage);
     }
 
 }

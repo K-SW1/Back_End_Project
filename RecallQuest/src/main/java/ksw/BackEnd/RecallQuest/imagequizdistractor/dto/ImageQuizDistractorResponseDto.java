@@ -1,13 +1,10 @@
 package ksw.BackEnd.RecallQuest.imagequizdistractor.dto;
 
-import ksw.BackEnd.RecallQuest.entity.DistractorImage;
 import ksw.BackEnd.RecallQuest.entity.ImageQuizDistractor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
@@ -17,36 +14,25 @@ public class ImageQuizDistractorResponseDto {
 
     private String imageQuizDistractor;
     private boolean validation;
-    private List<DistractorImageDto> distractorImages = new ArrayList<>();
+    private List<Map<String, Object>> imageList;
 
-    public ImageQuizDistractorResponseDto(ImageQuizDistractor imageQuizDistractor) {
+    public ImageQuizDistractorResponseDto(ImageQuizDistractor imageQuizDistractor, List<Map<String, Object>> imageList) {
         this.imageQuizDistractor = imageQuizDistractor.getImageQuizDistractor();
         this.validation = imageQuizDistractor.isValidation();
-        this.distractorImages = imageQuizDistractor.getDistractorImages().stream()
-                .map( distractorImages -> new DistractorImageDto(distractorImages))
+        this.imageList = imageList;
+    }
+
+    public static ImageQuizDistractorResponseDto buildPhotoDto (ImageQuizDistractor imageQuizDistractor, List<Map<String, Object>> imageList) {
+        ImageQuizDistractorResponseDto imageQuizDistractorResponseDto = new ImageQuizDistractorResponseDto();
+        imageQuizDistractorResponseDto.setImageQuizDistractor(imageQuizDistractor.getImageQuizDistractor());
+        imageQuizDistractorResponseDto.setValidation(imageQuizDistractor.isValidation());
+        imageQuizDistractorResponseDto.setImageList(imageList);
+        return imageQuizDistractorResponseDto;
+    }
+
+    public static List<ImageQuizDistractorResponseDto> buildImageQuizDistractorToList (List<ImageQuizDistractor> imageQuizDistractor, List<Map<String, Object>> imageList) {
+        return imageQuizDistractor.stream().map(imageQuizDistractors -> new ImageQuizDistractorResponseDto(imageQuizDistractors, imageList))
                 .collect(Collectors.toList());
     }
 
-    public static List<ImageQuizDistractorResponseDto> buildImageQuizDistractorToList (List<ImageQuizDistractor> imageQuizDistractor) {
-        return imageQuizDistractor.stream().map(imageQuizDistractors -> new ImageQuizDistractorResponseDto(imageQuizDistractors))
-                .collect(Collectors.toList());
-    }
-
-    @Getter
-    @Setter
-    public static class DistractorImageDto {
-        private String originFilename; //원본 이름
-        private byte[] imageData;
-
-//        private String storeFilename; //파일을 저장한 이름, 원본 이름에서 중복이 날 수 있기 때문에 생성
-//        private String type; //타입
-//        private String filePath; //경로
-
-        public DistractorImageDto (DistractorImage distractorImage) {
-            this.originFilename = distractorImage.getOriginFilename();
-//            this.storeFilename = distractorImage.getStoreFilename();
-//            this.type = distractorImage.getType();
-//            this.filePath = distractorImage.getFilePath();
-        }
-    }
 }

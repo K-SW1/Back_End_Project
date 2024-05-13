@@ -30,4 +30,6 @@ public class AetResponse {
     public static ResponseEntity<ResBodyModel> toResponse(BodyCode bodyCode, Object body) {
         return ResponseEntity.ok().body(toBody(bodyCode, body));
     }
+
+
 }
