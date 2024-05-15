@@ -15,4 +15,10 @@ public class MainController {
         return "Main Controller ";
     }
 
+    @GetMapping("/aa")
+    public String mainPa() {
+
+        return "aa";
+    }
+
 }

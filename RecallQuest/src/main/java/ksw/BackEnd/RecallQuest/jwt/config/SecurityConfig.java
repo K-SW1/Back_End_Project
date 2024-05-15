@@ -1,10 +1,8 @@
 package ksw.BackEnd.RecallQuest.jwt.config;
 
 import jakarta.servlet.http.HttpServletRequest;
-import ksw.BackEnd.RecallQuest.jwt.CustomLogoutFilter;
 import ksw.BackEnd.RecallQuest.jwt.JWTFilter;
 import ksw.BackEnd.RecallQuest.jwt.JWTUtil;
-import ksw.BackEnd.RecallQuest.jwt.LoginFilter;
 import ksw.BackEnd.RecallQuest.jwt.repository.RefreshRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +20,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Collections;
 
-@Configuration //나는 컨피그다 설정 파일이다
-@EnableWebSecurity //시큐리티를 위한 컨피그임
+@Configuration
+@EnableWebSecurity //시큐리티를 위한 컨피그
 public class SecurityConfig {
 
 
@@ -87,39 +85,27 @@ public class SecurityConfig {
         http
                 .httpBasic((auth) -> auth.disable());
 
-        http
-                .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class);
-
-
-//        http
-//                .authorizeHttpRequests((auth) -> auth
-//                        .requestMatchers("/login", "/", "/members/join").permitAll() //모든 사용자 접근 가능
-//                        .requestMatchers("/admin").hasRole("ADMIN") //어드민만 접근 가능
-//                        .requestMatchers("/reissue").permitAll()
-//                        .anyRequest().authenticated()); //나머지는 로그인한 사용자만 접근 가능
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .anyRequest().permitAll() // 모든 요청에 대해 접근 허용
-                );
+                        .requestMatchers("/api/login","/api/logout", "/", "/members/join").permitAll() //모든 사용자 접근 가능
+                        .requestMatchers("/admin").hasRole("ADMIN") //어드민만 접근 가능
+                        .requestMatchers("/aa").hasRole("USER")
+                        .requestMatchers("/reissue").permitAll()
+                        .anyRequest().authenticated()); //나머지는 로그인한 사용자만 접근 가능
+
+//        http
+//                .authorizeHttpRequests((auth) -> auth
+//                        .anyRequest().permitAll() // 모든 요청에 대해 접근 허용
+//                );
 
         http
-                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
-
-        //UsernamePasswordAuthenticationFilter를 커스텀해서 그 자리에 필터를 저장함
-        http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil, refreshRepository), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         //세션 설정, 세션을 stateless로 설정, 제일 중요함!!!
         http
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-//        JWTFilter jwtFilter = new JWTFilter(jwtUtil);
-//        jwtFilter.
-//                .setFilterProcessesUrl("/api/users/login");
-
-
 
         return http.build();
     }

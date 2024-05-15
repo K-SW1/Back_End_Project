@@ -41,7 +41,7 @@ public class CustomUserDetails  implements UserDetails { //DTO임
         return userEntity.getUserLoginPassword();
     }
 
-    //이름 가져오기
+    //이름 가져오기(로그인 아이디)
     @Override
     public String getUsername() {
 
