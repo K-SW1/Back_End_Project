@@ -6,7 +6,7 @@ import csj.BackEnd.RecallQuest.Textquiz.dto.TextQuizWithDistractorsResponseDto;
 import csj.BackEnd.RecallQuest.Textquizdistractor.dto.TextDistractorRequestDto;
 import csj.BackEnd.RecallQuest.Textquizdistractor.dto.TextDistractorResponseDto;
 import csj.BackEnd.RecallQuest.Textquizdistractor.service.TextDistractorService;
-import csj.BackEnd.RecallQuest.common.AetResponse;
+import csj.BackEnd.RecallQuest.common.KsResponse;
 import csj.BackEnd.RecallQuest.common.code.SuccessCode;
 import csj.BackEnd.RecallQuest.common.model.ResBodyModel;
 import csj.BackEnd.RecallQuest.entity.TextDistractor;
@@ -50,7 +50,7 @@ public class TextDistractorController {
                 .collect(Collectors.toList());
 
         // AetResponse를 사용하여 ResponseEntity를 생성
-        return AetResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
     }
     private TextDistractorRequestDto convertToRequestDto(TextDistractor distractor) {
         TextDistractorRequestDto requestDto = new TextDistractorRequestDto();
@@ -72,7 +72,7 @@ public class TextDistractorController {
         List<TextDistractorResponseDto> textDistractors = textDistractorService.getTextDistractorsByQuizId(textQuizId);
 
         // AetResponse를 사용하여 ResponseEntity를 생성
-        return AetResponse.toResponse(SuccessCode.SUCCESS, textDistractors);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, textDistractors);
     }
 
 
@@ -83,7 +83,7 @@ public class TextDistractorController {
         TextQuizWithDistractorsResponseDto responseDto = textDistractorService.getTextQuizWithDistractors(textQuizId);
 
         // AetResponse를 사용하여 응답을 반환합니다.
-        return AetResponse.toResponse(SuccessCode.SUCCESS, responseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
 
@@ -94,7 +94,7 @@ public class TextDistractorController {
         List<TextQuizWithDistractorsResponseDto> responseDtos = textDistractorService.getAllTextQuizzesWithDistractors();
 
         // AetResponse를 사용하여 응답을 반환합니다.
-        return AetResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
     }
 
 
@@ -110,7 +110,7 @@ public class TextDistractorController {
         List<TextDistractorResponseDto> updatedDistractorsResponseDto = textDistractorService.updateTextDistractors(textQuizId, updatedDistractorsRequestDto);
 
         // AetResponse를 사용하여 ResponseEntity를 생성
-        return AetResponse.toResponse(SuccessCode.SUCCESS, updatedDistractorsResponseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, updatedDistractorsResponseDto);
     }
 
 

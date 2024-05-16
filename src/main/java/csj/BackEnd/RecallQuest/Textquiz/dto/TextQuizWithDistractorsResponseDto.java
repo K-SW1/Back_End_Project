@@ -1,6 +1,7 @@
 package csj.BackEnd.RecallQuest.Textquiz.dto;
 
 import csj.BackEnd.RecallQuest.Textquizdistractor.dto.TextDistractorResponseDto;
+import csj.BackEnd.RecallQuest.entity.Member;
 import lombok.*;
 import java.util.List;
 
@@ -13,8 +14,8 @@ public class TextQuizWithDistractorsResponseDto {
 
     private int textQuizId;
 
-    private int memberInfoId;
-
+    private Member member;
+    
     private String question;
 
     private String hint;

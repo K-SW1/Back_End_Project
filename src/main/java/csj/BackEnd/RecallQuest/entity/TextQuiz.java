@@ -22,7 +22,9 @@ public class TextQuiz {
     @Column(name = "text_quiz_id")
     private int textQuizId;
 
-    private int memberInfoId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     private String question;
 
@@ -30,3 +32,5 @@ public class TextQuiz {
 
 
 }
+
+//private int memberInfoId;

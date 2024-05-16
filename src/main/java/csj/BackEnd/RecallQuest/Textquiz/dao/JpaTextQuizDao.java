@@ -1,5 +1,6 @@
 package csj.BackEnd.RecallQuest.Textquiz.dao;
 
+import csj.BackEnd.RecallQuest.entity.Member;
 import csj.BackEnd.RecallQuest.entity.TextQuiz;
 import csj.BackEnd.RecallQuest.Textquiz.repository.TextQuizRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +23,10 @@ public class JpaTextQuizDao {
     }
 
 
-    public TextQuiz findTextQuizBymemberInfoId(long id) {
-        return textQuizRepository.findTextQuizBymemberInfoId(id);
+    public TextQuiz findTextQuizBymember(Member member) {
+        return textQuizRepository.findTextQuizBymember(member);
     }
+
 
 
     public List<TextQuiz> findAll() {

@@ -14,7 +14,7 @@ import csj.BackEnd.RecallQuest.Textquiz.dto.TextQuizResponseDto;
 
 import java.util.stream.Collectors;
 
-import csj.BackEnd.RecallQuest.common.AetResponse;
+import csj.BackEnd.RecallQuest.common.KsResponse;
 import csj.BackEnd.RecallQuest.common.code.SuccessCode;
 import csj.BackEnd.RecallQuest.common.model.ResBodyModel;
 
@@ -36,7 +36,7 @@ public class TextQuizController {
         TextQuizResponseDto responseDto = textQuizService.addTextQuiz(requestDto);
 
         // 적절한 상태와 함께 응답 DTO를 반환합니다
-        return AetResponse.toResponse(SuccessCode.SUCCESS, responseDto);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
 
@@ -54,12 +54,12 @@ public class TextQuizController {
                 .collect(Collectors.toList());
 
         // AetResponse를 사용하여 ResponseEntity를 생성
-        return AetResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
     }
     private TextQuizResponseDto convertToResponseDto(TextQuiz textQuiz) {
         TextQuizResponseDto responseDto = new TextQuizResponseDto();
         responseDto.setTextQuizId(textQuiz.getTextQuizId());
-        responseDto.setMemberInfoId(textQuiz.getMemberInfoId());
+        responseDto.setMember(  textQuiz.getMember());
         responseDto.setQuestion(textQuiz.getQuestion());
         responseDto.setHint(textQuiz.getHint());
         return responseDto;
@@ -72,7 +72,7 @@ public class TextQuizController {
         TextQuizResponseDto textQuiz = textQuizService.getTextQuizById(textQuizId);
 
         // AetResponse를 사용하여 ResponseEntity를 생성
-        return AetResponse.toResponse(SuccessCode.SUCCESS, textQuiz);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, textQuiz);
     }
 
 
@@ -85,7 +85,7 @@ public class TextQuizController {
         TextQuizResponseDto updatedQuiz = textQuizService.updateTextQuiz(textQuizId, updatedTextQuizRequestDto);
 
         // AetResponse를 사용하여 ResponseEntity를 생성
-        return AetResponse.toResponse(SuccessCode.SUCCESS, updatedQuiz);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, updatedQuiz);
     }
 
 
@@ -100,18 +100,18 @@ public class TextQuizController {
         textQuizService.deleteTextQuiz(textQuizId);
 
         // 삭제 성공을 응답으로 반환
-        return AetResponse.toResponse(SuccessCode.SUCCESS, null);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, null);
     }
 
 
 
 }
-
+//
 //    {
 //        "question": "좋아하는 계절은?",
 //            "hint": "눈이 내린다."
 //    }
-
+//
 
 //[
 //  {

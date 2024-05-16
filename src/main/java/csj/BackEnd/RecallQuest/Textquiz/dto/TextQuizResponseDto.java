@@ -1,5 +1,6 @@
 package csj.BackEnd.RecallQuest.Textquiz.dto;
 
+import csj.BackEnd.RecallQuest.entity.Member;
 import lombok.*;
 
 
@@ -12,7 +13,7 @@ public class TextQuizResponseDto {
 
     private int textQuizId;
 
-    private int memberInfoId;
+    private Member member;
 
     private String question;
 

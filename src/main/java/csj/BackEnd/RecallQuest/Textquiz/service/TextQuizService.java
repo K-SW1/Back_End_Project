@@ -20,7 +20,7 @@ public class TextQuizService {
     // [TextQuiz] 추가 서비스
     public TextQuizResponseDto addTextQuiz(TextQuizRequestDto requestDto) {
         TextQuiz textQuiz = TextQuiz.builder()
-                .memberInfoId(requestDto.getMemberInfoId())
+                .member(requestDto.getMember())
                 .question(requestDto.getQuestion())
                 .hint(requestDto.getHint())
                 .build();
@@ -29,7 +29,7 @@ public class TextQuizService {
 
         return TextQuizResponseDto.builder()
                 .textQuizId(savedTextQuiz.getTextQuizId())
-                .memberInfoId(savedTextQuiz.getMemberInfoId())
+                .member(savedTextQuiz.getMember())
                 .question(savedTextQuiz.getQuestion())
                 .hint(savedTextQuiz.getHint())
                 .build();
@@ -47,7 +47,7 @@ public class TextQuizService {
 
         return TextQuizResponseDto.builder()
                 .textQuizId(textQuiz.getTextQuizId())
-                .memberInfoId(textQuiz.getMemberInfoId())
+                .member(textQuiz.getMember())
                 .question(textQuiz.getQuestion())
                 .hint(textQuiz.getHint())
                 .build();
@@ -65,7 +65,7 @@ public class TextQuizService {
 
         return TextQuizResponseDto.builder()
                 .textQuizId(updatedTextQuiz.getTextQuizId())
-                .memberInfoId(updatedTextQuiz.getMemberInfoId())
+                .member(updatedTextQuiz.getMember())
                 .question(updatedTextQuiz.getQuestion())
                 .hint(updatedTextQuiz.getHint())
                 .build();
