@@ -1,5 +1,6 @@
 package csj.BackEnd.RecallQuest.Textquiz.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import csj.BackEnd.RecallQuest.entity.Member;
 import lombok.*;
 
@@ -13,6 +14,7 @@ public class TextQuizResponseDto {
 
     private int textQuizId;
 
+    @JsonIgnore
     private Member member;
 
     private String question;

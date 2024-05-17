@@ -3,9 +3,19 @@ package csj.BackEnd.RecallQuest.Textquiz.service;
 import csj.BackEnd.RecallQuest.Textquiz.dao.JpaTextQuizDao;
 import csj.BackEnd.RecallQuest.Textquiz.dto.TextQuizRequestDto;
 import csj.BackEnd.RecallQuest.Textquiz.dto.TextQuizResponseDto;
+import csj.BackEnd.RecallQuest.entity.Login;
+import csj.BackEnd.RecallQuest.entity.Member;
 import csj.BackEnd.RecallQuest.entity.TextQuiz;
+import csj.BackEnd.RecallQuest.member.dao.LoginDao;
+import csj.BackEnd.RecallQuest.member.dao.MemberDao;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,11 +26,29 @@ import java.util.List;
 public class TextQuizService {
 
     private final JpaTextQuizDao jpaTextQuizDao;
+    private final MemberDao memberDao;
+    private final LoginDao loginDao;
+
 
     // [TextQuiz] 추가 서비스
     public TextQuizResponseDto addTextQuiz(TextQuizRequestDto requestDto) {
+
+        // 현재 인증된 사용자 정보 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userLoginId = authentication.getName(); // 현재 사용자의 로그인 ID 가져오기
+
+
+        // 요청 DTO에 사용자의 로그인 ID 설정
+        requestDto.setUserLoginId(userLoginId);
+
+        //String userLoginId = requestDto.getUserLoginId();
+        Login login = loginDao.findByUserLoginId(requestDto.getUserLoginId());
+        //로그인 된 사용자 찾아서 해당 멤버의 시퀀스 넘버를 넣어줌.
+        Member member = memberDao.findMemberSeq(login.getMember().getMemberSeq());
+
+
         TextQuiz textQuiz = TextQuiz.builder()
-                .member(requestDto.getMember())
+                .member(member)
                 .question(requestDto.getQuestion())
                 .hint(requestDto.getHint())
                 .build();
@@ -29,7 +57,7 @@ public class TextQuizService {
 
         return TextQuizResponseDto.builder()
                 .textQuizId(savedTextQuiz.getTextQuizId())
-                .member(savedTextQuiz.getMember())
+                .member(member)
                 .question(savedTextQuiz.getQuestion())
                 .hint(savedTextQuiz.getHint())
                 .build();

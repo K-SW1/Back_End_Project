@@ -18,12 +18,20 @@ import csj.BackEnd.RecallQuest.common.KsResponse;
 import csj.BackEnd.RecallQuest.common.code.SuccessCode;
 import csj.BackEnd.RecallQuest.common.model.ResBodyModel;
 
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/quiz/quizs/textquiz")
 public class TextQuizController {
 
 
+    private static final Logger logger = LoggerFactory.getLogger(TextQuizController.class);
 
     private final TextQuizService textQuizService;
 
@@ -32,6 +40,9 @@ public class TextQuizController {
     // [TextQuiz](힌트) 추가  + AetResponse 변경 완료
     @PostMapping("/add")
     public ResponseEntity<ResBodyModel> addTextQuiz(@RequestBody TextQuizRequestDto requestDto) {
+
+        logger.info("텍스트 퀴즈 추가 요청을 받았습니다: {}", requestDto);
+
         // 요청 DTO를 엔티티로 변환합니다
         TextQuizResponseDto responseDto = textQuizService.addTextQuiz(requestDto);
 
@@ -116,19 +127,19 @@ public class TextQuizController {
 //[
 //  {
 //   "textzQuizDistractor": "봄",
-//   "answer": false
+//   "validation": false
 //   },
 //   {
 //   "textzQuizDistractor": "여름",
-//   "answer": false
+//   "validation": false
 //    },
 //    {
 //    "textzQuizDistractor": "가을",
-//     "answer": false
+//     "validation": false
 //    },
 //    {
 //      "textzQuizDistractor": "겨울",
-//      "answer": true
+//      "validation": true
 //    }
 //]
 

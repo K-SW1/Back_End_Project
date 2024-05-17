@@ -131,19 +131,19 @@ public class TextDistractorController {
 //[
 //  {
 //   "textzQuizDistractor": "봄",
-//   "answer": false
+//   "validation": false
 //   },
 //   {
 //   "textzQuizDistractor": "여름",
-//   "answer": false
+//   "validation": false
 //    },
 //    {
 //    "textzQuizDistractor": "가을",
-//     "answer": false
+//     "validation": false
 //    },
 //    {
 //      "textzQuizDistractor": "겨울",
-//      "answer": true
+//      "validation": true
 //    }
 //]
 

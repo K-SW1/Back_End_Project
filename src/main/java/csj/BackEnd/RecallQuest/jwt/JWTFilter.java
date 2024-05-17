@@ -30,9 +30,11 @@ public class JWTFilter extends OncePerRequestFilter {
 
         // 헤더에서 access키에 담긴 토큰을 꺼냄
         String accessToken = request.getHeader("accessToken");
+        System.out.println("accessToken: " + accessToken); // 로그 추가
 
         // 토큰이 없다면 다음 필터로 넘김
         if (accessToken == null) {
+            System.out.println("No access token found"); // 로그 추가
 
             filterChain.doFilter(request, response);
 
@@ -43,6 +45,7 @@ public class JWTFilter extends OncePerRequestFilter {
         try {
             jwtUtil.isExpired(accessToken);
         } catch (ExpiredJwtException e) {
+            System.out.println("Token expired"); // 로그 추가
 
             //response body
             PrintWriter writer = response.getWriter();
@@ -55,8 +58,10 @@ public class JWTFilter extends OncePerRequestFilter {
 
         // 토큰이 access인지 확인 (발급시 페이로드에 명시)
         String category = jwtUtil.getCategory(accessToken);
+        System.out.println("Token category: " + category); // 로그 추가
 
         if (!category.equals("access")) {
+            System.out.println("Invalid token category"); // 로그 추가
 
             //response body
             PrintWriter writer = response.getWriter();
@@ -70,6 +75,8 @@ public class JWTFilter extends OncePerRequestFilter {
         // username, role 값을 획득
         String username = jwtUtil.getUsername(accessToken);
         String role = jwtUtil.getRole(accessToken);
+        System.out.println("Username: " + username); // 로그 추가
+        System.out.println("Role: " + role); // 로그 추가
 
         Login userEntity = Login.builder()
                 .userLoginId(username)
@@ -82,6 +89,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authToken);
+        System.out.println("Authentication set in SecurityContextHolder"); // 로그 추가
 
         filterChain.doFilter(request, response);
     }
