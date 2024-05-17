@@ -35,7 +35,7 @@ public class TextQuizService {
 
         // 현재 인증된 사용자 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userLoginId = authentication.getName(); // 현재 사용자의 로그인 ID 가져오기
+        String userLoginId = authentication.getName(); // 로그인 후 api 요청 시 userLoginId에는 username 값 넣음.
 
 
         // 요청 DTO에 사용자의 로그인 ID 설정
