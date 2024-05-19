@@ -12,11 +12,11 @@ public class DistractorImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "distractor_image_id")
-    private Long id;
+    @Column(name = "distractor_image_seq")
+    private Long distractorImageSeq;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_quiz_distractor_id")
+    @JoinColumn(name = "image_quiz_distractor_seq")
     private ImageQuizDistractor imageQuizDistractor;
 
     private String originFilename; //원본 이름

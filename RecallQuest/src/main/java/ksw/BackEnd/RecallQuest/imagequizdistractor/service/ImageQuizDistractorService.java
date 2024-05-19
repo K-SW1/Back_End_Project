@@ -204,7 +204,7 @@ public class ImageQuizDistractorService {
     }
 
     public List<ImageQuizDistractor> findByImageQuizId(Long imageQuizId) {
-        List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorRepository.findByImageQuizId(imageQuizId);
+        List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorRepository.findByImageQuizImageQuizSeq(imageQuizId);
         return imageQuizDistractors;
     }
 

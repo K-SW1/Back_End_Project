@@ -20,11 +20,11 @@ public class ImageQuiz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "image_quiz_id")
-    private Long id;
+    @Column(name = "image_quiz_seq")
+    private Long imageQuizSeq;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_seq")
     private Member member;
 
     private String question;

@@ -40,6 +40,9 @@ public class ImageQuizController {
     private final CompleteMapper completeMapper;
 
 
+    /**
+     *이미지 퀴즈 저장
+     */
     @PostMapping("/save")
     public ResponseEntity<ResBodyModel> createImageQuiz(
             @RequestPart(value="imageQuizRequestDto") ImageQuizRequestDto imageQuizRequestDto,
@@ -51,6 +54,10 @@ public class ImageQuizController {
         return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizResponseDto);
     }
 
+
+    /**
+     *이미지 퀴즈 수정
+     */
     @PatchMapping("/update")
     public ResponseEntity<ResBodyModel> updateImageQuiz(
             @RequestPart(value="updateRequestDto") UpdateRequestDto updateRequestDto,
@@ -62,17 +69,17 @@ public class ImageQuizController {
         return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizResponseDto);
     }
 
+    /**
+     *이미지 퀴즈 조회
+     */
     //문제보기 단일 조회 - 문제 내용으로 검색
     @GetMapping("/read/question")
     public ResponseEntity<ResBodyModel> findByQuestion(@RequestBody ImageQuizReadDto imageQuizReadDto) throws IOException {
         ImageQuiz imageQuiz = imageQuizService.findImageQuiz(imageQuizReadDto);
         List<Map<String, Object>> imageList = quizMapper.quizPhotoMapping(imageQuiz.getQuestionImages());
-        log.info("result={}", imageList);
         ImageQuizResponseDto imageQuizResponseDto = new ImageQuizResponseDto(imageQuiz, imageList);
         return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizResponseDto);
     }
-
-
 
     //문제보기 단일 조회 - 문제랑 이미지만 나오게
     @GetMapping("/read/seq/{seq}")
@@ -115,9 +122,12 @@ public class ImageQuizController {
         List<CompleteImageQuizResponseDto> completeImageQuizResponseDtoList = new ArrayList<>();
         List<ImageQuiz> ImageQuizList = imageQuizService.findImageQuizzes();
 
+        //퀴즈 번호 부여
+        Long quizSeq = 1L;
         for (ImageQuiz imageQuiz : ImageQuizList) {
-            List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorService.findByImageQuizId(imageQuiz.getId());
+            List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorService.findByImageQuizId(imageQuiz.getImageQuizSeq());
             CompleteImageQuizResponseDto completeImageQuizResponseDto = completeMapper.toCompleteResponse(imageQuiz, imageQuizDistractors);
+            completeImageQuizResponseDto.setImageQuizSeq(quizSeq++);
             completeImageQuizResponseDtoList.add(completeImageQuizResponseDto);
         }
 
@@ -133,7 +143,7 @@ public class ImageQuizController {
         //퀴즈 번호 부여
         Long quizSeq = 1L;
         for (ImageQuiz imageQuiz : ImageQuizList) {
-            List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorService.findByImageQuizId(imageQuiz.getId());
+            List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorService.findByImageQuizId(imageQuiz.getImageQuizSeq());
             CompleteImageQuizResponseDto completeImageQuizResponseDto = completeMapper.toCompleteResponse(imageQuiz, imageQuizDistractors);
             completeImageQuizResponseDto.setImageQuizSeq(quizSeq++);
             completeImageQuizResponseDtoList.add(completeImageQuizResponseDto);
@@ -151,7 +161,7 @@ public class ImageQuizController {
         //퀴즈 번호 부여
         Long quizSeq = 1L;
         for (ImageQuiz imageQuiz : ImageQuizList) {
-            List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorService.findByImageQuizId(imageQuiz.getId());
+            List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorService.findByImageQuizId(imageQuiz.getImageQuizSeq());
             CompleteImageQuizResponseDto completeImageQuizResponseDto = completeMapper.toCompleteResponse(imageQuiz, imageQuizDistractors);
             completeImageQuizResponseDto.setImageQuizSeq(quizSeq++);
             completeImageQuizResponseDtoList.add(completeImageQuizResponseDto);
@@ -160,6 +170,9 @@ public class ImageQuizController {
         return KsResponse.toResponse(SuccessCode.SUCCESS, completeImageQuizResponseDtoList);
     }
 
+    /**
+     *이미지 퀴즈 삭제
+     */
     @DeleteMapping("/delete/{imageSeq}")
     public ResponseEntity<ResBodyModel> deleteImageQuiz(@PathVariable Long imageSeq) throws IOException {
         imageQuizService.deleteImageQuiz(imageSeq);

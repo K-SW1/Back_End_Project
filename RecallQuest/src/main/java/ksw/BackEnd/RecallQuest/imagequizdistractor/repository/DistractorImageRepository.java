@@ -8,11 +8,8 @@ import java.util.Optional;
 
 public interface DistractorImageRepository extends JpaRepository<DistractorImage, Long> {
 
-    Optional<DistractorImage> findByOriginFilename(String fileName);
-
     void deleteByImageQuizDistractor(ImageQuizDistractor imageQuizDistractor);
 
-    void deleteByImageQuizDistractorId(Long imageQuizDistractorId);
-
+//    void deleteByImageQuizDistractorImageQuizDistractorSeq(Long imageQuizDistractorId);
     Optional<DistractorImage> findByStoreFilename(String fileName);
 }

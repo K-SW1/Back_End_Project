@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface QuestionImageRepository extends JpaRepository<QuestionImage, Long> {
 
-    Optional<QuestionImage> findByOriginFilename(String fileName);
+//    Optional<QuestionImage> findByOriginFilename(String fileName);
 
     void deleteByImageQuiz(ImageQuiz imageQuiz);
 

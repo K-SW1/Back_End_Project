@@ -13,7 +13,7 @@ public class Login {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "login_seq")
-    private Long id;
+    private Long loginSeq;
 
     @Column(name = "user_login_id")
     private String userLoginId; //로그인 아이디

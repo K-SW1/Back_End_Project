@@ -26,7 +26,7 @@ public class ImageQuizResponseDto {
     public ImageQuizResponseDto(ImageQuiz imageQuiz, List<Map<String, Object>> imageList) {
         this.question = imageQuiz.getQuestion();
         this.hint = imageQuiz.getHint();
-        this.imageQuizId = imageQuiz.getId();
+        this.imageQuizId = imageQuiz.getImageQuizSeq();
         this.imageList = imageList;
 //        this.imageQuizDistractorResponseDtos = imageQuiz.getImageQuizDistractors().stream()
 //                .map(imageQuizDistractorResponseDtos -> new ImageQuizDistractorResponseDto(imageQuizDistractorResponseDtos))
@@ -37,7 +37,7 @@ public class ImageQuizResponseDto {
         ImageQuizResponseDto imageQuizResponseDto = new ImageQuizResponseDto();
         imageQuizResponseDto.setQuestion(imageQuiz.getQuestion());
         imageQuizResponseDto.setHint(imageQuiz.getHint());
-        imageQuizResponseDto.setImageQuizId(imageQuiz.getId());
+        imageQuizResponseDto.setImageQuizId(imageQuiz.getImageQuizSeq());
         imageQuizResponseDto.setImageList(imageList);
         return imageQuizResponseDto;
     }

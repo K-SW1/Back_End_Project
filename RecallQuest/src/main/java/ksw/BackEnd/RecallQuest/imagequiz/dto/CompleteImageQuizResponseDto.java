@@ -27,7 +27,7 @@ public class CompleteImageQuizResponseDto {
     public CompleteImageQuizResponseDto(ImageQuiz imageQuiz, List<Map<String, Object>> imageList, List<ImageQuizDistractorResponseDto> imageQuizDistractorResponseDtos) {
         this.question = imageQuiz.getQuestion();
         this.hint = imageQuiz.getHint();
-        this.imageQuizId = imageQuiz.getId();
+        this.imageQuizId = imageQuiz.getImageQuizSeq();
         this.imageList = imageList;
         this.imageQuizDistractorResponseDtos = imageQuizDistractorResponseDtos;
     }
@@ -36,7 +36,7 @@ public class CompleteImageQuizResponseDto {
         CompleteImageQuizResponseDto completeImageQuizResponseDto = new CompleteImageQuizResponseDto();
         completeImageQuizResponseDto.setQuestion(imageQuiz.getQuestion());
         completeImageQuizResponseDto.setHint(imageQuiz.getHint());
-        completeImageQuizResponseDto.setImageQuizId(imageQuiz.getId());
+        completeImageQuizResponseDto.setImageQuizId(imageQuiz.getImageQuizSeq());
         completeImageQuizResponseDto.setImageList(imageList);
         completeImageQuizResponseDto.setImageQuizDistractorResponseDtos(imageQuizDistractorResponseDtos);
         return completeImageQuizResponseDto;

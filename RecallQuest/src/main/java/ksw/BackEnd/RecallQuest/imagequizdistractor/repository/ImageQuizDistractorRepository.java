@@ -1,5 +1,6 @@
 package ksw.BackEnd.RecallQuest.imagequizdistractor.repository;
 
+import ksw.BackEnd.RecallQuest.entity.ImageQuiz;
 import ksw.BackEnd.RecallQuest.entity.ImageQuizDistractor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,8 +11,10 @@ import java.util.List;
 public interface ImageQuizDistractorRepository extends JpaRepository<ImageQuizDistractor, Long> {
     ImageQuizDistractor findByImageQuizDistractor(String imageQuizDistractor);
 
-    List<ImageQuizDistractor> findByImageQuizId(Long imageQuizId);
+    List<ImageQuizDistractor> findByImageQuizImageQuizSeq(Long imageQuizId);
 
-    @Query("SELECT d FROM ImageQuizDistractor d WHERE d.imageQuiz.id = :id")
-    List<ImageQuizDistractor> findDistractorsByQuizId(@Param("id") Long id);
+    //이따가 테스트
+    @Query("select iqd from ImageQuizDistractor iqd where iqd.imageQuiz.imageQuizSeq = :imageQuizSeq")
+    List<ImageQuizDistractor> findByImageQuizSeq(Long imageQuizSeq);
+
 }

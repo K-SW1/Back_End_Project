@@ -17,11 +17,11 @@ public class ImageQuizDistractor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "image_quiz_distractor_id")
-    private Long id;
+    @Column(name = "image_quiz_distractor_seq")
+    private Long imageQuizDistractorSeq;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_quiz_id")
+    @JoinColumn(name = "image_quiz_seq")
     private ImageQuiz imageQuiz;
 
     private String imageQuizDistractor;

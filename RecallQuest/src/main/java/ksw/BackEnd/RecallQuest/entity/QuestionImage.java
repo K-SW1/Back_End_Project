@@ -12,11 +12,11 @@ public class QuestionImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "question_image_id")
-    private Long id;
+    @Column(name = "question_image_Seq")
+    private Long questionImageSeq;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_quiz_id") //이미지 퀴즈 문제
+    @JoinColumn(name = "image_quiz_seq") //이미지 퀴즈 문제
     private ImageQuiz imageQuiz;
 
 //    private String imagePath;
