@@ -1,6 +1,7 @@
 package ksw.BackEnd.RecallQuest.member.dao;
 
 import ksw.BackEnd.RecallQuest.DataNotFoundException;
+import ksw.BackEnd.RecallQuest.common.Exception.member.MemberNotFoundException;
 import ksw.BackEnd.RecallQuest.entity.Member;
 import ksw.BackEnd.RecallQuest.member.repository.LoginRepository;
 import ksw.BackEnd.RecallQuest.member.repository.MemberRepository;
@@ -14,7 +15,6 @@ import java.util.List;
 public class JpaMemberDao implements MemberDao{
 
     private final MemberRepository memberRepository;
-    private final LoginRepository loginRepository;
 
     @Override
     public Member save(Member member) {
@@ -23,25 +23,20 @@ public class JpaMemberDao implements MemberDao{
 
     @Override
     public Member findByName(String name) {
-        return memberRepository.findByName(name).orElseThrow(() -> new DataNotFoundException("존재하지 않는 회원 이름 입니다."));
+        return memberRepository.findByName(name).orElseThrow(() -> new MemberNotFoundException("존재하지 않는 회원 이름입니다."));
     }
 
     @Override
-    public Member findMemberSeq(Long memberSeq) {
-        return memberRepository.findById(memberSeq).orElseThrow(() -> new DataNotFoundException("회원을 찾을 수 없습니다."));
+    public Member findByMemberSeq(Long memberSeq) {
+        return memberRepository.findById(memberSeq).orElseThrow(() -> new MemberNotFoundException("존재하지 않는 회원 시퀀스 번호입니다."));
     }
 
+    @Override
+    public Member findByUserLoginId(String userLoginId) {
+        Member member = findByUserLoginId(userLoginId);
+        return member;
+    }
 
-//    public Login findByUserLoginId(String userLoginId) {
-//        return loginRepository.findByUserLoginId(userLoginId).orElseThrow(() -> new DataNotFoundException("회원을 찾을 수 없습니다."));
-//    }
-//
-//    @Override
-//    public Member findMemberId(String userLoginId) {
-//        Login login = findByUserLoginId(userLoginId);
-//        Member member = findMemberSeq(login.getMember().getMemberSeq());
-//        return member;
-//    }
 
     @Override
     public List<Member> findAll() {
@@ -50,9 +45,14 @@ public class JpaMemberDao implements MemberDao{
     }
 
     @Override
-    public Member delete(Long memberSeq) { //이것도 회원 없으면 검증해야 되는 거 아닌가,,??
-        Member member = memberRepository.findById(memberSeq).orElseThrow(() -> new DataNotFoundException("회원을 찾을 수 없습니다."));
+    public Member delete(Long memberSeq) {
+        Member member = memberRepository.findById(memberSeq).orElseThrow(() -> new MemberNotFoundException("존재하지 않는 회원 시퀀스 번호입니다."));
         memberRepository.deleteById(memberSeq);
         return member;
+    }
+
+    @Override
+    public Boolean existsByMail(String mail) {
+        return memberRepository.existsByMail(mail);
     }
 }

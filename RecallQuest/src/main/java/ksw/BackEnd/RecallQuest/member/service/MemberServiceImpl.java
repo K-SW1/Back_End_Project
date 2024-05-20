@@ -1,5 +1,7 @@
 package ksw.BackEnd.RecallQuest.member.service;
 
+import ksw.BackEnd.RecallQuest.common.Exception.login.LoginIdAlreadyExistsException;
+import ksw.BackEnd.RecallQuest.common.Exception.member.MailAlreadyExistsException;
 import ksw.BackEnd.RecallQuest.member.dao.LoginDao;
 import ksw.BackEnd.RecallQuest.member.dao.MemberDao;
 import ksw.BackEnd.RecallQuest.entity.Login;
@@ -24,9 +26,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member saveMember(MemberSaveRequestDto memberSaveRequestDto) {
 
-//        String loginId = memberSaveRequestDto.getUserLoginId();
-//        validateDuplicateLoginId(loginId);
-
         Member member = Member.builder()
                 .name(memberSaveRequestDto.getName())
                 .phoneNumber(memberSaveRequestDto.getPhoneNumber())
@@ -37,19 +36,35 @@ public class MemberServiceImpl implements MemberService {
                 .userLoginId(memberSaveRequestDto.getUserLoginId())
                 .userLoginPassword(bCryptPasswordEncoder.encode(memberSaveRequestDto.getUserLoginPassword()))
                 .role("ROLE_USER")
-                .member(member) //이렇게 하는 것이 맞는지 여쭤볼 것!!!, 이걸 안하면 외래키가 널이 돼요 ㅠㅠ
+                .member(member)
                 .build();
 
-        loginDao.save(login); //로그인, 비밀번호 저장
-        return memberDao.save(member); //회원 객체 반환
+        existsByMail(member.getMail());
+        existsByUserLoginId(login.getUserLoginId());
+
+        loginDao.save(login);
+        return memberDao.save(member);
     }
 
-//    private void validateDuplicateLoginId(String loginId) {
-//        Login existingLogin = loginDao.findByUserLoginId(loginId);
-//        if (existingLogin != null) {
-//            throw new IllegalStateException("이미 존재하는 로그인 아이디입니다.");
-//        }
-//    }
+    /*
+    로그인 아이디 중복 검사
+     */
+    private void existsByUserLoginId(String loginId) {
+        Boolean result = loginDao.existsByUserLoginId(loginId);
+        if (result) {
+            throw new LoginIdAlreadyExistsException("이미 존재하는 아이디입니다.");
+        }
+    }
+
+    /*
+    회원 이메일 중복 검사
+     */
+    private void existsByMail(String mail) {
+        Boolean result = memberDao.existsByMail(mail);
+        if (result) {
+            throw new MailAlreadyExistsException("이미 존재하는 메일입니다.");
+        }
+    }
 
     @Override
     public Member findMember(String memberName) {
@@ -59,14 +74,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member findMember(Long memberSeq) {
-        Member member = memberDao.findMemberSeq(memberSeq);
+        Member member = memberDao.findByMemberSeq(memberSeq);
         return member;
     }
 
     @Override
     public Member findMemberId(String userLoginId) {
         Login login = loginDao.findByUserLoginId(userLoginId);
-        Member member = memberDao.findMemberSeq(login.getMember().getMemberSeq());
+        Member member = memberDao.findByMemberSeq(login.getMember().getMemberSeq());
         return member;
     }
 

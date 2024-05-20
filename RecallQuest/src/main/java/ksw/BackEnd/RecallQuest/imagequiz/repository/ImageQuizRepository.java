@@ -25,8 +25,9 @@ public interface ImageQuizRepository extends JpaRepository<ImageQuiz, Long> {
     List<ImageQuiz> findByUserLoginId(String userLoginId);
 
     //퀴즈 시퀀스로 퀴즈, 이미지 함께 조회
-    @Query("SELECT iq FROM ImageQuiz iq LEFT JOIN FETCH iq.questionImages WHERE iq.id = :id")
+    @Query("SELECT iq FROM ImageQuiz iq LEFT JOIN FETCH iq.questionImages WHERE iq.imageQuizSeq = :id")
     Optional<ImageQuiz> findByIdWithImages(@Param("id") Long id);
 
+    Boolean existsByQuestion(String question);
 
 }

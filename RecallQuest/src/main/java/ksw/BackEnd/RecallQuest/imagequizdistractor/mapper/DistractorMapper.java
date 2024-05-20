@@ -30,7 +30,6 @@ public class DistractorMapper {
 
         for (DistractorImage distractorImage : distractorImages) {
 
-//            byte[] imageData = imageQuizDistractorService.downloadImageFromFileSystem(distractorImage.getOriginFilename());
             byte[] imageData = imageQuizDistractorService.downloadImageFromFileSystem(distractorImage.getStoreFilename());
 
             Map<String, Object> imageInfo = new HashMap<>();

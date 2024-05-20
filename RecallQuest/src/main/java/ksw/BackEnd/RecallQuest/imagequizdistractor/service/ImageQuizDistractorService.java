@@ -1,7 +1,11 @@
 package ksw.BackEnd.RecallQuest.imagequizdistractor.service;
 
 import ksw.BackEnd.RecallQuest.DataNotFoundException;
+import ksw.BackEnd.RecallQuest.common.Exception.ImageQuizDistractor.ImageQuizDistractorNotFoundException;
 import ksw.BackEnd.RecallQuest.entity.*;
+import ksw.BackEnd.RecallQuest.imagequiz.dao.ImageQuizDao;
+import ksw.BackEnd.RecallQuest.imagequizdistractor.dao.DistractorImageDao;
+import ksw.BackEnd.RecallQuest.imagequizdistractor.dao.ImageQuizDistractorDao;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.dto.DistractorReadDto;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.dto.ImageQuizDistractorRequestDto;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.dto.UpdateRequestDto;
@@ -26,18 +30,18 @@ import java.util.UUID;
 @Transactional
 public class ImageQuizDistractorService {
 
-    private final ImageQuizDistractorRepository imageQuizDistractorRepository;
-    private final DistractorImageRepository distractorImageRepository;
-    private final ImageQuizRepository imageQuizRepository;
+    private final ImageQuizDao imageQuizDao;
+    private final DistractorImageDao distractorImageDao;
+    private final ImageQuizDistractorDao imageQuizDistractorDao;
 
     private final String FOLDER_PATH="/Users/gim-yena/Desktop/imageDistractor/";
 
     /**
-     * 선택지문제와 선택지 이미지 함께 저장
+     * 선택지와 선택지 이미지 함께 저장
      */
     public ImageQuizDistractor svaeImageQuizDistractor(ImageQuizDistractorRequestDto imageQuizDistractorRequestDto, List<MultipartFile> files) throws IOException {
 
-        ImageQuiz imageQuiz = imageQuizRepository.findById(imageQuizDistractorRequestDto.getImageQuizId()).orElseThrow(() -> new DataNotFoundException("회원을 찾을 수 없습니다."));
+        ImageQuiz imageQuiz = imageQuizDao.findById(imageQuizDistractorRequestDto.getImageQuizId());
 
         ImageQuizDistractor imageQuizDistractor = ImageQuizDistractor.builder()
                 .imageQuizDistractor(imageQuizDistractorRequestDto.getImageQuizDistractor())
@@ -45,14 +49,11 @@ public class ImageQuizDistractorService {
                 .validation(imageQuizDistractorRequestDto.isValidation())
                 .build();
 
-        imageQuizDistractorRepository.save(imageQuizDistractor);
+        imageQuizDistractorDao.save(imageQuizDistractor);
 
         if (files != null && !files.isEmpty()) {
 
             for (MultipartFile file : files) {
-
-//            String filePath = FOLDER_PATH + file.getOriginalFilename();
-//            String storeFilename = changedImageName(file.getOriginalFilename());
 
                 String originalFilename = file.getOriginalFilename();
                 String storeFilename = createStoreFilename(originalFilename);
@@ -66,11 +67,8 @@ public class ImageQuizDistractorService {
                         .imageQuizDistractor(imageQuizDistractor)
                         .build();
 
-                // 이미지 퀴즈에 이미지 정보 추가
-//            imageQuizDistractor.getDistractorImages().add(distractorImage);
                 imageQuizDistractor.addImage(distractorImage);
-
-                distractorImageRepository.save(distractorImage);
+                distractorImageDao.save(distractorImage);
 
                 file.transferTo(new File(filePath));
 
@@ -81,6 +79,114 @@ public class ImageQuizDistractorService {
 
     }
 
+    /*
+     * 이미지 퀴즈 선택지 수정, 퀴즈 선택지 내용으로 조회해 옴
+     */
+    @Transactional
+    public ImageQuizDistractor updateImageQuizDistractor(UpdateRequestDto updateRequestDto, List<MultipartFile> files) throws IOException {
+
+        ImageQuizDistractor imageQuizDistractor = findImageQuizDistractor(updateRequestDto);
+        imageQuizDistractor.changeInfo(updateRequestDto);
+
+        imageQuizDistractorDao.save(imageQuizDistractor);
+
+        if (files != null && !files.isEmpty()) {
+
+            //로컬에서 이미지 삭제
+            List<DistractorImage> distractorImageList = imageQuizDistractor.getDistractorImages();
+            for (DistractorImage distractorImage : distractorImageList) {
+                Files.deleteIfExists(Paths.get(distractorImage.getFilePath()));
+            }
+
+            // 기존에 연결된 이미지 정보를 모두 삭제
+            imageQuizDistractor.getDistractorImages().clear();
+            distractorImageDao.deleteByImageQuizDistractor(imageQuizDistractor);
+
+            for (MultipartFile file : files) {
+                String originalFilename = file.getOriginalFilename();
+                String storeFilename = createStoreFilename(originalFilename);
+                String filePath = createPath(storeFilename);
+
+                DistractorImage distractorImage = DistractorImage.builder()
+                        .originFilename(originalFilename)
+                        .storeFilename(storeFilename)
+                        .type(file.getContentType())
+                        .filePath(filePath)
+                        .imageQuizDistractor(imageQuizDistractor)
+                        .build();
+
+                // 이미지 퀴즈에 이미지 정보 추가
+                imageQuizDistractor.getDistractorImages().add(distractorImage);
+                distractorImageDao.save(distractorImage);
+
+                file.transferTo(new File(filePath));
+            }
+        }
+
+        return imageQuizDistractor;
+    }
+
+    /*
+     * 선택지 조회
+     */
+    public ImageQuizDistractor findImageQuizDistractor(DistractorReadDto distractorReadDto) {
+        ImageQuizDistractor imageQuizDistractor = imageQuizDistractorDao.findByImageQuizDistractor(distractorReadDto.getDistractor());
+        return imageQuizDistractor;
+    }
+
+    public ImageQuizDistractor findImageQuizDistractor(UpdateRequestDto updateRequestDto) {
+        ImageQuizDistractor imageQuizDistractor = imageQuizDistractorDao.findByImageQuizDistractor(updateRequestDto.getPastDistractor());
+        return imageQuizDistractor;
+    }
+
+    public ImageQuizDistractor findImageQuizDistractor(Long imageQuizDistractorSeq) {
+        ImageQuizDistractor imageQuizDistractor = imageQuizDistractorDao.findById(imageQuizDistractorSeq);
+        return imageQuizDistractor;
+    }
+
+    public List<ImageQuizDistractor> findByImageQuizId(Long imageQuizId) {
+        List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorDao.findByImageQuizImageQuizSeq(imageQuizId);
+        return imageQuizDistractors;
+    }
+
+
+
+    public List<ImageQuizDistractor> findImageQuizDistractors() {
+        List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorDao.findAll();
+        return imageQuizDistractors;
+    }
+
+
+    /*
+    이미지 퀴즈 선택지 삭제
+     */
+    public ImageQuizDistractor deleteImageQuizDistractor(Long imageQuizDistractorSeq) throws IOException {
+
+        ImageQuizDistractor imageQuizDistractor = imageQuizDistractorDao.findById(imageQuizDistractorSeq);
+        imageQuizDistractorDao.deleteById(imageQuizDistractorSeq);
+
+        List<DistractorImage> distractorImageList = imageQuizDistractor.getDistractorImages();
+        for (DistractorImage distractorImage : distractorImageList){
+            Files.deleteIfExists(Paths.get(distractorImage.getFilePath()));
+        }
+        return imageQuizDistractor;
+    }
+
+    public ImageQuizDistractor deleteImageQuizDistractor(DistractorReadDto distractorReadDto) throws IOException {
+        ImageQuizDistractor imageQuizDistractor = findImageQuizDistractor(distractorReadDto);
+        imageQuizDistractorDao.delete(imageQuizDistractor);
+
+        List<DistractorImage> distractorImageList = imageQuizDistractor.getDistractorImages();
+        for (DistractorImage distractorImage : distractorImageList){
+            Files.deleteIfExists(Paths.get(distractorImage.getFilePath()));
+        }
+        return imageQuizDistractor;
+    }
+
+
+    /*
+     *이미지 생성과 관련된 함수
+     */
     public String createPath(String storeFilename) {
         return FOLDER_PATH+storeFilename;
     }
@@ -99,158 +205,12 @@ public class ImageQuizDistractorService {
         return ext;
     }
 
-    /*
-     * 이미지 퀴즈 선택지 수정, 퀴즈 선택지 아이디로 조회해 옴
-     */
-    @Transactional
-    public ImageQuizDistractor updateImageQuizDistractor(UpdateRequestDto updateRequestDto, List<MultipartFile> files) throws IOException {
-
-//        ImageQuizDistractor imageQuizDistractor = imageQuizDistractorRepository.findById(updateRequestDto.getImageQuizDistractorId()).orElseThrow(() -> new DataNotFoundException("회원을 찾을 수 없습니다."));
-        ImageQuizDistractor imageQuizDistractor = findImageQuizDistractor(updateRequestDto);
-        imageQuizDistractor.changeInfo(updateRequestDto);
-
-        imageQuizDistractorRepository.save(imageQuizDistractor);
-
-        if (files != null && !files.isEmpty()) {
-
-            //로컬에서 이미지 삭제
-            List<DistractorImage> distractorImageList = imageQuizDistractor.getDistractorImages();
-            for (DistractorImage distractorImage : distractorImageList) {
-                Files.deleteIfExists(Paths.get(distractorImage.getFilePath()));
-            }
-
-            // 기존에 연결된 이미지 정보를 모두 삭제
-            imageQuizDistractor.getDistractorImages().clear();
-            distractorImageRepository.deleteByImageQuizDistractor(imageQuizDistractor);
-
-            for (MultipartFile file : files) {
-                String originalFilename = file.getOriginalFilename();
-                String storeFilename = createStoreFilename(originalFilename);
-                String filePath = createPath(storeFilename);
-
-                DistractorImage distractorImage = DistractorImage.builder()
-                        .originFilename(originalFilename)
-                        .storeFilename(storeFilename)
-                        .type(file.getContentType())
-                        .filePath(filePath)
-                        .imageQuizDistractor(imageQuizDistractor)
-                        .build();
-
-                // 이미지 퀴즈에 이미지 정보 추가
-                imageQuizDistractor.getDistractorImages().add(distractorImage);
-                distractorImageRepository.save(distractorImage);
-
-                file.transferTo(new File(filePath));
-            }
-        }
-
-        return imageQuizDistractor;
-    }
-
-
-//    /*
-//     * 이미지 퀴즈 선택지 수정, 퀴즈 선택지 내용으로 조회해 옴
-//     */
-//    public ImageQuizDistractor updateImageQuizDistractor(ImageQuizDistractorRequestDto imageQuizDistractorRequestDto, List<MultipartFile> files) throws IOException {
-//
-//        ImageQuizDistractor imageQuizDistractor = imageQuizDistractorRepository.findByImageQuizDistractor(imageQuizDistractorRequestDto.getImageQuizDistractor());
-//        imageQuizDistractor.changeInfo(imageQuizDistractorRequestDto);
-//
-//        imageQuizDistractorRepository.save(imageQuizDistractor);
-//
-//        // 기존에 연결된 이미지 정보를 모두 삭제
-//        imageQuizDistractor.getDistractorImages().clear();
-//        distractorImageRepository.deleteByImageQuizDistractor(imageQuizDistractor);
-//
-//        for (MultipartFile file : files) {
-//
-//            String filePath = FOLDER_PATH + file.getOriginalFilename();
-//            String storeFilename = changedImageName(file.getOriginalFilename());
-//
-//            DistractorImage distractorImage = DistractorImage.builder()
-//                    .originFilename(file.getOriginalFilename())
-//                    .storeFilename(storeFilename)
-//                    .type(file.getContentType())
-//                    .filePath(filePath)
-//                    .imageQuizDistractor(imageQuizDistractor)
-//                    .build();
-//
-//            // 이미지 퀴즈에 이미지 정보 추가
-//            imageQuizDistractor.getDistractorImages().add(distractorImage);
-//            distractorImageRepository.save(distractorImage);
-//
-//            file.transferTo(new File(filePath));
-//        }
-//
-//        return imageQuizDistractor;
-//    }
-
-    /*
-     * 선택지 조회
-     */
-    public ImageQuizDistractor findImageQuizDistractor(DistractorReadDto distractorReadDto) {
-        ImageQuizDistractor imageQuizDistractor = imageQuizDistractorRepository.findByImageQuizDistractor(distractorReadDto.getDistractor());
-        return imageQuizDistractor;
-    }
-
-    public ImageQuizDistractor findImageQuizDistractor(UpdateRequestDto updateRequestDto) {
-        ImageQuizDistractor imageQuizDistractor = imageQuizDistractorRepository.findByImageQuizDistractor(updateRequestDto.getPastDistractor());
-        return imageQuizDistractor;
-    }
-
-    public ImageQuizDistractor findImageQuizDistractor(Long imageQuizDistractorSeq) {
-        Optional<ImageQuizDistractor> imageQuizDistractor = imageQuizDistractorRepository.findById(imageQuizDistractorSeq);
-        return imageQuizDistractor.orElseThrow(() -> new DataNotFoundException("존재하지 않는 이미지 퀴즈 번호 입니다."));
-    }
-
-    public List<ImageQuizDistractor> findByImageQuizId(Long imageQuizId) {
-        List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorRepository.findByImageQuizImageQuizSeq(imageQuizId);
-        return imageQuizDistractors;
-    }
-
-
-    public List<ImageQuizDistractor> findImageQuizDistractors() {
-        List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorRepository.findAll();
-        return imageQuizDistractors;
-    }
-
-
-
-    /*
-    이미지 퀴즈 선택지 삭제
-     */
-    public ImageQuizDistractor deleteImageQuizDistractor(Long imageQuizDistractorSeq) throws IOException {
-        ImageQuizDistractor imageQuizDistractor = imageQuizDistractorRepository.findById(imageQuizDistractorSeq).orElseThrow(() -> new DataNotFoundException("존재하지 않는 이미지 퀴즈 번호 입니다."));
-        imageQuizDistractorRepository.deleteById(imageQuizDistractorSeq);
-
-        List<DistractorImage> distractorImageList = imageQuizDistractor.getDistractorImages();
-        for (DistractorImage distractorImage : distractorImageList){
-            Files.deleteIfExists(Paths.get(distractorImage.getFilePath()));
-        }
-        return imageQuizDistractor;
-    }
-
-    public ImageQuizDistractor deleteImageQuizDistractor(DistractorReadDto distractorReadDto) throws IOException {
-        ImageQuizDistractor imageQuizDistractor = findImageQuizDistractor(distractorReadDto);
-        imageQuizDistractorRepository.delete(imageQuizDistractor);
-
-        List<DistractorImage> distractorImageList = imageQuizDistractor.getDistractorImages();
-        for (DistractorImage distractorImage : distractorImageList){
-            Files.deleteIfExists(Paths.get(distractorImage.getFilePath()));
-        }
-        return imageQuizDistractor;
-    }
-
-    //이미지 불러오기
+    //바이트 코드로 이미지 불러오기
     public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
-        Optional<DistractorImage> distractorImage = distractorImageRepository.findByStoreFilename(fileName);
-        String filePath = distractorImage.get().getFilePath();
+        DistractorImage distractorImage = distractorImageDao.findByStoreFilename(fileName);
+        String filePath = distractorImage.getFilePath();
         byte[] images = Files.readAllBytes(new File(filePath).toPath());
         return images;
     }
 
-    private static String changedImageName(String originName) {
-        String random = UUID.randomUUID().toString();
-        return random+originName;
-    }
 }

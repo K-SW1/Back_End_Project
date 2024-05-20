@@ -20,7 +20,6 @@ public class CompleteMapper {
 
     private final QuizMapper quizMapper;
     private final DistractorMapper distractorMapper;
-    private final ImageQuizDistractorService imageQuizDistractorService;
 
     public CompleteImageQuizResponseDto toCompleteResponse(ImageQuiz imageQuiz, List<ImageQuizDistractor> imageQuizDistractors) throws IOException {
 

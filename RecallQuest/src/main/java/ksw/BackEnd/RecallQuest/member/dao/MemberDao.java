@@ -10,13 +10,15 @@ public interface MemberDao {
 
     Member findByName(String name);
 
-    Member findMemberSeq(Long memberSeq);
+    Member findByMemberSeq(Long memberSeq);
 
-//    Member findMemberId(String userLoginId);
+    Member findByUserLoginId(String userLoginId);
 
     List<Member> findAll();
 
     Member delete(Long memberSeq);
+
+    Boolean existsByMail(String mail);
 
 
 }

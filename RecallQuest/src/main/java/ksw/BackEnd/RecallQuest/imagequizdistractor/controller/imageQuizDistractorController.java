@@ -34,6 +34,9 @@ public class imageQuizDistractorController {
     private final ImageQuizDistractorService imageQuizDistractorService;
     private final DistractorMapper distractorMapper;
 
+    /*
+    보기 저장
+     */
     @PostMapping("/save")
     public ResponseEntity<ResBodyModel> createImageQuizDistractor(
             @RequestPart(value="imageQuizDistractorRequestDto") ImageQuizDistractorRequestDto imageQuizDistractorRequestDto,
@@ -45,6 +48,9 @@ public class imageQuizDistractorController {
         return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizDistractorResponseDto);
     }
 
+    /*
+    보기 수정
+     */
     @PatchMapping("/update")
     public ResponseEntity<ResBodyModel> updateImageQuizDistractor(
             @RequestPart(value="updateRequestDto") UpdateRequestDto updateRequestDto,
@@ -84,6 +90,9 @@ public class imageQuizDistractorController {
         return KsResponse.toResponse(SuccessCode.SUCCESS, imageQuizDistractorResponseDto);
     }
 
+    /*
+    보기 삭제
+     */
     @DeleteMapping("/delete/{distractorSeq}")
     public ResponseEntity<ResBodyModel> deleteImageQuizDistractor(@PathVariable Long distractorSeq) throws IOException {
         imageQuizDistractorService.deleteImageQuizDistractor(distractorSeq);

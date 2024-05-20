@@ -1,6 +1,8 @@
 package ksw.BackEnd.RecallQuest.imagequiz.service;
 
 import ksw.BackEnd.RecallQuest.DataNotFoundException;
+import ksw.BackEnd.RecallQuest.common.Exception.imagequiz.ImageQuizAlreadyExistsException;
+import ksw.BackEnd.RecallQuest.common.Exception.member.MailAlreadyExistsException;
 import ksw.BackEnd.RecallQuest.imagequiz.dao.ImageQuizDao;
 import ksw.BackEnd.RecallQuest.imagequiz.dao.QuestionImageDao;
 import ksw.BackEnd.RecallQuest.imagequiz.dto.ImageQuizReadDto;
@@ -31,12 +33,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageQuizService {
 
-    private final QuestionImageRepository questionImageRepository; //질문이미지
-    private final ImageQuizRepository imageQuizRepository; //이미지퀴즈
-
     private final ImageQuizDao imageQuizDao;
     private final QuestionImageDao questionImageDao;
-
     private final MemberDao memberDao;
     private final LoginDao loginDao;
 
@@ -49,8 +47,7 @@ public class ImageQuizService {
     public ImageQuiz imageQuizSave(ImageQuizRequestDto imageQuizRequestDto, List<MultipartFile> files) throws IOException {
 
         Login login = loginDao.findByUserLoginId(imageQuizRequestDto.getUserLoginId());
-        Member member = memberDao.findMemberSeq(login.getMember().getMemberSeq());
-
+        Member member = memberDao.findByMemberSeq(login.getMember().getMemberSeq());
 
         ImageQuiz imageQuiz = ImageQuiz.builder()
                 .question(imageQuizRequestDto.getQuestion())
@@ -58,7 +55,7 @@ public class ImageQuizService {
                 .member(member)
                 .build();
 
-//        imageQuizRepository.save(imageQuiz);
+        existsByQuestion(imageQuiz.getQuestion());
         imageQuizDao.save(imageQuiz);
 
         if (files != null && !files.isEmpty()){
@@ -78,7 +75,6 @@ public class ImageQuizService {
 
                 imageQuiz.addImage(questionImage);
 
-//                questionImageRepository.save(questionImage);
                 questionImageDao.save(questionImage);
 
                 file.transferTo(new File(filePath));
@@ -90,46 +86,15 @@ public class ImageQuizService {
 
     }
 
-
     /*
-     * 이미지 퀴즈 조회
+    퀴즈 내용 중복 검사
      */
-    public ImageQuiz findImageQuiz(ImageQuizReadDto imageQuizReadDto) {
-//        ImageQuiz imageQuiz = imageQuizRepository.findByQuestion(imageQuizReadDto.getQuestion()).orElseThrow(() -> new DataNotFoundException("해당 이름으로 된 퀴즈 내용을 찾을 수 없습니다."));
-        ImageQuiz imageQuiz = imageQuizDao.findByQuestion(imageQuizReadDto.getQuestion());
-        return imageQuiz;
+    private void existsByQuestion(String question) {
+        Boolean result = imageQuizDao.existsByQuestion(question);
+        if (result) {
+            throw new ImageQuizAlreadyExistsException("이미 존재하는 퀴즈내용 입니다.");
+        }
     }
-
-    public ImageQuiz findImageQuiz(UpdateRequestDto updateRequestDto) {
-//        ImageQuiz imageQuiz = imageQuizRepository.findByQuestion(updateRequestDto.getPastQuestion()).orElseThrow(() -> new DataNotFoundException("해당 이름으로 된 퀴즈 내용을 찾을 수 없습니다."));
-        ImageQuiz imageQuiz = imageQuizDao.findByQuestion(updateRequestDto.getPastQuestion());
-        return imageQuiz;
-    }
-
-    public ImageQuiz findImageQuiz(Long imageQuizSeq) {
-//        ImageQuiz imageQuiz = imageQuizRepository.findById(imageQuizSeq).orElseThrow(() -> new DataNotFoundException("회원을 찾을 수 없습니다."));
-        ImageQuiz imageQuiz = imageQuizDao.findById(imageQuizSeq);
-        return imageQuiz;
-    }
-
-    public List<ImageQuiz> findImageQuizzes() {
-//        List<ImageQuiz> imageQuizs = imageQuizRepository.findAll();
-        List<ImageQuiz> imageQuizzes = imageQuizDao.findAll();
-        return imageQuizzes;
-    }
-
-    public List<ImageQuiz> findImageQuizzes(Long memberSeq) {
-//        List<ImageQuiz> imageQuizs = imageQuizRepository.findByMemberSeq(memberSeq);
-        List<ImageQuiz> imageQuizzes = imageQuizDao.findByMemberSeq(memberSeq);
-        return imageQuizzes;
-    }
-
-    public List<ImageQuiz> findImageQuizzes(String userLoginId) {
-//        List<ImageQuiz> imageQuizs = imageQuizRepository.findByUserLoginId(userLoginId);
-        List<ImageQuiz> imageQuizzes = imageQuizDao.findByUserLoginId(userLoginId);
-        return imageQuizzes;
-    }
-
 
     /*
      * 이미지 퀴즈 수정, 퀴즈 내용으로 조회해 옴
@@ -144,9 +109,9 @@ public class ImageQuizService {
         ImageQuiz imageQuiz = findImageQuiz(updateRequestDto);
 
         imageQuiz.changeInfo(updateRequestDto);
+        existsByQuestion(imageQuiz.getQuestion());
 
         // 이미지 퀴즈를 저장
-//        imageQuizRepository.save(imageQuiz);
         imageQuizDao.save(imageQuiz);
 
         if (files != null && !files.isEmpty()) {
@@ -159,7 +124,6 @@ public class ImageQuizService {
 
             // 기존에 연결된 이미지 정보를 모두 삭제
             imageQuiz.getQuestionImages().clear();
-//            questionImageRepository.deleteByImageQuiz(imageQuiz);
             questionImageDao.deleteByImageQuiz(imageQuiz);
 
 
@@ -178,7 +142,6 @@ public class ImageQuizService {
                         .build();
 
                 imageQuiz.getQuestionImages().add(questionImage);
-//                questionImageRepository.save(questionImage);
                 questionImageDao.save(questionImage);
 
                 file.transferTo(new File(filePath));
@@ -188,12 +151,45 @@ public class ImageQuizService {
         return imageQuiz;
     }
 
+
+    /*
+     * 이미지 퀴즈 조회
+     */
+    public ImageQuiz findImageQuiz(ImageQuizReadDto imageQuizReadDto) {
+        ImageQuiz imageQuiz = imageQuizDao.findByQuestion(imageQuizReadDto.getQuestion());
+        return imageQuiz;
+    }
+
+    public ImageQuiz findImageQuiz(UpdateRequestDto updateRequestDto) {
+        ImageQuiz imageQuiz = imageQuizDao.findByQuestion(updateRequestDto.getPastQuestion());
+        return imageQuiz;
+    }
+
+    public ImageQuiz findImageQuiz(Long imageQuizSeq) {
+        ImageQuiz imageQuiz = imageQuizDao.findById(imageQuizSeq);
+        return imageQuiz;
+    }
+
+    public List<ImageQuiz> findImageQuizzes() {
+        List<ImageQuiz> imageQuizzes = imageQuizDao.findAll();
+        return imageQuizzes;
+    }
+
+    public List<ImageQuiz> findImageQuizzes(Long memberSeq) {
+        List<ImageQuiz> imageQuizzes = imageQuizDao.findByMemberSeq(memberSeq);
+        return imageQuizzes;
+    }
+
+    public List<ImageQuiz> findImageQuizzes(String userLoginId) {
+        List<ImageQuiz> imageQuizzes = imageQuizDao.findByUserLoginId(userLoginId);
+        return imageQuizzes;
+    }
+
+
     /*
     이미지 퀴즈 삭제
      */
     public ImageQuiz deleteImageQuiz(Long imageQuizSeq) throws IOException {
-//        ImageQuiz imageQuiz = imageQuizRepository.findById(imageQuizSeq).orElseThrow(() -> new DataNotFoundException("존재하지 않는 문제 번호 입니다."));
-//        imageQuizRepository.deleteById(imageQuizSeq);
 
         ImageQuiz imageQuiz = imageQuizDao.findById(imageQuizSeq);
         imageQuizDao.delete(imageQuizSeq);
@@ -208,8 +204,6 @@ public class ImageQuizService {
     }
 
     public ImageQuiz deleteImageQuizByQuestion(ImageQuizReadDto imageQuizReadDto) throws IOException {
-//        ImageQuiz imageQuiz = imageQuizRepository.findByQuestion(imageQuizReadDto.getQuestion()).orElseThrow(() -> new DataNotFoundException("해당 이름으로 된 퀴즈 내용을 찾을 수 없습니다."));
-//        imageQuizRepository.delete(imageQuiz);
 
         ImageQuiz imageQuiz = imageQuizDao.findByQuestion(imageQuizReadDto.getQuestion());
         imageQuizDao.delete(imageQuiz);
@@ -246,9 +240,7 @@ public class ImageQuizService {
 
     //바이트 코드로 이미지 불러오기
     public byte[] downloadImageFromFileSystem(String fileName) throws IOException {
-//        Optional<QuestionImage> questionImage = questionImageRepository.findByStoreFilename(fileName);
-          QuestionImage questionImage = questionImageDao.findByStoreFilename(fileName);
-//        String filePath=questionImage.get().getFilePath();
+        QuestionImage questionImage = questionImageDao.findByStoreFilename(fileName);
         String filePath = questionImage.getFilePath();
         byte[] images = Files.readAllBytes(new File(filePath).toPath());
         return images;

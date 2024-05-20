@@ -22,4 +22,6 @@ public interface ImageQuizDao {
 
     void delete(Long imageQuizSeq);
 
+    Boolean existsByQuestion(String question);
+
 }

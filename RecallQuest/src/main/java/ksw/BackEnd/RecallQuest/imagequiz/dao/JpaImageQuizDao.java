@@ -56,4 +56,9 @@ public class JpaImageQuizDao implements ImageQuizDao{
         ImageQuiz imageQuiz = imageQuizRepository.findById(imageQuizSeq).orElseThrow(()-> new ImageQuizNotFoundException("존재하지 않는 이미지 퀴즈 입니다."));
         imageQuizRepository.delete(imageQuiz);
     }
+
+    @Override
+    public Boolean existsByQuestion(String question) {
+        return imageQuizRepository.existsByQuestion(question);
+    }
 }

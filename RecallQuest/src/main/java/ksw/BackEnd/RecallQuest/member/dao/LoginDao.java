@@ -7,4 +7,6 @@ public interface LoginDao {
     Login save(Login login);
 
     Login findByUserLoginId(String userLoginId);
+
+    Boolean existsByUserLoginId(String loginId);
 }

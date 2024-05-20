@@ -123,11 +123,11 @@ public class ImageQuizController {
         List<ImageQuiz> ImageQuizList = imageQuizService.findImageQuizzes();
 
         //퀴즈 번호 부여
-        Long quizSeq = 1L;
+        Long quizNumber = 1L;
         for (ImageQuiz imageQuiz : ImageQuizList) {
             List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorService.findByImageQuizId(imageQuiz.getImageQuizSeq());
             CompleteImageQuizResponseDto completeImageQuizResponseDto = completeMapper.toCompleteResponse(imageQuiz, imageQuizDistractors);
-            completeImageQuizResponseDto.setImageQuizSeq(quizSeq++);
+            completeImageQuizResponseDto.setImageQuizSeq(quizNumber++);
             completeImageQuizResponseDtoList.add(completeImageQuizResponseDto);
         }
 
@@ -141,11 +141,11 @@ public class ImageQuizController {
         List<ImageQuiz> ImageQuizList = imageQuizService.findImageQuizzes(memberSeq);
 
         //퀴즈 번호 부여
-        Long quizSeq = 1L;
+        Long quizNumber = 1L;
         for (ImageQuiz imageQuiz : ImageQuizList) {
             List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorService.findByImageQuizId(imageQuiz.getImageQuizSeq());
             CompleteImageQuizResponseDto completeImageQuizResponseDto = completeMapper.toCompleteResponse(imageQuiz, imageQuizDistractors);
-            completeImageQuizResponseDto.setImageQuizSeq(quizSeq++);
+            completeImageQuizResponseDto.setImageQuizSeq(quizNumber++);
             completeImageQuizResponseDtoList.add(completeImageQuizResponseDto);
         }
 
@@ -159,11 +159,11 @@ public class ImageQuizController {
         List<ImageQuiz> ImageQuizList = imageQuizService.findImageQuizzes(loginId);
 
         //퀴즈 번호 부여
-        Long quizSeq = 1L;
+        Long quizNumber = 1L;
         for (ImageQuiz imageQuiz : ImageQuizList) {
             List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorService.findByImageQuizId(imageQuiz.getImageQuizSeq());
             CompleteImageQuizResponseDto completeImageQuizResponseDto = completeMapper.toCompleteResponse(imageQuiz, imageQuizDistractors);
-            completeImageQuizResponseDto.setImageQuizSeq(quizSeq++);
+            completeImageQuizResponseDto.setImageQuizSeq(quizNumber++);
             completeImageQuizResponseDtoList.add(completeImageQuizResponseDto);
         }
 

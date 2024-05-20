@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ImageQuizDistractorRepository extends JpaRepository<ImageQuizDistractor, Long> {
-    ImageQuizDistractor findByImageQuizDistractor(String imageQuizDistractor);
+    Optional<ImageQuizDistractor> findByImageQuizDistractor(String imageQuizDistractor);
 
     List<ImageQuizDistractor> findByImageQuizImageQuizSeq(Long imageQuizId);
 
