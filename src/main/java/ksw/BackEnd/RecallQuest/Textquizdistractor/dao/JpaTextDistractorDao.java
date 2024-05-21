@@ -23,7 +23,7 @@ public class JpaTextDistractorDao {
     public List<TextDistractor> findByTextQuiz_TextQuizId(int textQuizId) {
         List<TextDistractor> distractors = textdistractorRepository.findByTextQuiz_TextQuizId(textQuizId);
         if (distractors.isEmpty()) {
-            throw new TextQuizDistractorNotFoundException("No distractors found for TextQuiz ID: " + textQuizId, 404);
+            throw new TextQuizDistractorNotFoundException("해당 TextQuiz ID에 대한 선택지를 찾을 수 없습니다: " + textQuizId, 404);
         }
         return distractors;
     }

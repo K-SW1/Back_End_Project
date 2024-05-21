@@ -21,13 +21,13 @@ public class JpaTextQuizDao {
     public TextQuiz save(TextQuiz textQuiz) {
         // 동일한 질문이 이미 존재하는지 확인
         if (textQuizRepository.existsByQuestion(textQuiz.getQuestion())) {
-            throw new TextQuizAlreadyExistsException("TextQuiz with the same question already exists", 409);
+            throw new TextQuizAlreadyExistsException("동일한 질문을 가진 TextQuiz가 이미 있습니다", 409);
         }
         return textQuizRepository.save(textQuiz);
     }
     public TextQuiz findById(int textQuizId) {
         return textQuizRepository.findById(textQuizId)
-                .orElseThrow(() -> new TextQuizNotFoundException("TextQuiz not found with ID: " + textQuizId, 404));
+                .orElseThrow(() -> new TextQuizNotFoundException("TextQuiz를 ID로 찾을 수 없습니다: " + textQuizId, 404));
     }
 
     public TextQuiz findTextQuizBymember(Member member) {
