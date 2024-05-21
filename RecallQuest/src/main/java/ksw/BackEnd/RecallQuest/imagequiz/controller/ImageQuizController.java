@@ -72,7 +72,6 @@ public class ImageQuizController {
     /**
      *이미지 퀴즈 조회
      */
-
     //문제보기 단일 조회 - 문제 내용으로 검색
     @GetMapping("/read/question")
     public ResponseEntity<ResBodyModel> findByQuestion(@RequestBody ImageQuizReadDto imageQuizReadDto) throws IOException {
