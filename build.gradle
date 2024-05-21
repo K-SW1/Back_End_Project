@@ -9,6 +9,9 @@ version = '0.0.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '17'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 configurations {
@@ -36,23 +39,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
-
-    // 로깅 의존성 추가
-    implementation 'org.slf4j:slf4j-api:1.7.36'
-    runtimeOnly 'ch.qos.logback:logback-classic:1.2.11'
-
 }
-
-// 수정전
-//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//implementation 'org.springframework.boot:spring-boot-starter-web'
-//compileOnly 'org.projectlombok:lombok'
-//runtimeOnly 'com.mysql:mysql-connector-j'
-//annotationProcessor 'org.projectlombok:lombok'
-//testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-
-
 
 tasks.named('test') {
     useJUnitPlatform()
