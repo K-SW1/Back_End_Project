@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d4cb1dcd-628c-484b-afe7-8ce8d9ee349e" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2eBMQ9pXFFStCffVjBTPV2xAqBa" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/user/Documents/GitHub/Back_End_Project/src/main/resources/templates",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "프로젝트",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\user\Documents\GitHub\Back_End_Project\src\main\resources\templates" />
+      <recent name="C:\Users\user\Documents\GitHub\Back_End_Project\src\main\java\csj\BackEnd\RecallQuest" />
+      <recent name="C:\Users\user\Documents\GitHub\Back_End_Project\src\main\java\csj\BackEnd\RecallQuest\entity" />
+      <recent name="C:\Users\user\Documents\GitHub\Back_End_Project\src\main\java\csj\BackEnd\RecallQuest\Textquizdistractor" />
+      <recent name="C:\Users\user\Documents\GitHub\Back_End_Project\src\main\java\csj\BackEnd\Textquizdistractor" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\user\Documents\GitHub\Back_End_Project\src\main\java\csj\BackEnd\RecallQuest" />
+      <recent name="C:\Users\user\Documents\GitHub\Back_End_Project\src\main\java\csj\BackEnd\RecallQuest\entity" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.RecallQuestBackEndApplication">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Back_End_Project" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Back_End_Project" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RecallQuestBackEndApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="RecallQuestBackEnd.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ksw.BackEnd.RecallQuest.RecallQuestBackEndApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RecallQuestBackEndApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="RecallQuestBackEnd.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="csj.BackEnd.RecallQuest.RecallQuestBackEndApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d4cb1dcd-628c-484b-afe7-8ce8d9ee349e" name="Changes" comment="" />
+      <created>1711373499929</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1711373499929</updated>
+      <workItem from="1711373500944" duration="12040000" />
+      <workItem from="1711419876602" duration="8993000" />
+      <workItem from="1711436282566" duration="17195000" />
+      <workItem from="1711880163519" duration="13474000" />
+      <workItem from="1711946497771" duration="597000" />
+      <workItem from="1711952913380" duration="928000" />
+      <workItem from="1712036804630" duration="6729000" />
+      <workItem from="1712147644325" duration="930000" />
+      <workItem from="1712148743929" duration="1726000" />
+      <workItem from="1712153597271" duration="8602000" />
+      <workItem from="1712163391884" duration="133000" />
+      <workItem from="1712492905328" duration="8285000" />
+      <workItem from="1712549916740" duration="143000" />
+      <workItem from="1712558172217" duration="3658000" />
+      <workItem from="1712659129643" duration="11798000" />
+      <workItem from="1712677090731" duration="7428000" />
+      <workItem from="1712739089653" duration="5509000" />
+      <workItem from="1712759563746" duration="3979000" />
+      <workItem from="1712763622355" duration="1704000" />
+      <workItem from="1712819771115" duration="1805000" />
+      <workItem from="1712827986328" duration="1502000" />
+      <workItem from="1712899666321" duration="462000" />
+      <workItem from="1713859318924" duration="589000" />
+      <workItem from="1714114630181" duration="202000" />
+      <workItem from="1715057501214" duration="5451000" />
+      <workItem from="1715063035661" duration="249000" />
+      <workItem from="1715063345097" duration="4224000" />
+      <workItem from="1715174129677" duration="13000" />
+      <workItem from="1715236024048" duration="4139000" />
+      <workItem from="1715327997479" duration="898000" />
+      <workItem from="1715525426670" duration="3439000" />
+      <workItem from="1715558831120" duration="943000" />
+      <workItem from="1715876242309" duration="12979000" />
+      <workItem from="1715915269777" duration="10801000" />
+      <workItem from="1715926613210" duration="277000" />
+      <workItem from="1716300927974" duration="71000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
