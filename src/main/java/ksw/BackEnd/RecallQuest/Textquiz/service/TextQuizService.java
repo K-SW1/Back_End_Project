@@ -35,13 +35,13 @@ public class TextQuizService {
     // [TextQuiz] 추가 서비스
     public TextQuizResponseDto addTextQuiz(TextQuizRequestDto requestDto) {
 
-        // 현재 인증된 사용자 정보 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userLoginId = authentication.getName(); // 로그인 후 api 요청 시 userLoginId에는 username 값 넣음.
-
-
-        // 요청 DTO에 사용자의 로그인 ID 설정
-        requestDto.setUserLoginId(userLoginId);
+//        // 현재 인증된 사용자 정보 가져오기
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String userLoginId = authentication.getName(); // 로그인 후 api 요청 시 userLoginId에는 username 값 넣음.
+//
+//
+//        // 요청 DTO에 사용자의 로그인 ID 설정
+//        requestDto.setUserLoginId(userLoginId);
 
         //String userLoginId = requestDto.getUserLoginId();
         Login login = loginDao.findByUserLoginId(requestDto.getUserLoginId());

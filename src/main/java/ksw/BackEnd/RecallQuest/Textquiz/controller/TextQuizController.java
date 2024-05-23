@@ -3,6 +3,8 @@ package ksw.BackEnd.RecallQuest.Textquiz.controller;
 
 import ksw.BackEnd.RecallQuest.entity.TextQuiz;
 import ksw.BackEnd.RecallQuest.Textquiz.service.TextQuizService;
+import ksw.BackEnd.RecallQuest.jwt.dto.CustomUserDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +34,10 @@ public class TextQuizController {
 
     // [TextQuiz](힌트) 추가  + AetResponse 변경 완료
     @PostMapping("/add")
-    public ResponseEntity<ResBodyModel> addTextQuiz(@RequestBody TextQuizRequestDto requestDto) {
+    public ResponseEntity<ResBodyModel> addTextQuiz(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody TextQuizRequestDto requestDto) {
 
+        requestDto.setUserLoginId(customUserDetails.getUsername());
 
         // 요청 DTO를 엔티티로 변환합니다
         TextQuizResponseDto responseDto = textQuizService.addTextQuiz(requestDto);

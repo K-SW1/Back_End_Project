@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4cb1dcd-628c-484b-afe7-8ce8d9ee349e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/controller/ImageQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/controller/ImageQuizController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/controller/imageQuizDistractorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/controller/imageQuizDistractorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/controller/TextQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/controller/TextQuizController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/service/TextQuizService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/service/TextQuizService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
