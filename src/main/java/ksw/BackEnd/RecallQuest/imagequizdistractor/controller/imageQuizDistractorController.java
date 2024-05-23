@@ -11,11 +11,13 @@ import ksw.BackEnd.RecallQuest.imagequizdistractor.dto.ImageQuizDistractorRespon
 import ksw.BackEnd.RecallQuest.imagequizdistractor.dto.UpdateRequestDto;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.mapper.DistractorMapper;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.service.ImageQuizDistractorService;
+import ksw.BackEnd.RecallQuest.jwt.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

@@ -5,6 +5,7 @@ import ksw.BackEnd.RecallQuest.common.code.SuccessCode;
 import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
 import ksw.BackEnd.RecallQuest.entity.ImageQuiz;
 import ksw.BackEnd.RecallQuest.entity.ImageQuizDistractor;
+import ksw.BackEnd.RecallQuest.entity.Login;
 import ksw.BackEnd.RecallQuest.imagequiz.dto.*;
 
 import ksw.BackEnd.RecallQuest.imagequiz.mapper.CompleteMapper;
@@ -13,11 +14,13 @@ import ksw.BackEnd.RecallQuest.imagequiz.service.ImageQuizService;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.dto.ImageQuizDistractorResponseDto;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.mapper.DistractorMapper;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.service.ImageQuizDistractorService;
+import ksw.BackEnd.RecallQuest.jwt.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,9 +48,11 @@ public class ImageQuizController {
      */
     @PostMapping("/save")
     public ResponseEntity<ResBodyModel> createImageQuiz(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestPart(value="imageQuizRequestDto") ImageQuizRequestDto imageQuizRequestDto,
             @RequestPart(value="file", required = false) List<MultipartFile> files
     ) throws IOException {
+        imageQuizRequestDto.setUserLoginId(customUserDetails.getUsername());
         ImageQuiz imageQuiz = imageQuizService.imageQuizSave(imageQuizRequestDto, files);
         List<Map<String, Object>> imageList = quizMapper.quizPhotoMapping(imageQuiz.getQuestionImages());
         ImageQuizResponseDto imageQuizResponseDto = new ImageQuizResponseDto(imageQuiz, imageList);
@@ -152,11 +157,29 @@ public class ImageQuizController {
         return KsResponse.toResponse(SuccessCode.SUCCESS, completeImageQuizResponseDtoList);
     }
 
-    //문제보기 전체 조회 - 문제와 보기가 함께 나오게, 회원 로그인아이디로 검색
-    @GetMapping("/read/complete/loginId/{loginId}")
-    public ResponseEntity<ResBodyModel> findAllByLoginId(@PathVariable String loginId) throws IOException {
+//    //문제보기 전체 조회 - 문제와 보기가 함께 나오게, 회원 로그인아이디로 검색
+//    @GetMapping("/read/complete/loginId/{loginId}")
+//    public ResponseEntity<ResBodyModel> findAllByLoginId(@PathVariable String loginId) throws IOException {
+//        List<CompleteImageQuizResponseDto> completeImageQuizResponseDtoList = new ArrayList<>();
+//        List<ImageQuiz> ImageQuizList = imageQuizService.findImageQuizzes(loginId);
+//
+//        //퀴즈 번호 부여
+//        Long quizNumber = 1L;
+//        for (ImageQuiz imageQuiz : ImageQuizList) {
+//            List<ImageQuizDistractor> imageQuizDistractors = imageQuizDistractorService.findByImageQuizId(imageQuiz.getImageQuizSeq());
+//            CompleteImageQuizResponseDto completeImageQuizResponseDto = completeMapper.toCompleteResponse(imageQuiz, imageQuizDistractors);
+//            completeImageQuizResponseDto.setImageQuizSeq(quizNumber++);
+//            completeImageQuizResponseDtoList.add(completeImageQuizResponseDto);
+//        }
+//
+//        return KsResponse.toResponse(SuccessCode.SUCCESS, completeImageQuizResponseDtoList);
+//    }
+
+    //문제보기 전체 조회 - 문제와 보기가 함께 나오게, 회원 로그인아이디로
+    @GetMapping("/read/complete/loginId")
+    public ResponseEntity<ResBodyModel> findAllByUserLoginId(@AuthenticationPrincipal CustomUserDetails customUserDetails) throws IOException {
         List<CompleteImageQuizResponseDto> completeImageQuizResponseDtoList = new ArrayList<>();
-        List<ImageQuiz> ImageQuizList = imageQuizService.findImageQuizzes(loginId);
+        List<ImageQuiz> ImageQuizList = imageQuizService.findImageQuizzes(customUserDetails.getUsername());
 
         //퀴즈 번호 부여
         Long quizNumber = 1L;
