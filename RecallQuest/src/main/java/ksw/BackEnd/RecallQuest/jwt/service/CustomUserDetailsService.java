@@ -20,9 +20,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
 
-        Login userData = loginDao.findByUserLoginId(username); //로그인 아이디로 로그인 엔티티 가져오기
+        Login userData = loginDao.findByUserLoginId(loginId); //로그인 아이디로 로그인 엔티티 가져오기
 
         if (userData != null) {
 

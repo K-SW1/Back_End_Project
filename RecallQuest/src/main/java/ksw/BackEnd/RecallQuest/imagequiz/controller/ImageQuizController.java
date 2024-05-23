@@ -5,6 +5,7 @@ import ksw.BackEnd.RecallQuest.common.code.SuccessCode;
 import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
 import ksw.BackEnd.RecallQuest.entity.ImageQuiz;
 import ksw.BackEnd.RecallQuest.entity.ImageQuizDistractor;
+import ksw.BackEnd.RecallQuest.entity.Login;
 import ksw.BackEnd.RecallQuest.imagequiz.dto.*;
 
 import ksw.BackEnd.RecallQuest.imagequiz.mapper.CompleteMapper;
@@ -13,11 +14,14 @@ import ksw.BackEnd.RecallQuest.imagequiz.service.ImageQuizService;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.dto.ImageQuizDistractorResponseDto;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.mapper.DistractorMapper;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.service.ImageQuizDistractorService;
+import ksw.BackEnd.RecallQuest.jwt.dto.CustomUserDetails;
+import ksw.BackEnd.RecallQuest.jwt.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,9 +49,11 @@ public class ImageQuizController {
      */
     @PostMapping("/save")
     public ResponseEntity<ResBodyModel> createImageQuiz(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestPart(value="imageQuizRequestDto") ImageQuizRequestDto imageQuizRequestDto,
             @RequestPart(value="file", required = false) List<MultipartFile> files
     ) throws IOException {
+        imageQuizRequestDto.setUserLoginId(customUserDetails.getUsername());
         ImageQuiz imageQuiz = imageQuizService.imageQuizSave(imageQuizRequestDto, files);
         List<Map<String, Object>> imageList = quizMapper.quizPhotoMapping(imageQuiz.getQuestionImages());
         ImageQuizResponseDto imageQuizResponseDto = new ImageQuizResponseDto(imageQuiz, imageList);
