@@ -30,10 +30,24 @@ public class TextDistractorService {
     private final JpaTextDistractorDao jpaTextDistractorDao;
 
 
+    // [TextQuiz](선택지)(정답) 개별 추가 서비스
+    public TextDistractor addTextDistractorToQuiz(int textQuizId, TextDistractorRequestDto distractorRequestDto) {
+        // 텍스트 퀴즈 ID에 해당하는 텍스트 퀴즈 엔티티를 가져옵니다.
+        TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
+
+        // TextDistractorRequestDto를 TextDistractor 엔티티로 변환하여 저장합니다.
+        TextDistractor distractor = TextDistractor.builder()
+                .textzQuizDistractor(distractorRequestDto.getTextzQuizDistractor())
+                .validation(distractorRequestDto.isValidation())
+                .textQuiz(textQuiz)
+                .build();
+
+        // 저장된 선택지 엔티티를 반환합니다.
+        return jpaTextDistractorDao.save(distractor);
+    }
 
 
-
-    // [TextQuiz](선택지)(정답) 추가 서비스
+    // [TextQuiz](선택지)(정답) 리스트 추가 서비스
     public List<TextDistractor> addTextDistractorsToQuiz(int textQuizId, List<TextDistractorRequestDto> requestDtos) {
         // 텍스트 퀴즈 ID에 해당하는 텍스트 퀴즈 엔티티를 가져옵니다.
         TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
