@@ -28,9 +28,22 @@ public class TextDistractorController {
     private final TextDistractorService textDistractorService;
 
 
+    // [TextQuiz](선택지)(정답) 개별 추가
+    @PostMapping("/{textQuizId}/distractor/add")
+    public ResponseEntity<ResBodyModel> addTextDistractorToQuiz(@PathVariable("textQuizId") int textQuizId,
+                                                                @RequestBody TextDistractorRequestDto distractorRequestDto) {
+        TextDistractor savedDistractor = textDistractorService.addTextDistractorToQuiz(textQuizId, distractorRequestDto);
+
+        TextDistractorResponseDto responseDto = new TextDistractorResponseDto();
+        responseDto.setTextzQuizDistractor(savedDistractor.getTextzQuizDistractor());
+        responseDto.setValidation(savedDistractor.isValidation());
+
+        // AetResponse를 사용하여 ResponseEntity를 생성
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
+    }
 
 
-    // [TextQuiz](선택지)(정답) 추가
+    // [TextQuiz](선택지)(정답) 리스트 추가
     @PostMapping("/{textQuizId}/distractors/add")
     public ResponseEntity<ResBodyModel> addTextDistractorsToQuiz(@PathVariable("textQuizId") int textQuizId,
                                                              @RequestBody List<TextDistractor> distractors) {

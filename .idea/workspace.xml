@@ -5,102 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4cb1dcd-628c-484b-afe7-8ce8d9ee349e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/RecallQuest/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/build.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/settings.gradle" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/DataNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/MapperConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/RecallQuestApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/Exception/ImageQuizDistractor/ImageQuizDistractorNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/Exception/distractorImage/DistractorImageNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/Exception/imagequiz/ImageQuizAlreadyExistsException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/Exception/imagequiz/ImageQuizNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/Exception/login/LoginIdAlreadyExistsException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/Exception/login/LoginIdNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/Exception/member/MailAlreadyExistsException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/Exception/member/MemberIdAlreadyExistsException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/Exception/member/MemberNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/Exception/questionimage/QuestionImageNotFoundException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/KsResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/code/BodyCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/code/SuccessCode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/common/model/ResBodyModel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/entity/DistractorImage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/entity/ImageQuiz.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/entity/ImageQuizDistractor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/entity/Login.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/entity/Member.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/entity/QuestionImage.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/entity/TextQuiz.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/entity/TextQuizDistractor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/controller/ImageQuizController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/dao/ImageQuizDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/dao/JpaImageQuizDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/dao/JpaQuestionImageDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/dao/QuestionImageDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/dto/CompleteImageQuizResponseDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/dto/ImageQuizReadDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/dto/ImageQuizRequestDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/dto/ImageQuizResponseDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/dto/UpdateRequestDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/mapper/CompleteMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/mapper/QuizMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/repository/ImageQuizRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/repository/QuestionImageRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/service/ImageQuizService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/controller/imageQuizDistractorController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/dao/DistractorImageDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/dao/ImageQuizDistractorDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/dao/JpaDistractorImageDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/dao/JpaImageQuizDistractorDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/dto/DistractorReadDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/dto/ImageQuizDistractorRequestDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/dto/ImageQuizDistractorResponseDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/dto/UpdateRequestDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/mapper/DistractorMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/repository/DistractorImageRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/repository/ImageQuizDistractorRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/service/ImageQuizDistractorService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/JWTFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/JWTUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/config/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/controller/AdminController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/controller/AuthController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/controller/MainController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/controller/ReissueController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/dto/CustomUserDetails.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/dto/LoginDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/dto/TokenInfo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/entity/RefreshEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/exception/IllegalAccessTokenException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/exception/InvalidPasswordException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/exception/MissingAuthorizationException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/exception/NoSuchTokenException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/exception/TokenReissueFailedException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/repository/RefreshRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/service/AuthService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/service/CustomUserDetailsService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/jwt/service/ReissueService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/member/controller/MemberController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/member/dao/JpaLoginDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/member/dao/JpaMemberDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/member/dao/LoginDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/member/dao/MemberDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/member/dto/MemberDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/member/dto/MemberResponseDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/member/dto/MemberSaveRequestDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/member/repository/LoginRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/member/repository/MemberRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/member/service/MemberService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/java/ksw/BackEnd/RecallQuest/member/service/MemberServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/main/resources/templates/a.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/test/java/ksw/BackEnd/RecallQuest/RecallQuestApplicationTests.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecallQuest/src/test/java/ksw/BackEnd/RecallQuest/service/MemberServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/controller/TextDistractorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/controller/TextDistractorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/dto/TextDistractorRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/dto/TextDistractorRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/service/TextDistractorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/service/TextDistractorService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,34 +63,34 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/user/Documents/GitHub/Back_End_Project/src/main/java/ksw/BackEnd/RecallQuest/common/Exception",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "프로젝트",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/user/Documents/GitHub/Back_End_Project/src/main/java/ksw/BackEnd/RecallQuest/common/Exception&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;프로젝트&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\user\Documents\GitHub\Back_End_Project\src\main\resources\templates" />
@@ -270,6 +178,7 @@
       <workItem from="1715926613210" duration="277000" />
       <workItem from="1716300927974" duration="71000" />
       <workItem from="1716356898268" duration="332000" />
+      <workItem from="1716476167110" duration="107000" />
     </task>
     <servers />
   </component>
