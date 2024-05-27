@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/quiz/quizs/textquiz")
+@RequestMapping("/textquizDistractor")
 public class TextDistractorController {
 
 

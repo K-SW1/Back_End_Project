@@ -23,7 +23,7 @@ import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/quiz/quizs/textquiz")
+@RequestMapping("/textquiz")
 public class TextQuizController {
 
 
