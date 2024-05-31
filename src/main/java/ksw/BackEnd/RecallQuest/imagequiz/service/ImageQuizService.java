@@ -108,8 +108,8 @@ public class ImageQuizService {
         //내용으로 조회
         ImageQuiz imageQuiz = findImageQuiz(updateRequestDto);
 
+        existsByQuestion(updateRequestDto.getRevisedQuestion());
         imageQuiz.changeInfo(updateRequestDto);
-        existsByQuestion(imageQuiz.getQuestion());
 
         // 이미지 퀴즈를 저장
         imageQuizDao.save(imageQuiz);
