@@ -26,8 +26,6 @@ import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
 @RequestMapping("/textquiz")
 public class TextQuizController {
 
-
-
     private final TextQuizService textQuizService;
 
 

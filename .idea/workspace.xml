@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d4cb1dcd-628c-484b-afe7-8ce8d9ee349e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/service/ImageQuizService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/imagequiz/service/ImageQuizService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/controller/TextQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/controller/TextQuizController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/dto/ImageQuizDistractorRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/imagequizdistractor/dto/ImageQuizDistractorRequestDto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,7 +186,7 @@
       <workItem from="1715926613210" duration="277000" />
       <workItem from="1716300927974" duration="71000" />
       <workItem from="1716792903321" duration="732000" />
-      <workItem from="1717043674554" duration="5267000" />
+      <workItem from="1717043674554" duration="11807000" />
     </task>
     <servers />
   </component>
