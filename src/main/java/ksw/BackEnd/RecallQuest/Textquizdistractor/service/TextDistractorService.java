@@ -30,7 +30,10 @@ public class TextDistractorService {
     private final JpaTextDistractorDao jpaTextDistractorDao;
 
 
-    // [TextQuiz](선택지)(정답) 개별 추가 서비스
+    /**
+     *추가 서비스
+     */
+    // TextQuiz 선택지랑 정답 개별 추가 서비스
     public TextDistractor addTextDistractorToQuiz(int textQuizId, TextDistractorRequestDto distractorRequestDto) {
         // 텍스트 퀴즈 ID에 해당하는 텍스트 퀴즈 엔티티를 가져옵니다.
         TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
@@ -45,9 +48,8 @@ public class TextDistractorService {
         // 저장된 선택지 엔티티를 반환합니다.
         return jpaTextDistractorDao.save(distractor);
     }
-
-
-    // [TextQuiz](선택지)(정답) 리스트 추가 서비스
+    
+    // TextQuiz 선택지랑 정답 리스트 형식으로 추가 서비스
     public List<TextDistractor> addTextDistractorsToQuiz(int textQuizId, List<TextDistractorRequestDto> requestDtos) {
         // 텍스트 퀴즈 ID에 해당하는 텍스트 퀴즈 엔티티를 가져옵니다.
         TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
@@ -66,7 +68,12 @@ public class TextDistractorService {
         return jpaTextDistractorDao.saveAll(Distractors);
     }
 
-    // [TextQuiz](힌트)(선택지)(정답) 특정 조회 서비스
+
+    
+    /**
+     *조회 서비스
+     */
+    // TextQuiz 문제랑 힌트 및 선택지랑 정답 특정 조회 서비스
     public TextQuizWithDistractorsResponseDto getTextQuizWithDistractors(int textQuizId) {
         // ID로 텍스트 퀴즈를 가져옵니다.
         TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
@@ -84,7 +91,7 @@ public class TextDistractorService {
                 .build();
     }
 
-    // [TextQuiz](힌트)(선택지)(정답) 전체 조회 서비스
+    // TextQuiz 문제랑 힌트 및 선택지랑 정답 전체 조회 서비스
     public List<TextQuizWithDistractorsResponseDto> getAllTextQuizzesWithDistractors() {
         // 모든 텍스트 퀴즈를 가져옵니다.
         List<TextQuiz> allTextQuizzes = jpaTextQuizDao.findAll();
@@ -106,10 +113,8 @@ public class TextDistractorService {
     }
 
 
-
-
-
-    // [TextQuiz](선택지)(정답) 조회 서비스
+    
+    // TextQuiz 선택지랑 정답 조회 서비스
     public List<TextDistractorResponseDto> getTextDistractorsByQuizId(int textQuizId) {
         // 텍스트 퀴즈 ID에 해당하는 선택지를 데이터베이스에서 조회
         List<TextDistractor> textDistractors = jpaTextDistractorDao.findByTextQuiz_TextQuizId(textQuizId);
@@ -140,9 +145,11 @@ public class TextDistractorService {
 
 
 
+    /**
+     *수정 서비스
+     */
 
-
-    // [TextQuiz](선택지) 수정 서비스
+    // TextQuiz 선택지랑 정답 수정 서비스
     @Transactional
     public List<TextDistractorResponseDto> updateTextDistractors(int textQuizId, List<TextDistractorRequestDto> updatedDistractorsRequestDto) {
         // 텍스트 퀴즈 ID로 해당하는 텍스트 퀴즈를 찾습니다.

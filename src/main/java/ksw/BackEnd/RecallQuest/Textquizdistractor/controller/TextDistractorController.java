@@ -28,7 +28,10 @@ public class TextDistractorController {
     private final TextDistractorService textDistractorService;
 
 
-    // [TextQuiz](선택지)(정답) 개별 추가
+    /**
+     *추가 서비스
+     */
+    // TextQuiz 선택지랑 정답 개별 추가
     @PostMapping("/{textQuizId}/distractor/add")
     public ResponseEntity<ResBodyModel> addTextDistractorToQuiz(@PathVariable("textQuizId") int textQuizId,
                                                                 @RequestBody TextDistractorRequestDto distractorRequestDto) {
@@ -42,8 +45,7 @@ public class TextDistractorController {
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
-
-    // [TextQuiz](선택지)(정답) 리스트 추가
+    // TextQuiz 선택지랑 정답 리스트 형식으로 추가
     @PostMapping("/{textQuizId}/distractors/add")
     public ResponseEntity<ResBodyModel> addTextDistractorsToQuiz(@PathVariable("textQuizId") int textQuizId,
                                                              @RequestBody List<TextDistractor> distractors) {
@@ -77,9 +79,11 @@ public class TextDistractorController {
 
 
 
+    /**
+     *조회 서비스
+     */
 
-
-    // [TextQuiz](선택지)(정답) 조회
+    // TextQuiz 선택지랑 정답 조회
     @GetMapping("/{textQuizId}/distractors")
     public ResponseEntity<ResBodyModel> getTextDistractorsByQuizId(@PathVariable("textQuizId") int textQuizId) {
         List<TextDistractorResponseDto> textDistractors = textDistractorService.getTextDistractorsByQuizId(textQuizId);
@@ -89,7 +93,7 @@ public class TextDistractorController {
     }
 
 
-    // [TextQuiz](힌트)(선택지)(정답) 특정 조회
+    // TextQuiz 문제랑 힌트 및 선택지랑 정답 특정 조회
     @GetMapping("/{textQuizId}/details")
     public ResponseEntity<ResBodyModel> getTextQuizWithDistractors(@PathVariable int textQuizId) {
         // 텍스트 퀴즈와 해당하는 선택지를 가져오는 서비스 메서드를 호출합니다.
@@ -100,7 +104,7 @@ public class TextDistractorController {
     }
 
 
-    // [TextQuiz](힌트)(선택지)(정답) 전체 조회
+    // TextQuiz 문제랑 힌트 및 선택지랑 정답 전체 조회
     @GetMapping("/every")
     public ResponseEntity<ResBodyModel> getAllTextQuizzesWithDistractors() {
         // 모든 텍스트 퀴즈와 해당하는 선택지를 가져오는 서비스 메서드를 호출합니다.
@@ -114,8 +118,10 @@ public class TextDistractorController {
 
 
 
-
-    // [TextQuiz](선택지) 수정 컨트롤러
+    /**
+     *수정 서비스
+     */
+    // TextQuiz 선택지랑 정답 수정 컨트롤러
     @PutMapping("/{textQuizId}/distractors/update")
     public ResponseEntity<ResBodyModel> updateTextDistractors(@PathVariable int textQuizId,
                                                           @RequestBody List<TextDistractorRequestDto> updatedDistractorsRequestDto) {

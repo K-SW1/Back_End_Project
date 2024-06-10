@@ -31,7 +31,9 @@ public class TextQuizService {
     private final MemberDao memberDao;
     private final LoginDao loginDao;
 
-
+    /**
+     *추가 서비스
+     */
     // [TextQuiz] 추가 서비스
     public TextQuizResponseDto addTextQuiz(TextQuizRequestDto requestDto) {
 
@@ -64,6 +66,10 @@ public class TextQuizService {
                 .build();
     }
 
+
+    /**
+     *조회 서비스
+     */
     // [TextQuiz] 조회 서비스
     public List<TextQuiz> getAllTextQuizzes() {
         return jpaTextQuizDao.findAll();
@@ -83,6 +89,11 @@ public class TextQuizService {
                 .build();
     }
 
+
+
+    /**
+     *수정 서비스
+     */
     // [TextQuiz] 수정 서비스
     public TextQuizResponseDto updateTextQuiz(int textQuizId, TextQuizRequestDto updatedTextQuizRequestDto) {
         TextQuiz existingTextQuiz = jpaTextQuizDao.findById(textQuizId);
@@ -101,6 +112,10 @@ public class TextQuizService {
                 .build();
     }
 
+
+    /**
+     *삭제 서비스
+     */
     // [TextQuiz][TextChoice] 삭제 서비스 //[TextChoice]먼저 삭제 후 [TextQuiz] 삭제 되는 방식. 외래키 제약 조건 //트래젝션은 두가지 일을 하나로 묶어서 진행하되, 중간에 오류 발생 시 롤백.
     @Transactional
     public void deleteTextQuiz(int textQuizId) {
