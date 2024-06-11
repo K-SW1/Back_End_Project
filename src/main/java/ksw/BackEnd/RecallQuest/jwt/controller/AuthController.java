@@ -19,13 +19,13 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/api/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginDto loginDTO) throws IOException {
         TokenInfo tokenInfo = authService.authenticate(loginDTO);
         return ResponseEntity.ok(tokenInfo);
     }
 
-    @PostMapping("/api/logout")
+    @PostMapping("/auth/logout")
     public ResponseEntity<?> logout(@RequestHeader("refreshToken") String refreshToken) {
         try {
             authService.logout(refreshToken);
