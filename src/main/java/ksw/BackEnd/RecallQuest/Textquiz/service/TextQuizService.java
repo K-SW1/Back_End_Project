@@ -34,18 +34,17 @@ public class TextQuizService {
     /**
      *추가 서비스
      */
-    // [TextQuiz] 추가 서비스
+    // 문제와 힌트 추가 서비스
     public TextQuizResponseDto addTextQuiz(TextQuizRequestDto requestDto) {
 
 //        // 현재 인증된 사용자 정보 가져오기
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        String userLoginId = authentication.getName(); // 로그인 후 api 요청 시 userLoginId에는 username 값 넣음.
-//
-//
 //        // 요청 DTO에 사용자의 로그인 ID 설정
 //        requestDto.setUserLoginId(userLoginId);
+//        String userLoginId = requestDto.getUserLoginId();
 
-        //String userLoginId = requestDto.getUserLoginId();
+
         Login login = loginDao.findByUserLoginId(requestDto.getUserLoginId());
         //로그인 된 사용자 찾아서 해당 멤버의 시퀀스 넘버를 넣어줌.
         Member member = memberDao.findByMemberSeq(login.getMember().getMemberSeq());
@@ -70,7 +69,7 @@ public class TextQuizService {
     /**
      *조회 서비스
      */
-    // [TextQuiz] 조회 서비스
+    // 문제와 힌트 조회 서비스
     public List<TextQuiz> getAllTextQuizzes() {
         return jpaTextQuizDao.findAll();
     }
@@ -94,7 +93,7 @@ public class TextQuizService {
     /**
      *수정 서비스
      */
-    // [TextQuiz] 수정 서비스
+    // 문제와 힌트 수정 서비스
     public TextQuizResponseDto updateTextQuiz(int textQuizId, TextQuizRequestDto updatedTextQuizRequestDto) {
         TextQuiz existingTextQuiz = jpaTextQuizDao.findById(textQuizId);
 //                .orElseThrow(() -> new RuntimeException("TextQuiz not found"));

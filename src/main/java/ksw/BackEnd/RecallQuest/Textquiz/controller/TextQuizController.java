@@ -32,7 +32,7 @@ public class TextQuizController {
     /**
      *추가 서비스
      */
-    // TextQuiz 문제랑 힌트 추가  + AetResponse 변경 완료
+    // TextQuiz 문제랑 힌트 추가  + AetResponse 변경 완료 (단일)
     @PostMapping("/add")
     public ResponseEntity<ResBodyModel> addTextQuiz(
             @AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody TextQuizRequestDto requestDto) {
@@ -53,7 +53,7 @@ public class TextQuizController {
     /**
      *조회 서비스
      */
-    // TextQuiz 문제랑 힌트 조회 + AetResponse 변경 완료
+    // TextQuiz 문제랑 힌트 조회 + AetResponse 변경 완료 (전체)
     @GetMapping("/all")
     public ResponseEntity<ResBodyModel> getAllTextQuizzes() {
         List<TextQuiz> textQuizzes = textQuizService.getAllTextQuizzes();
@@ -75,7 +75,7 @@ public class TextQuizController {
     }
 
 
-    // TextQuiz 문제랑 힌트 특정 조회
+    // TextQuiz 문제랑 힌트 특정 조회 (단일)
     @GetMapping("/{textQuizId}")
     public ResponseEntity<ResBodyModel> getTextQuizById(@PathVariable int textQuizId) {
         TextQuizResponseDto textQuiz = textQuizService.getTextQuizById(textQuizId);
@@ -89,7 +89,7 @@ public class TextQuizController {
     /**
      *수정 서비스
      */
-    // TextQuiz 문제랑 힌트 수정 컨트롤러 + AetResponse 변경 완료
+    // TextQuiz 문제랑 힌트 수정 컨트롤러 + AetResponse 변경 완료 (단일)
     @PutMapping("/{textQuizId}/update")
     public ResponseEntity<ResBodyModel> updateTextQuiz(@PathVariable int textQuizId,
                                                        @RequestBody TextQuizRequestDto updatedTextQuizRequestDto) {
@@ -106,7 +106,7 @@ public class TextQuizController {
     /**
      *삭제 서비스
      */
-    // TextQuiz 및 TextChoice 한번에 삭제 + AetResponse 변경 완료
+    // TextQuiz 및 TextChoice 한번에 삭제 + AetResponse 변경 완료 (단일)
     @DeleteMapping("/{textQuizId}/delete")
     public ResponseEntity<ResBodyModel> deleteTextQuiz(@PathVariable("textQuizId") int textQuizId) {
         // 텍스트 퀴즈 삭제 서비스 호출
@@ -119,31 +119,3 @@ public class TextQuizController {
 
 
 }
-
-//
-//    {
-//        "question": "좋아하는 계절은?",
-//            "hint": "눈이 내린다."
-//    }
-//
-
-//[
-//  {
-//   "textzQuizDistractor": "봄",
-//   "validation": false
-//   },
-//   {
-//   "textzQuizDistractor": "여름",
-//   "validation": false
-//    },
-//    {
-//    "textzQuizDistractor": "가을",
-//     "validation": false
-//    },
-//    {
-//      "textzQuizDistractor": "겨울",
-//      "validation": true
-//    }
-//]
-
-//spring.jpa.hibernate.ddl-auto=create DB생성 코드

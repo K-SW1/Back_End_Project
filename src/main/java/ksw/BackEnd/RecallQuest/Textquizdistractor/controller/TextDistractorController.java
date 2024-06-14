@@ -141,29 +141,3 @@ public class TextDistractorController {
 
 }
 
-//    {
-//        "question": "좋아하는 계절은?",
-//            "hint": "눈이 내린다."
-//    }
-
-
-//[
-//  {
-//   "textzQuizDistractor": "봄",
-//   "validation": false
-//   },
-//   {
-//   "textzQuizDistractor": "여름",
-//   "validation": false
-//    },
-//    {
-//    "textzQuizDistractor": "가을",
-//     "validation": false
-//    },
-//    {
-//      "textzQuizDistractor": "겨울",
-//      "validation": true
-//    }
-//]
-
-//spring.jpa.hibernate.ddl-auto=create
