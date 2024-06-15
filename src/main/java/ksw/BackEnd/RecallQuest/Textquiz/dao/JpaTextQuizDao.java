@@ -47,9 +47,10 @@ public class JpaTextQuizDao {
         textQuizRepository.deleteAll();
     }
 
-//    public boolean existsByQuestion(String question) {
-//        return textQuizRepository.existsByQuestion(question);
-//    }
+    public boolean existsByQuestion(String question) {
+        return textQuizRepository.existsByQuestion(question);
+    }
+
 
 
 

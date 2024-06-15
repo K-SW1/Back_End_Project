@@ -1,6 +1,7 @@
 package ksw.BackEnd.RecallQuest.Textquiz.service;
 
 import ksw.BackEnd.RecallQuest.Textquiz.dao.JpaTextQuizDao;
+import ksw.BackEnd.RecallQuest.Textquiz.dao.TextQuizDao;
 import ksw.BackEnd.RecallQuest.Textquiz.dto.TextQuizRequestDto;
 import ksw.BackEnd.RecallQuest.Textquiz.dto.TextQuizResponseDto;
 import ksw.BackEnd.RecallQuest.entity.Login;
@@ -10,6 +11,7 @@ import ksw.BackEnd.RecallQuest.member.dao.LoginDao;
 import ksw.BackEnd.RecallQuest.member.dao.MemberDao;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import java.io.IOException;
 
 
 
@@ -34,19 +36,8 @@ public class TextQuizService {
     /**
      *추가 서비스
      */
-    // 문제와 힌트 추가 서비스
-    public TextQuizResponseDto addTextQuiz(TextQuizRequestDto requestDto) {
-
-//        // 현재 인증된 사용자 정보 가져오기
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String userLoginId = authentication.getName(); // 로그인 후 api 요청 시 userLoginId에는 username 값 넣음.
-//        // 요청 DTO에 사용자의 로그인 ID 설정
-//        requestDto.setUserLoginId(userLoginId);
-//        String userLoginId = requestDto.getUserLoginId();
-
-
+    public TextQuiz addTextQuiz(TextQuizRequestDto requestDto) throws IOException {
         Login login = loginDao.findByUserLoginId(requestDto.getUserLoginId());
-        //로그인 된 사용자 찾아서 해당 멤버의 시퀀스 넘버를 넣어줌.
         Member member = memberDao.findByMemberSeq(login.getMember().getMemberSeq());
 
         TextQuiz textQuiz = TextQuiz.builder()
@@ -55,15 +46,46 @@ public class TextQuizService {
                 .hint(requestDto.getHint())
                 .build();
 
-        TextQuiz savedTextQuiz = jpaTextQuizDao.save(textQuiz);
+        existsByQuestion(textQuiz.getQuestion());
+        jpaTextQuizDao.save(textQuiz);
+
+        return textQuiz;
+    }
+
+    /*
+    퀴즈 내용 중복 검사
+    */
+    private void existsByQuestion(String question) {
+        Boolean result = jpaTextQuizDao.existsByQuestion(question);
+        if (result) {
+            throw new IllegalArgumentException("이미 존재하는 퀴즈내용 입니다.");
+        }
+    }
+
+
+
+    /**
+     *수정 서비스
+     */
+    // 문제와 힌트 수정 서비스
+    public TextQuizResponseDto updateTextQuiz(int textQuizId, TextQuizRequestDto updatedTextQuizRequestDto) {
+        TextQuiz existingTextQuiz = jpaTextQuizDao.findById(textQuizId);
+
+        existsByQuestion(updatedTextQuizRequestDto.getQuestion());
+
+        existingTextQuiz.setQuestion(updatedTextQuizRequestDto.getQuestion());
+        existingTextQuiz.setHint(updatedTextQuizRequestDto.getHint());
+
+        TextQuiz updatedTextQuiz = jpaTextQuizDao.save(existingTextQuiz);
 
         return TextQuizResponseDto.builder()
-                .textQuizId(savedTextQuiz.getTextQuizId())
-                .member(member)
-                .question(savedTextQuiz.getQuestion())
-                .hint(savedTextQuiz.getHint())
+                .textQuizId(updatedTextQuiz.getTextQuizId())
+                .member(updatedTextQuiz.getMember())
+                .question(updatedTextQuiz.getQuestion())
+                .hint(updatedTextQuiz.getHint())
                 .build();
     }
+
 
 
     /**
@@ -90,26 +112,7 @@ public class TextQuizService {
 
 
 
-    /**
-     *수정 서비스
-     */
-    // 문제와 힌트 수정 서비스
-    public TextQuizResponseDto updateTextQuiz(int textQuizId, TextQuizRequestDto updatedTextQuizRequestDto) {
-        TextQuiz existingTextQuiz = jpaTextQuizDao.findById(textQuizId);
-//                .orElseThrow(() -> new RuntimeException("TextQuiz not found"));
 
-        existingTextQuiz.setQuestion(updatedTextQuizRequestDto.getQuestion());
-        existingTextQuiz.setHint(updatedTextQuizRequestDto.getHint());
-
-        TextQuiz updatedTextQuiz = jpaTextQuizDao.save(existingTextQuiz);
-
-        return TextQuizResponseDto.builder()
-                .textQuizId(updatedTextQuiz.getTextQuizId())
-                .member(updatedTextQuiz.getMember())
-                .question(updatedTextQuiz.getQuestion())
-                .hint(updatedTextQuiz.getHint())
-                .build();
-    }
 
 
     /**

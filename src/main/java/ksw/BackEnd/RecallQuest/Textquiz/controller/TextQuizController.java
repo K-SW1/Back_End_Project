@@ -8,6 +8,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+
+import java.io.IOException;
 import java.util.List;
 
 import ksw.BackEnd.RecallQuest.Textquiz.dto.TextQuizRequestDto;
@@ -20,6 +22,7 @@ import ksw.BackEnd.RecallQuest.common.KsResponse;
 import ksw.BackEnd.RecallQuest.common.code.SuccessCode;
 import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
 
+import ksw.BackEnd.RecallQuest.Textquiz.mapper.TextQuizMapper;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,26 +30,47 @@ import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
 public class TextQuizController {
 
     private final TextQuizService textQuizService;
-
+    private final TextQuizMapper quizMapper;
 
     /**
      *추가 서비스
      */
-    // TextQuiz 문제랑 힌트 추가  + AetResponse 변경 완료 (단일)
     @PostMapping("/add")
     public ResponseEntity<ResBodyModel> addTextQuiz(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody TextQuizRequestDto requestDto) {
-
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestBody TextQuizRequestDto requestDto
+    ) throws IOException {
         requestDto.setUserLoginId(customUserDetails.getUsername());
-
-        // 요청 DTO를 엔티티로 변환합니다
-        TextQuizResponseDto responseDto = textQuizService.addTextQuiz(requestDto);
-
-        // 적절한 상태와 함께 응답 DTO를 반환합니다
+        TextQuiz savedTextQuiz = textQuizService.addTextQuiz(requestDto);
+        TextQuizResponseDto responseDto = quizMapper.toDto(savedTextQuiz);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
 
+    /**
+     *수정 서비스
+     */
+//    // TextQuiz 문제랑 힌트 수정 컨트롤러 + AetResponse 변경 완료 (단일)
+//    @PutMapping("/{textQuizId}/update")
+//    public ResponseEntity<ResBodyModel> updateTextQuiz(
+//            @PathVariable int textQuizId,
+//            @RequestBody TextQuizRequestDto updatedTextQuizRequestDto) {
+//        TextQuizResponseDto updatedQuiz = textQuizService.updateTextQuiz(textQuizId, updatedTextQuizRequestDto);
+//
+//        // AetResponse를 사용하여 ResponseEntity를 생성
+//        return KsResponse.toResponse(SuccessCode.SUCCESS, updatedQuiz);
+//    }
+
+
+    @PutMapping("/{textQuizId}/update")
+    public ResponseEntity<ResBodyModel> updateTextQuiz(
+            @PathVariable int textQuizId,
+            @RequestBody TextQuizRequestDto updatedTextQuizRequestDto
+    ) throws IOException {
+        TextQuizResponseDto updatedTextQuiz = textQuizService.updateTextQuiz(textQuizId, updatedTextQuizRequestDto);
+        TextQuizResponseDto responseDto = quizMapper.toDtoFromDto(updatedTextQuiz);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
+    }
 
 
 
@@ -86,18 +110,6 @@ public class TextQuizController {
 
 
 
-    /**
-     *수정 서비스
-     */
-    // TextQuiz 문제랑 힌트 수정 컨트롤러 + AetResponse 변경 완료 (단일)
-    @PutMapping("/{textQuizId}/update")
-    public ResponseEntity<ResBodyModel> updateTextQuiz(@PathVariable int textQuizId,
-                                                       @RequestBody TextQuizRequestDto updatedTextQuizRequestDto) {
-        TextQuizResponseDto updatedQuiz = textQuizService.updateTextQuiz(textQuizId, updatedTextQuizRequestDto);
-
-        // AetResponse를 사용하여 ResponseEntity를 생성
-        return KsResponse.toResponse(SuccessCode.SUCCESS, updatedQuiz);
-    }
 
 
 
