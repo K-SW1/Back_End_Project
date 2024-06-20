@@ -133,10 +133,22 @@ public class TextDistractorController {
     }
 
 
-
-
-
-
+    /**
+     *삭제 서비스
+     */
+    // 텍스트퀴즈선택지 단일 삭제
+    @DeleteMapping("/distractor/{textDistractorId}/delete")
+    public ResponseEntity<ResBodyModel> deleteTextDistractor(@PathVariable int textDistractorId) {
+        textDistractorService.deleteTextDistractor(textDistractorId);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, null);
+    }
+    
+    // 텍스트퀴즈선택지 다수 삭제
+    @DeleteMapping("/textquiz/{textQuizId}/distractors/delete")
+    public ResponseEntity<ResBodyModel> deleteAllDistractorsByTextQuizId(@PathVariable int textQuizId) {
+        textDistractorService.deleteAllDistractorsByTextQuizId(textQuizId);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, null);
+    }
 
 
 }

@@ -1,9 +1,7 @@
 package ksw.BackEnd.RecallQuest.Textquiz.service;
 
 import ksw.BackEnd.RecallQuest.Textquiz.dao.JpaTextQuizDao;
-import ksw.BackEnd.RecallQuest.Textquiz.dao.TextQuizDao;
 import ksw.BackEnd.RecallQuest.Textquiz.dto.TextQuizRequestDto;
-import ksw.BackEnd.RecallQuest.Textquiz.dto.TextQuizResponseDto;
 import ksw.BackEnd.RecallQuest.entity.Login;
 import ksw.BackEnd.RecallQuest.entity.Member;
 import ksw.BackEnd.RecallQuest.entity.TextQuiz;
@@ -12,13 +10,8 @@ import ksw.BackEnd.RecallQuest.member.dao.MemberDao;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
+import org.springframework.dao.DataAccessException;
 
-
-
-
-
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 
 import lombok.RequiredArgsConstructor;
@@ -34,7 +27,7 @@ public class TextQuizService {
     private final LoginDao loginDao;
 
     /**
-     *추가 서비스
+     * 텍스트 퀴즈 저장
      */
     public TextQuiz addTextQuiz(TextQuizRequestDto requestDto) throws IOException {
         Login login = loginDao.findByUserLoginId(requestDto.getUserLoginId());
@@ -47,14 +40,20 @@ public class TextQuizService {
                 .build();
 
         existsByQuestion(textQuiz.getQuestion());
-        jpaTextQuizDao.save(textQuiz);
+
+        try {
+            jpaTextQuizDao.save(textQuiz);
+        } catch (DataAccessException e) {
+            throw new IOException("텍스트퀴즈 저장 실패", e);
+        }
 
         return textQuiz;
     }
 
-    /*
-    퀴즈 내용 중복 검사
-    */
+
+    /**
+     * 퀴즈 내용 중복 검사
+     */
     private void existsByQuestion(String question) {
         Boolean result = jpaTextQuizDao.existsByQuestion(question);
         if (result) {
@@ -63,69 +62,60 @@ public class TextQuizService {
     }
 
 
-
     /**
-     *수정 서비스
+     * 텍스트 퀴즈 수정
      */
-    // 문제와 힌트 수정 서비스
-    public TextQuizResponseDto updateTextQuiz(int textQuizId, TextQuizRequestDto updatedTextQuizRequestDto) {
+    // 텍스트퀴즈/힌트 수정 서비스
+    public TextQuiz updateTextQuiz(int textQuizId, TextQuizRequestDto updatedTextQuizRequestDto) throws IOException {
         TextQuiz existingTextQuiz = jpaTextQuizDao.findById(textQuizId);
+
+        TextQuiz textQuiz = TextQuiz.builder()
+                .textQuizId(existingTextQuiz.getTextQuizId())
+                .member(existingTextQuiz.getMember())
+                .question(updatedTextQuizRequestDto.getQuestion())
+                .hint(updatedTextQuizRequestDto.getHint())
+                .build();
 
         existsByQuestion(updatedTextQuizRequestDto.getQuestion());
 
-        existingTextQuiz.setQuestion(updatedTextQuizRequestDto.getQuestion());
-        existingTextQuiz.setHint(updatedTextQuizRequestDto.getHint());
+        try {
+            jpaTextQuizDao.save(textQuiz);
+        } catch (DataAccessException e) {
+            throw new IOException("텍스트퀴즈 업데이트 실패", e);
+        }
 
-        TextQuiz updatedTextQuiz = jpaTextQuizDao.save(existingTextQuiz);
-
-        return TextQuizResponseDto.builder()
-                .textQuizId(updatedTextQuiz.getTextQuizId())
-                .member(updatedTextQuiz.getMember())
-                .question(updatedTextQuiz.getQuestion())
-                .hint(updatedTextQuiz.getHint())
-                .build();
+        return textQuiz;
     }
 
 
-
     /**
-     *조회 서비스
+     *텍스트 퀴즈 조회
      */
-    // 문제와 힌트 조회 서비스
+    // 텍스트퀴즈/힌트 다수 조회 서비스
     public List<TextQuiz> getAllTextQuizzes() {
-        return jpaTextQuizDao.findAll();
+        List<TextQuiz> textQuizzes = jpaTextQuizDao.findAll();
+        return textQuizzes;
     }
 
-
-    // [TextQuiz] 특정 조회 서비스
-    public TextQuizResponseDto getTextQuizById(int textQuizId) {
+    // 텍스트퀴즈/힌트 단일 조회 서비스
+    public TextQuiz getTextQuizById(int textQuizId) {
         TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
-//                .orElseThrow(() -> new RuntimeException("TextQuiz not found"));
-
-        return TextQuizResponseDto.builder()
-                .textQuizId(textQuiz.getTextQuizId())
-                .member(textQuiz.getMember())
-                .question(textQuiz.getQuestion())
-                .hint(textQuiz.getHint())
-                .build();
+        return textQuiz;
     }
-
-
-
-
 
 
     /**
-     *삭제 서비스
+     *텍스트 퀴즈 삭제
      */
-    // [TextQuiz][TextChoice] 삭제 서비스 //[TextChoice]먼저 삭제 후 [TextQuiz] 삭제 되는 방식. 외래키 제약 조건 //트래젝션은 두가지 일을 하나로 묶어서 진행하되, 중간에 오류 발생 시 롤백.
+    // [TextQuiz][TextChoice] 삭제 서비스 //[TextChoice]먼저 삭제 후 [TextQuiz] 삭제 되는 방식. 외래키 제약 조건
     @Transactional
-    public void deleteTextQuiz(int textQuizId) {
+    public void deleteTextQuiz(int textQuizId) throws IOException {
         TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
-//                .orElseThrow(() -> new RuntimeException("TextQuiz not found"));
-
-        jpaTextQuizDao.delete(textQuiz);
+        try {
+            jpaTextQuizDao.delete(textQuiz);
+        } catch (DataAccessException e) {
+            throw new IOException("텍스트퀴즈 삭제를 실패하였습니다.", e);
+        }
     }
-
 
 }

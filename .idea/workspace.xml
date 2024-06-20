@@ -8,12 +8,12 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/controller/TextQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/controller/TextQuizController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/dao/JpaTextQuizDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/dao/JpaTextQuizDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/mapper/QuizMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/mapper/TextQuizMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/mapper/TextQuizMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/mapper/TextQuizMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/service/TextQuizService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquiz/service/TextQuizService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/mapper/QuizMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/mapper/QuizMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/jwt/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/jwt/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/jwt/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/jwt/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/controller/TextDistractorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/controller/TextDistractorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/dao/JpaTextDistractorDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/dao/JpaTextDistractorDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/repository/TextDistractorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/repository/TextDistractorRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/service/TextDistractorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/Textquizdistractor/service/TextDistractorService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,6 +188,7 @@
       <workItem from="1717984160187" duration="1124000" />
       <workItem from="1718026830489" duration="4029000" />
       <workItem from="1718351002813" duration="2947000" />
+      <workItem from="1718886995062" duration="15381000" />
     </task>
     <servers />
   </component>

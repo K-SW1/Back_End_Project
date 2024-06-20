@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -179,5 +180,22 @@ public class TextDistractorService {
     }
 
 
+    /**
+     *삭제 서비스
+     */
+    // 텍스트퀴즈선택지 단일 삭제
+    @Transactional
+    public void deleteTextDistractor(int textDistractorId) {
+        TextDistractor textDistractor = jpaTextDistractorDao.findById(textDistractorId);
+        jpaTextDistractorDao.deleteByTextDistractorId(textDistractor);
+        
+    }
+    
+    // 텍스트퀴즈선택지 다수 삭제
+    @Transactional
+    public void deleteAllDistractorsByTextQuizId(int textQuizId) {
+        List<TextDistractor> distractors = jpaTextDistractorDao.findByTextQuiz_TextQuizId(textQuizId);
+        jpaTextDistractorDao.deleteAll(distractors);
+    }
 }
 
