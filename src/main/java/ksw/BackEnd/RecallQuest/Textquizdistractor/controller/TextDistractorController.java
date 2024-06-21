@@ -10,6 +10,7 @@ import ksw.BackEnd.RecallQuest.common.code.SuccessCode;
 import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
 import ksw.BackEnd.RecallQuest.entity.TextDistractor;
 
+import ksw.BackEnd.RecallQuest.entity.TextQuiz;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,28 +32,28 @@ public class TextDistractorController {
     /**
      *추가 서비스
      */
-    // TextQuiz 선택지랑 정답 단일 추가
+    // 단일 텍스트퀴즈 선택지 및 정답 단일 추가
     @PostMapping("/{textQuizId}/distractor/add")
     public ResponseEntity<ResBodyModel> addTextDistractorToQuiz(
             @PathVariable("textQuizId") int textQuizId,
             @RequestBody TextDistractorRequestDto distractorRequestDto
     ) throws IOException {
         TextDistractor savedDistractor = textDistractorService.addTextDistractorToQuiz(textQuizId, distractorRequestDto);
-        TextDistractorResponseDto responseDto = quizMapper.toDto(savedDistractor);
+        TextDistractorResponseDto responseDto = quizMapper.toResponse(savedDistractor);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
 
 
-    // TextQuiz 선택지랑 정답 리스트 형식으로 추가
+    // 단일 텍스트퀴즈 선택지 및 정답 리스트 형식으로 추가
     @PostMapping("/{textQuizId}/distractors/add")
     public ResponseEntity<ResBodyModel> addTextDistractorsToQuiz(
             @PathVariable("textQuizId") int textQuizId,
             @RequestBody List<TextDistractor> distractors
     ) throws IOException {
-        List<TextDistractorRequestDto> requestDtos = quizMapper.toRequestDtoList(distractors);
+        List<TextDistractorRequestDto> requestDtos = quizMapper.toRequestDistractorList(distractors);
         List<TextDistractor> savedDistractors = textDistractorService.addTextDistractorsToQuiz(textQuizId, requestDtos);
-        List<TextDistractorResponseDto> responseDtos = quizMapper.toDtoList(savedDistractors);
+        List<TextDistractorResponseDto> responseDtos = quizMapper.toResponseDistractorList(savedDistractors);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
     }
     
@@ -60,57 +61,50 @@ public class TextDistractorController {
 
 
 
-
     /**
      *조회 서비스
      */
-
-    // 단일 TextQuiz 선택지랑 정답 조회
+    // 단일 텍스트퀴즈 선택지 및 정답 조회
     @GetMapping("/{textQuizId}/distractors")
     public ResponseEntity<ResBodyModel> getTextDistractorsByQuizId(@PathVariable("textQuizId") int textQuizId) {
-        List<TextDistractorResponseDto> textDistractors = textDistractorService.getTextDistractorsByQuizId(textQuizId);
-        return KsResponse.toResponse(SuccessCode.SUCCESS, textDistractors);
-    }
-
-
-    // TextQuiz 문제랑 힌트 및 선택지랑 정답 특정 조회
-    @GetMapping("/{textQuizId}/details")
-    public ResponseEntity<ResBodyModel> getTextQuizWithDistractors(@PathVariable int textQuizId) {
-        // 텍스트 퀴즈와 해당하는 선택지를 가져오는 서비스 메서드를 호출합니다.
-        TextQuizWithDistractorsResponseDto responseDto = textDistractorService.getTextQuizWithDistractors(textQuizId);
-
-        // AetResponse를 사용하여 응답을 반환합니다.
-        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
-    }
-
-
-    // TextQuiz 문제랑 힌트 및 선택지랑 정답 전체 조회
-    @GetMapping("/every")
-    public ResponseEntity<ResBodyModel> getAllTextQuizzesWithDistractors() {
-        // 모든 텍스트 퀴즈와 해당하는 선택지를 가져오는 서비스 메서드를 호출합니다.
-        List<TextQuizWithDistractorsResponseDto> responseDtos = textDistractorService.getAllTextQuizzesWithDistractors();
-
-        // AetResponse를 사용하여 응답을 반환합니다.
+        List<TextDistractor> textDistractors = textDistractorService.getTextDistractorsByQuizId(textQuizId);
+        List<TextDistractorResponseDto> responseDtos = quizMapper.toResponseDistractorList(textDistractors);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
     }
 
 
+    // 단일 텍스트퀴즈 문제랑 힌트 및 선택지 정답 조회
+    @GetMapping("/{textQuizId}/details")
+    public ResponseEntity<ResBodyModel> getTextQuizWithDistractors(@PathVariable int textQuizId) {
+        TextQuiz textQuiz = textDistractorService.getTextQuizWithDistractors(textQuizId);
+        TextQuizWithDistractorsResponseDto responseDto = quizMapper.toResponseDto(textQuiz);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
+    }
+
+
+    // 다수 텍스트퀴즈 문제/힌트 및 선택지/정답 전체 조회
+    @GetMapping("/every")
+    public ResponseEntity<ResBodyModel> getAllTextQuizzesWithDistractors() {
+        List<TextQuiz> allTextQuizzes = textDistractorService.getAllTextQuizzes();
+        List<TextQuizWithDistractorsResponseDto> responseDtos = quizMapper.toResponseTextQuizList(allTextQuizzes);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
+    }
 
 
 
     /**
      *수정 서비스
      */
-    // TextQuiz 선택지랑 정답 수정 컨트롤러
+    // 단일 텍스트퀴즈 선택지 및 정답 수정
     @PutMapping("/{textQuizId}/distractors/update")
-    public ResponseEntity<ResBodyModel> updateTextDistractors(@PathVariable int textQuizId,
-                                                          @RequestBody List<TextDistractorRequestDto> updatedDistractorsRequestDto) {
-        // 서비스 메서드 호출
-        List<TextDistractorResponseDto> updatedDistractorsResponseDto = textDistractorService.updateTextDistractors(textQuizId, updatedDistractorsRequestDto);
-
-        // AetResponse를 사용하여 ResponseEntity를 생성
+    public ResponseEntity<ResBodyModel> updateTextDistractors (
+             @PathVariable int textQuizId,
+             @RequestBody List<TextDistractorRequestDto> updatedDistractorsRequestDto) {
+        List<TextDistractor> updatedDistractors = textDistractorService.updateTextDistractors(textQuizId, updatedDistractorsRequestDto);
+        List<TextDistractorResponseDto> updatedDistractorsResponseDto = quizMapper.toResponseDistractorList(updatedDistractors);
         return KsResponse.toResponse(SuccessCode.SUCCESS, updatedDistractorsResponseDto);
     }
+
 
 
     /**

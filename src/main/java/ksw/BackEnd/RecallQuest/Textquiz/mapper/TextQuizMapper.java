@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class TextQuizMapper {
+
+    /**
+     * 응답 매퍼
+     */
     public TextQuizResponseDto toDto(TextQuiz entity) {
         return TextQuizResponseDto.builder()
                 .textQuizId(entity.getTextQuizId())
@@ -24,5 +28,9 @@ public class TextQuizMapper {
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
+
+    /**
+     * 요청 매퍼
+     */
 }
 
