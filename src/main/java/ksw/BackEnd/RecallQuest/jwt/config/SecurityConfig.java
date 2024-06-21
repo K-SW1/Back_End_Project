@@ -87,9 +87,9 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-//                        .requestMatchers("/api/login","/api/logout", "/", "/members/join").permitAll() //모든 사용자 접근 가능
-//                        .requestMatchers("/admin").hasRole("ADMIN") //어드민만 접근 가능
-//                        .requestMatchers("/aa").hasRole("USER")
+                        .requestMatchers("/api/login","/api/logout", "/", "/members/join").permitAll() //모든 사용자 접근 가능
+                        .requestMatchers("/admin").hasRole("ADMIN") //어드민만 접근 가능
+                        .requestMatchers("/aa").hasRole("USER")
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/members/**").permitAll()
                         .requestMatchers("/imagequiz/**").permitAll()

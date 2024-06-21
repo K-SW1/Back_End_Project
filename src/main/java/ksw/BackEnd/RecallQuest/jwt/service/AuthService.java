@@ -31,6 +31,7 @@ public class AuthService {
         String username = loginDTO.getUsername();
         String password = loginDTO.getPassword();
 
+
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authentication = authenticationManager.authenticate(authToken);
 

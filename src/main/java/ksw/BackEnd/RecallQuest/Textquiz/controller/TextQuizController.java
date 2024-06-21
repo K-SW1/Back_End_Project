@@ -4,22 +4,20 @@ package ksw.BackEnd.RecallQuest.Textquiz.controller;
 import ksw.BackEnd.RecallQuest.entity.TextQuiz;
 import ksw.BackEnd.RecallQuest.Textquiz.service.TextQuizService;
 import ksw.BackEnd.RecallQuest.jwt.dto.CustomUserDetails;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import java.util.List;
-
 import ksw.BackEnd.RecallQuest.Textquiz.dto.TextQuizRequestDto;
 import ksw.BackEnd.RecallQuest.Textquiz.dto.TextQuizResponseDto;
-
-
-import java.util.stream.Collectors;
-
 import ksw.BackEnd.RecallQuest.common.KsResponse;
 import ksw.BackEnd.RecallQuest.common.code.SuccessCode;
 import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
+import ksw.BackEnd.RecallQuest.Textquiz.mapper.TextQuizMapper;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+
+import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,123 +25,69 @@ import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
 public class TextQuizController {
 
     private final TextQuizService textQuizService;
-
+    private final TextQuizMapper quizMapper;
 
     /**
-     *추가 서비스
+     *텍스트 퀴즈 저장
      */
-    // TextQuiz 문제랑 힌트 추가  + AetResponse 변경 완료
     @PostMapping("/add")
-    public ResponseEntity<ResBodyModel> addTextQuiz(
-            @AuthenticationPrincipal CustomUserDetails customUserDetails, @RequestBody TextQuizRequestDto requestDto) {
-
+    public ResponseEntity<ResBodyModel> addTextQuiz (
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestBody TextQuizRequestDto requestDto
+    ) throws IOException {
         requestDto.setUserLoginId(customUserDetails.getUsername());
-
-        // 요청 DTO를 엔티티로 변환합니다
-        TextQuizResponseDto responseDto = textQuizService.addTextQuiz(requestDto);
-
-        // 적절한 상태와 함께 응답 DTO를 반환합니다
+        TextQuiz savedTextQuiz = textQuizService.addTextQuiz(requestDto);
+        TextQuizResponseDto responseDto = quizMapper.toDto(savedTextQuiz);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
 
-
+    /**
+     *텍스트 퀴즈 수정
+     */
+    // 텍스트퀴즈/힌트 단일 수정 컨트롤러
+    @PutMapping("/{textQuizId}/update")
+    public ResponseEntity<ResBodyModel> updateTextQuiz (
+            @PathVariable int textQuizId,
+            @RequestBody TextQuizRequestDto updatedTextQuizRequestDto
+    ) throws IOException {
+        TextQuiz updatedTextQuiz = textQuizService.updateTextQuiz(textQuizId, updatedTextQuizRequestDto);
+        TextQuizResponseDto responseDto = quizMapper.toDto(updatedTextQuiz);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
+    }
 
 
     /**
-     *조회 서비스
+     *텍스트 퀴즈 조회
      */
-    // TextQuiz 문제랑 힌트 조회 + AetResponse 변경 완료
+    // 텍스트퀴즈/힌트 다수 조회
     @GetMapping("/all")
     public ResponseEntity<ResBodyModel> getAllTextQuizzes() {
         List<TextQuiz> textQuizzes = textQuizService.getAllTextQuizzes();
-
-        List<TextQuizResponseDto> responseDtos = textQuizzes.stream()
-                .map(this::convertToResponseDto)
-                .collect(Collectors.toList());
-
-        // AetResponse를 사용하여 ResponseEntity를 생성
+        List<TextQuizResponseDto> responseDtos = quizMapper.toDtoList(textQuizzes);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
     }
-    private TextQuizResponseDto convertToResponseDto(TextQuiz textQuiz) {
-        TextQuizResponseDto responseDto = new TextQuizResponseDto();
-        responseDto.setTextQuizId(textQuiz.getTextQuizId());
-        responseDto.setMember(  textQuiz.getMember());
-        responseDto.setQuestion(textQuiz.getQuestion());
-        responseDto.setHint(textQuiz.getHint());
-        return responseDto;
-    }
 
 
-    // TextQuiz 문제랑 힌트 특정 조회
+    // 텍스트퀴즈/힌트 단일 조회
     @GetMapping("/{textQuizId}")
     public ResponseEntity<ResBodyModel> getTextQuizById(@PathVariable int textQuizId) {
-        TextQuizResponseDto textQuiz = textQuizService.getTextQuizById(textQuizId);
-
-        // AetResponse를 사용하여 ResponseEntity를 생성
-        return KsResponse.toResponse(SuccessCode.SUCCESS, textQuiz);
+        TextQuiz textQuiz = textQuizService.getTextQuizById(textQuizId);
+        TextQuizResponseDto responseDto = quizMapper.toDto(textQuiz);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
 
-
     /**
-     *수정 서비스
+     *텍스트 퀴즈 삭제
      */
-    // TextQuiz 문제랑 힌트 수정 컨트롤러 + AetResponse 변경 완료
-    @PutMapping("/{textQuizId}/update")
-    public ResponseEntity<ResBodyModel> updateTextQuiz(@PathVariable int textQuizId,
-                                                       @RequestBody TextQuizRequestDto updatedTextQuizRequestDto) {
-        TextQuizResponseDto updatedQuiz = textQuizService.updateTextQuiz(textQuizId, updatedTextQuizRequestDto);
-
-        // AetResponse를 사용하여 ResponseEntity를 생성
-        return KsResponse.toResponse(SuccessCode.SUCCESS, updatedQuiz);
-    }
-
-
-
-
-
-    /**
-     *삭제 서비스
-     */
-    // TextQuiz 및 TextChoice 한번에 삭제 + AetResponse 변경 완료
+    // 텍스트퀴즈 및 텍스트퀴즈선택지 삭제 - 트랜잭션
     @DeleteMapping("/{textQuizId}/delete")
-    public ResponseEntity<ResBodyModel> deleteTextQuiz(@PathVariable("textQuizId") int textQuizId) {
-        // 텍스트 퀴즈 삭제 서비스 호출
+    public ResponseEntity<ResBodyModel> deleteTextQuiz(@PathVariable("textQuizId") int textQuizId) throws IOException {
         textQuizService.deleteTextQuiz(textQuizId);
-
-        // 삭제 성공을 응답으로 반환
         return KsResponse.toResponse(SuccessCode.SUCCESS, null);
     }
 
 
 
 }
-
-//
-//    {
-//        "question": "좋아하는 계절은?",
-//            "hint": "눈이 내린다."
-//    }
-//
-
-//[
-//  {
-//   "textzQuizDistractor": "봄",
-//   "validation": false
-//   },
-//   {
-//   "textzQuizDistractor": "여름",
-//   "validation": false
-//    },
-//    {
-//    "textzQuizDistractor": "가을",
-//     "validation": false
-//    },
-//    {
-//      "textzQuizDistractor": "겨울",
-//      "validation": true
-//    }
-//]
-
-//spring.jpa.hibernate.ddl-auto=create DB생성 코드
