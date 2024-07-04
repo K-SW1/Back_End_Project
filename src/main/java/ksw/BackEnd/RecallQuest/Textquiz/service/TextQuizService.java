@@ -88,20 +88,36 @@ public class TextQuizService {
     }
 
 
+
+
+
+
     /**
      *텍스트 퀴즈 조회
      */
-    // 텍스트퀴즈/힌트 다수 조회 서비스
+    //문제보기 전체 조회 - 문제랑 힌트 조회 서비스
     public List<TextQuiz> getAllTextQuizzes() {
         List<TextQuiz> textQuizzes = jpaTextQuizDao.findAll();
         return textQuizzes;
     }
 
-    // 텍스트퀴즈/힌트 단일 조회 서비스
+    //문제보기 단일 조회 - 문제랑 힌트 조회 서비스
     public TextQuiz getTextQuizById(int textQuizId) {
         TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
         return textQuiz;
     }
+
+    //문제보기 단일 조회 - 문제랑 힌트 질문 내용으로 검색 서비스
+    public TextQuiz getTextQuizByQuestion(String question) {
+        TextQuiz textQuiz = jpaTextQuizDao.findByQuestion(question);
+        return textQuiz;
+    }
+
+
+
+
+
+
 
 
     /**
@@ -117,5 +133,7 @@ public class TextQuizService {
             throw new IOException("텍스트퀴즈 삭제를 실패하였습니다.", e);
         }
     }
+
+
 
 }

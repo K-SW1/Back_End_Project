@@ -32,7 +32,7 @@ public class TextDistractorService {
     /**
      *추가 서비스
      */
-    // 단일 텍스트퀴즈 선택지 및 정답 단일 추가
+    //보기 단일 추가 - 보기랑 정답 추가 서비스
     public TextDistractor addTextDistractorToQuiz(int textQuizId, TextDistractorRequestDto distractorRequestDto) throws IOException {
         TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
 
@@ -51,7 +51,7 @@ public class TextDistractorService {
     }
 
 
-    // 단일 텍스트퀴즈 선택지 및 정답 리스트 형식으로 추가
+    //보기 리스트 추가 - 보기랑 정답 추가 서비스
     public List<TextDistractor> addTextDistractorsToQuiz(int textQuizId, List<TextDistractorRequestDto> requestDtos) throws IOException {
         TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
 
@@ -76,20 +76,22 @@ public class TextDistractorService {
     /**
      *조회 서비스
      */
-    // 단일 텍스트퀴즈 선택지 및 정답 조회
+    //보기 단일 조회 - 보기랑 정답 조회 서비스
     public List<TextDistractor> getTextDistractorsByQuizId(int textQuizId) {
         return jpaTextDistractorDao.findByTextQuiz_TextQuizId(textQuizId);
    }
 
-    // 단일 텍스트퀴즈 문제랑 힌트 및 선택지 정답 조회
-    public TextQuiz getTextQuizWithDistractors(int textQuizId) {
-        return jpaTextQuizDao.findById(textQuizId);
-    }
 
-    // 다수 텍스트퀴즈 문제/힌트 및 선택지/정답 전체 조회
-    public List<TextQuiz> getAllTextQuizzes() {
+
+   //문제보기 단일 조회 - 문제랑 힌트 및 보기 정답 조회 (member null) = 텍스트퀴즈에서 사용되는 서비스
+   public TextQuiz getTextQuizWithDistractors(int textQuizId) {
+        return jpaTextQuizDao.findById(textQuizId);
+  }
+
+   //문제보기 전체 조회 - 문제랑 힌트 및 보기 정답 조회 (member null) = 텍스트퀴즈에서 사용되는 서비스
+   public List<TextQuiz> getAllTextQuizzes() {
         return jpaTextQuizDao.findAll();
-    }
+  }
 
 
 
@@ -97,7 +99,7 @@ public class TextDistractorService {
     /**
      * 수정 서비스
      */
-    // 단일 텍스트퀴즈 선택지 및 정답 수정
+    //보기 단일 수정 - 해당 텍스트퀴즈 보기랑 정답 수정 서비스
     @Transactional
     public List<TextDistractor> updateTextDistractors(int textQuizId, List<TextDistractorRequestDto> updatedDistractorsRequestDto) {
         TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
@@ -122,15 +124,15 @@ public class TextDistractorService {
     /**
      *삭제 서비스
      */
-    // 텍스트퀴즈선택지 단일 삭제
+    //보기 단일 삭제 - 해당 텍스트퀴즈 보기 삭제 서비스
     @Transactional
     public void deleteTextDistractor(int textDistractorId) {
         TextDistractor textDistractor = jpaTextDistractorDao.findById(textDistractorId);
         jpaTextDistractorDao.deleteByTextDistractorId(textDistractor);
         
     }
-    
-    // 텍스트퀴즈선택지 다수 삭제
+
+    //보기 전체 삭제 - 해당 텍스트퀴즈 보기 삭제 서비스
     @Transactional
     public void deleteAllDistractorsByTextQuizId(int textQuizId) {
         List<TextDistractor> distractors = jpaTextDistractorDao.findByTextQuiz_TextQuizId(textQuizId);

@@ -1,6 +1,9 @@
 package ksw.BackEnd.RecallQuest.Textquiz.controller;
 
 
+import ksw.BackEnd.RecallQuest.Textquiz.dto.TextQuizWithDistractorsResponseDto;
+import ksw.BackEnd.RecallQuest.Textquizdistractor.mapper.TextDistractorMapper;
+import ksw.BackEnd.RecallQuest.Textquizdistractor.service.TextDistractorService;
 import ksw.BackEnd.RecallQuest.entity.TextQuiz;
 import ksw.BackEnd.RecallQuest.Textquiz.service.TextQuizService;
 import ksw.BackEnd.RecallQuest.jwt.dto.CustomUserDetails;
@@ -25,7 +28,9 @@ import java.util.List;
 public class TextQuizController {
 
     private final TextQuizService textQuizService;
-    private final TextQuizMapper quizMapper;
+    private final TextQuizMapper TextquizMapper;
+    private final TextDistractorMapper TextDistractorMapper;
+    private final TextDistractorService textDistractorService;
 
     /**
      *텍스트 퀴즈 저장
@@ -37,7 +42,7 @@ public class TextQuizController {
     ) throws IOException {
         requestDto.setUserLoginId(customUserDetails.getUsername());
         TextQuiz savedTextQuiz = textQuizService.addTextQuiz(requestDto);
-        TextQuizResponseDto responseDto = quizMapper.toDto(savedTextQuiz);
+        TextQuizResponseDto responseDto = TextquizMapper.toDto(savedTextQuiz);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
@@ -52,7 +57,7 @@ public class TextQuizController {
             @RequestBody TextQuizRequestDto updatedTextQuizRequestDto
     ) throws IOException {
         TextQuiz updatedTextQuiz = textQuizService.updateTextQuiz(textQuizId, updatedTextQuizRequestDto);
-        TextQuizResponseDto responseDto = quizMapper.toDto(updatedTextQuiz);
+        TextQuizResponseDto responseDto = TextquizMapper.toDto(updatedTextQuiz);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
@@ -60,24 +65,56 @@ public class TextQuizController {
     /**
      *텍스트 퀴즈 조회
      */
-    // 텍스트퀴즈/힌트 다수 조회
+    //문제보기 전체 조회 - 문제랑 힌트 조회
     @GetMapping("/all")
     public ResponseEntity<ResBodyModel> getAllTextQuizzes() {
         List<TextQuiz> textQuizzes = textQuizService.getAllTextQuizzes();
-        List<TextQuizResponseDto> responseDtos = quizMapper.toDtoList(textQuizzes);
+        List<TextQuizResponseDto> responseDtos = TextquizMapper.toDtoList(textQuizzes);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
     }
 
 
-    // 텍스트퀴즈/힌트 단일 조회
+    //문제보기 단일 조회 - 문제랑 힌트 조회
     @GetMapping("/{textQuizId}")
     public ResponseEntity<ResBodyModel> getTextQuizById(@PathVariable int textQuizId) {
         TextQuiz textQuiz = textQuizService.getTextQuizById(textQuizId);
-        TextQuizResponseDto responseDto = quizMapper.toDto(textQuiz);
+        TextQuizResponseDto responseDto = TextquizMapper.toDto(textQuiz);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
 
+    /**
+     * 조회 새 기능들 추가
+     */
+    //문제보기 단일 조회 - 문제랑 힌트 질문 내용으로 검색
+    @GetMapping("/question")
+    public ResponseEntity<ResBodyModel> getTextQuizByQuestion(@RequestBody TextQuizRequestDto requestDto) {
+        TextQuiz textQuiz = textQuizService.getTextQuizByQuestion(requestDto.getQuestion());
+        TextQuizResponseDto responseDto = TextquizMapper.toDto(textQuiz);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
+    }
+
+
+    //문제보기 단일 조회 - 문제랑 힌트 및 보기 정답 조회 (member null) = TextDistractorService
+    @GetMapping("/{textQuizId}/details")
+    public ResponseEntity<ResBodyModel> getTextQuizWithDistractors(@PathVariable int textQuizId) {
+        TextQuiz textQuiz = textDistractorService.getTextQuizWithDistractors(textQuizId);
+        TextQuizWithDistractorsResponseDto responseDto = TextDistractorMapper.toResponseDto(textQuiz);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
+    }
+
+
+    //문제보기 전체 조회 - 문제랑 힌트 및 보기 정답 조회 (member null) = TextDistractorService
+    @GetMapping("/every")
+    public ResponseEntity<ResBodyModel> getAllTextQuizzesWithDistractors() {
+        List<TextQuiz> allTextQuizzes = textDistractorService.getAllTextQuizzes();
+        List<TextQuizWithDistractorsResponseDto> responseDtos = TextDistractorMapper.toResponseTextQuizList(allTextQuizzes);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
+    }
+
+
+
+    
     /**
      *텍스트 퀴즈 삭제
      */

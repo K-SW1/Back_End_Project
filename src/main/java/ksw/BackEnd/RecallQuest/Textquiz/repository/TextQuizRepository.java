@@ -15,6 +15,6 @@ public interface TextQuizRepository extends JpaRepository<TextQuiz, Integer> {
 
     boolean existsByQuestion(String question);
 
-
+    Optional<TextQuiz> findByQuestion(String question);
 
 }

@@ -46,5 +46,10 @@ public class JpaTextQuizDao {
         return textQuizRepository.existsByQuestion(question);
     }
 
+    public TextQuiz findByQuestion(String question) {
+        return textQuizRepository.findByQuestion(question)
+                .orElseThrow(() -> new TextQuizNotFoundException("해당 질문의 텍스트퀴즈를 찾을 수 없습니다"));
+    }
+
 
 }
