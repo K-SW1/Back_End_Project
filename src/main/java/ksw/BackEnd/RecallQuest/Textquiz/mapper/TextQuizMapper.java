@@ -29,8 +29,6 @@ public class TextQuizMapper {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * 요청 매퍼
-     */
+
 }
 
