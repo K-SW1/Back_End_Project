@@ -25,13 +25,19 @@ public class JpaTextDistractorDao {
         return textdistractorRepository.saveAll(textDistractors);
     }
 
-    // 특정 텍스트 퀴즈 ID에 해당하는 선택지 목록을 가져오는 메서드
+//    // 특정 텍스트 퀴즈 ID에 해당하는 선택지 목록을 가져오는 메서드
+//    public List<TextDistractor> findByTextQuiz_TextQuizId(int textQuizId) {
+//        List<TextDistractor> distractors = textdistractorRepository.findByTextQuiz_TextQuizId(textQuizId);
+//        if (distractors.isEmpty()) {
+//            throw new TextQuizDistractorNotFoundException("해당 TextQuiz ID에 대한 선택지를 찾을 수 없습니다: ");
+//        }
+//        return distractors;
+//    }
+
+
+    // 빈 객체로 반환
     public List<TextDistractor> findByTextQuiz_TextQuizId(int textQuizId) {
-        List<TextDistractor> distractors = textdistractorRepository.findByTextQuiz_TextQuizId(textQuizId);
-        if (distractors.isEmpty()) {
-            throw new TextQuizDistractorNotFoundException("해당 TextQuiz ID에 대한 선택지를 찾을 수 없습니다: ");
-        }
-        return distractors;
+        return textdistractorRepository.findByTextQuiz_TextQuizId(textQuizId);
     }
 
 
