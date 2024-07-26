@@ -31,6 +31,7 @@ public class TextQuizService {
      */
     public TextQuiz addTextQuiz(TextQuizRequestDto requestDto) throws IOException {
         Login login = loginDao.findByUserLoginId(requestDto.getUserLoginId());
+
         Member member = memberDao.findByMemberSeq(login.getMember().getMemberSeq());
 
         TextQuiz textQuiz = TextQuiz.builder()
