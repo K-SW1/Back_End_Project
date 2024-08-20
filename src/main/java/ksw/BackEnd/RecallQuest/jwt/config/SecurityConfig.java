@@ -97,6 +97,7 @@ public class SecurityConfig {
                         .requestMatchers("/textquiz/**").permitAll()
                         .requestMatchers("/textquizDistractor/**").permitAll()
                         .requestMatchers("/reissue").permitAll()
+                        .requestMatchers("/missing/**").permitAll()
                         .anyRequest().authenticated()); //나머지는 로그인한 사용자만 접근 가능
 
 //        http

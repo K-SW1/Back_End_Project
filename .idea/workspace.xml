@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="d4cb1dcd-628c-484b-afe7-8ce8d9ee349e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/diary/controller/DiaryController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/entity/Diary.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/jwt/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/jwt/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/controller/MissingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/controller/MissingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/dao/JpaMissingDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/dao/JpaMissingDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/dto/MissingRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/dto/MissingRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/dto/MissingResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/dto/MissingResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/mapper/MissingMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/mapper/MissingMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/repository/MissingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/repository/MissingRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/service/MissingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/missing/service/MissingService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,6 +227,8 @@
       <workItem from="1721894415345" duration="5372000" />
       <workItem from="1723478598129" duration="710000" />
       <workItem from="1723564338407" duration="4340000" />
+      <workItem from="1724039856967" duration="7384000" />
+      <workItem from="1724167614726" duration="1916000" />
     </task>
     <servers />
   </component>
