@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d4cb1dcd-628c-484b-afe7-8ce8d9ee349e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/jwt/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ksw/BackEnd/RecallQuest/jwt/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -222,6 +224,8 @@
       <workItem from="1724039856967" duration="7384000" />
       <workItem from="1724167614726" duration="1967000" />
       <workItem from="1724223473701" duration="114000" />
+      <workItem from="1724224361326" duration="971000" />
+      <workItem from="1724229102227" duration="1208000" />
     </task>
     <servers />
   </component>
