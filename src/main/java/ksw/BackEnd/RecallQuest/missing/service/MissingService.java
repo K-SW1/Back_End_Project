@@ -20,16 +20,16 @@ public class MissingService {
         return missingList;
     }
 
-    // 특정 이름을 기반으로 실종자 조회
-    public Missing getByName(String name) {
-        Missing missing = jpaMissingDao.findByName(name);
-        return missing;
-    }
-
-    // 지역별 실종자 목록을 날짜 기준으로 내림차순 정렬하여 조회
-    public List<Missing> getByAreaSortedByDate(String area) {
-        List<Missing> missingList = jpaMissingDao.findByAreaSortedByDate(area);
-        return missingList;
-    }
+//    // 특정 이름을 기반으로 실종자 조회
+//    public Missing getByName(String name) {
+//        Missing missing = jpaMissingDao.findByName(name);
+//        return missing;
+//    }
+//
+//    // 지역별 실종자 목록을 날짜 기준으로 내림차순 정렬하여 조회
+//    public List<Missing> getByAreaSortedByDate(String area) {
+//        List<Missing> missingList = jpaMissingDao.findByAreaSortedByDate(area);
+//        return missingList;
+//    }
 
 }
