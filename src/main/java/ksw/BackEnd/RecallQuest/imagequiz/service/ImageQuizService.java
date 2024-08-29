@@ -38,6 +38,7 @@ public class ImageQuizService {
     private final MemberDao memberDao;
     private final LoginDao loginDao;
 
+    //로컬 주소
     private final String FOLDER_PATH="/Users/gim-yena/Desktop/imageFile/";
 
 
