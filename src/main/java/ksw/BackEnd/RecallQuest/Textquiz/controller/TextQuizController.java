@@ -55,7 +55,7 @@ public class TextQuizController {
     public ResponseEntity<ResBodyModel> updateTextQuiz (
             @PathVariable int textQuizId,
             @RequestBody TextQuizRequestDto updatedTextQuizRequestDto
-    ) throws IOException {
+    ) throws IOException, IllegalAccessException {
         TextQuiz updatedTextQuiz = textQuizService.updateTextQuiz(textQuizId, updatedTextQuizRequestDto);
         TextQuizResponseDto responseDto = TextquizMapper.toDto(updatedTextQuiz);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
@@ -76,7 +76,7 @@ public class TextQuizController {
 
     //문제보기 단일 조회 - 문제랑 힌트 조회
     @GetMapping("/{textQuizId}")
-    public ResponseEntity<ResBodyModel> getTextQuizById(@PathVariable int textQuizId) {
+    public ResponseEntity<ResBodyModel> getTextQuizById(@PathVariable int textQuizId) throws IllegalAccessException {
         TextQuiz textQuiz = textQuizService.getTextQuizById(textQuizId);
         TextQuizResponseDto responseDto = TextquizMapper.toDto(textQuiz);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
@@ -88,23 +88,24 @@ public class TextQuizController {
      */
     //문제보기 단일 조회 - 문제랑 힌트 질문 내용으로 검색
     @GetMapping("/question")
-    public ResponseEntity<ResBodyModel> getTextQuizByQuestion(@RequestBody TextQuizRequestDto requestDto) {
+    public ResponseEntity<ResBodyModel> getTextQuizByQuestion(@RequestBody TextQuizRequestDto requestDto) throws IllegalAccessException {
         TextQuiz textQuiz = textQuizService.getTextQuizByQuestion(requestDto.getQuestion());
         TextQuizResponseDto responseDto = TextquizMapper.toDto(textQuiz);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
 
-    //문제보기 단일 조회 - 문제랑 힌트 및 보기 정답 조회 (member null) = TextDistractorService
+
+    //문제보기 단일 조회 - 문제랑 힌트 및 보기 정답 조회  = TextDistractorService
     @GetMapping("/{textQuizId}/details")
-    public ResponseEntity<ResBodyModel> getTextQuizWithDistractors(@PathVariable int textQuizId) {
+    public ResponseEntity<ResBodyModel> getTextQuizWithDistractors(@PathVariable int textQuizId) throws IllegalAccessException {
         TextQuiz textQuiz = textDistractorService.getTextQuizWithDistractors(textQuizId);
         TextQuizWithDistractorsResponseDto responseDto = TextDistractorMapper.toResponseDto(textQuiz);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
     }
 
 
-    //문제보기 전체 조회 - 문제랑 힌트 및 보기 정답 조회 (member null) = TextDistractorService
+    //문제보기 전체 조회 - 문제랑 힌트 및 보기 정답 조회 = TextDistractorService
     @GetMapping("/every")
     public ResponseEntity<ResBodyModel> getAllTextQuizzesWithDistractors() {
         List<TextQuiz> allTextQuizzes = textDistractorService.getAllTextQuizzes();
@@ -120,7 +121,7 @@ public class TextQuizController {
      */
     // 텍스트퀴즈 및 텍스트퀴즈선택지 삭제 - 트랜잭션
     @DeleteMapping("/{textQuizId}/delete")
-    public ResponseEntity<ResBodyModel> deleteTextQuiz(@PathVariable("textQuizId") int textQuizId) throws IOException {
+    public ResponseEntity<ResBodyModel> deleteTextQuiz(@PathVariable("textQuizId") int textQuizId) throws IOException, IllegalAccessException {
         textQuizService.deleteTextQuiz(textQuizId);
         return KsResponse.toResponse(SuccessCode.SUCCESS, null);
     }

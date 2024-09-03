@@ -1,5 +1,6 @@
 package ksw.BackEnd.RecallQuest.Textquiz.dto;
 
+import ksw.BackEnd.RecallQuest.entity.Member;
 import lombok.*;
 
 
@@ -12,6 +13,10 @@ import lombok.*;
 public class TextQuizRequestDto {
 
     private String userLoginId; //회원 아이디
+
+//    private Member member;
+
+    private Long memberSeq; // Member의 seq를 위한 필드 추가
 
     private String question;
 

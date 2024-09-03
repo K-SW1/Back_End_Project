@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 
@@ -67,8 +69,17 @@ public class TextQuizService {
      * 텍스트 퀴즈 수정
      */
     // 텍스트퀴즈/힌트 수정 서비스
-    public TextQuiz updateTextQuiz(int textQuizId, TextQuizRequestDto updatedTextQuizRequestDto) throws IOException {
+    public TextQuiz updateTextQuiz(int textQuizId, TextQuizRequestDto updatedTextQuizRequestDto) throws IOException, IllegalAccessException {
         TextQuiz existingTextQuiz = jpaTextQuizDao.findById(textQuizId);
+
+        String username = getUsernameFromSecurityContext();
+
+        Login login = loginDao.findByUserLoginId(username);
+        Member loggedInMember = login.getMember();
+
+        if (!existingTextQuiz.getMember().getMemberSeq().equals(login.getMember().getMemberSeq())) {
+            throw new IllegalAccessException("이 퀴즈에 대한 수정 권한이 없습니다.");
+        }
 
         TextQuiz textQuiz = TextQuiz.builder()
                 .textQuizId(existingTextQuiz.getTextQuizId())
@@ -86,6 +97,15 @@ public class TextQuizService {
         }
 
         return textQuiz;
+
+    }
+    private String getUsernameFromSecurityContext() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
     }
 
 
@@ -98,19 +118,45 @@ public class TextQuizService {
      */
     //문제보기 전체 조회 - 문제랑 힌트 조회 서비스
     public List<TextQuiz> getAllTextQuizzes() {
-        List<TextQuiz> textQuizzes = jpaTextQuizDao.findAll();
-        return textQuizzes;
+        String username = getUsernameFromSecurityContext();
+        Login login = loginDao.findByUserLoginId(username);
+        Member loggedInMember = login.getMember();
+
+//      List<TextQuiz> textQuizzes = jpaTextQuizDao.findAll();
+
+        return jpaTextQuizDao.findAllByMember(loggedInMember);
+
+//      return textQuizzes;
     }
 
     //문제보기 단일 조회 - 문제랑 힌트 조회 서비스
-    public TextQuiz getTextQuizById(int textQuizId) {
+    public TextQuiz getTextQuizById(int textQuizId) throws IllegalAccessException {
+        String username = getUsernameFromSecurityContext();
+        Login login = loginDao.findByUserLoginId(username);
+        Member loggedInMember = login.getMember();
+
         TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
+
+        // 퀴즈 접근 권한 확인
+        if (!textQuiz.getMember().getMemberSeq().equals(loggedInMember.getMemberSeq())) {
+            throw new IllegalAccessException("이 퀴즈에 대한 조회 권한이 없습니다.");
+        }
+
         return textQuiz;
     }
 
     //문제보기 단일 조회 - 문제랑 힌트 질문 내용으로 검색 서비스
-    public TextQuiz getTextQuizByQuestion(String question) {
+    public TextQuiz getTextQuizByQuestion(String question) throws IllegalAccessException {
+        String username = getUsernameFromSecurityContext();
+        Login login = loginDao.findByUserLoginId(username);
+        Member loggedInMember = login.getMember();
+
         TextQuiz textQuiz = jpaTextQuizDao.findByQuestion(question);
+
+        // 퀴즈 접근 권한 확인
+        if (!textQuiz.getMember().getMemberSeq().equals(loggedInMember.getMemberSeq())) {
+            throw new IllegalAccessException("이 퀴즈에 대한 조회 권한이 없습니다.");
+        }
         return textQuiz;
     }
 
@@ -126,8 +172,18 @@ public class TextQuizService {
      */
     // [TextQuiz][TextChoice] 삭제 서비스 //[TextChoice]먼저 삭제 후 [TextQuiz] 삭제 되는 방식. 외래키 제약 조건
     @Transactional
-    public void deleteTextQuiz(int textQuizId) throws IOException {
+    public void deleteTextQuiz(int textQuizId) throws IOException, IllegalAccessException {
+
+        String username = getUsernameFromSecurityContext();
+        Login login = loginDao.findByUserLoginId(username);
+        Member loggedInMember = login.getMember();
+
         TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
+
+        if (!textQuiz.getMember().getMemberSeq().equals(loggedInMember.getMemberSeq())) {
+            throw new IllegalAccessException("이 퀴즈에 대한 삭제 권한이 없습니다.");
+        }
+
         try {
             jpaTextQuizDao.delete(textQuiz);
         } catch (DataAccessException e) {

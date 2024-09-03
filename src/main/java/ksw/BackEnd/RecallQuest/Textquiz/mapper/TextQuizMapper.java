@@ -18,6 +18,7 @@ public class TextQuizMapper {
     public TextQuizResponseDto toDto(TextQuiz entity) {
         return TextQuizResponseDto.builder()
                 .textQuizId(entity.getTextQuizId())
+                .memberSeq(entity.getMember().getMemberSeq()) // memberSeq 설정
                 .question(entity.getQuestion())
                 .hint(entity.getHint())
                 .build();

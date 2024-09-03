@@ -21,7 +21,7 @@ public class Diary {
     private int diaryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_seq")
     private Member member;
 
     private String name;

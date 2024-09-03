@@ -7,9 +7,17 @@ import ksw.BackEnd.RecallQuest.Textquizdistractor.dto.TextDistractorRequestDto;
 import ksw.BackEnd.RecallQuest.entity.TextDistractor;
 import ksw.BackEnd.RecallQuest.entity.TextQuiz;
 
+import ksw.BackEnd.RecallQuest.entity.Login;
+import ksw.BackEnd.RecallQuest.entity.Member;
+import ksw.BackEnd.RecallQuest.member.dao.LoginDao;
+import ksw.BackEnd.RecallQuest.member.dao.MemberDao;
+
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -27,7 +35,8 @@ public class TextDistractorService {
 
     private final JpaTextQuizDao jpaTextQuizDao;
     private final JpaTextDistractorDao jpaTextDistractorDao;
-
+    private final MemberDao memberDao;
+    private final LoginDao loginDao;
 
     /**
      *추가 서비스
@@ -83,17 +92,47 @@ public class TextDistractorService {
 
 
 
-   //문제보기 단일 조회 - 문제랑 힌트 및 보기 정답 조회 (member null) = 텍스트퀴즈에서 사용되는 서비스
-   public TextQuiz getTextQuizWithDistractors(int textQuizId) {
-        return jpaTextQuizDao.findById(textQuizId);
-  }
 
-   //문제보기 전체 조회 - 문제랑 힌트 및 보기 정답 조회 (member null) = 텍스트퀴즈에서 사용되는 서비스
+
+   //문제보기 단일 조회 - 문제랑 힌트 및 보기 정답 조회 = 텍스트퀴즈에서 사용되는 서비스
+   public TextQuiz getTextQuizWithDistractors(int textQuizId) throws IllegalAccessException {
+       String username = getUsernameFromSecurityContext();
+       Login login = loginDao.findByUserLoginId(username);
+       Member loggedInMember = login.getMember();
+
+       TextQuiz textQuiz = jpaTextQuizDao.findById(textQuizId);
+
+       // 퀴즈 접근 권한 확인
+       if (!textQuiz.getMember().getMemberSeq().equals(loggedInMember.getMemberSeq())) {
+           throw new IllegalAccessException("이 퀴즈에 대한 조회 권한이 없습니다.");
+       }
+
+       return textQuiz;
+  }
+    private String getUsernameFromSecurityContext() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
+    }
+
+
+
+    //문제보기 전체 조회 - 문제랑 힌트 및 보기 정답 조회 = 텍스트퀴즈에서 사용되는 서비스
    public List<TextQuiz> getAllTextQuizzes() {
-        return jpaTextQuizDao.findAll();
+
+       String username = ggetUsernameFromSecurityContext();
+       Login login = loginDao.findByUserLoginId(username);
+       Member loggedInMember = login.getMember();
+
+       return jpaTextQuizDao.findAllByMember_MemberSeq(loggedInMember.getMemberSeq());
   }
-
-
+    // SecurityContext에서 사용자 이름을 가져오는 메서드
+    private String ggetUsernameFromSecurityContext() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
 
 
     /**

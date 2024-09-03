@@ -14,8 +14,10 @@ public class TextQuizResponseDto {
 
     private int textQuizId;
 
-    @JsonIgnore
-    private Member member;
+//    @JsonIgnore
+//    private Member member;
+
+    private Long memberSeq; // Member의 seq를 위한 필드 추가
 
     private String question;
 

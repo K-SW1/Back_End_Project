@@ -14,8 +14,10 @@ public class TextQuizWithDistractorsResponseDto {
 
     private int textQuizId;
 
-    private Member member;
-    
+//    private Member member;
+
+    private Long memberSeq; // Member의 seq를 위한 필드 추가
+
     private String question;
 
     private String hint;
