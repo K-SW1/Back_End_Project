@@ -92,5 +92,11 @@ public class JWTFilter extends OncePerRequestFilter {
         System.out.println("Authentication set in SecurityContextHolder"); // 로그 추가
 
         filterChain.doFilter(request, response);
+
+        // 필터 체인 처리 전후로 로그 추가 (필터 체인 다음의 흐름 확인을 위함)
+        System.out.println("Before FilterChain");
+        filterChain.doFilter(request, response);
+        System.out.println("After FilterChain"); // 만약 이 로그가 출력되지 않으면 필터 이후의 로직에서 문제가 발생했을 가능성이 있음
+
     }
 }
