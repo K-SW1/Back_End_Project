@@ -25,8 +25,12 @@ public class JpaTextDistractorDao {
         return textdistractorRepository.saveAll(textDistractors);
     }
 
+<<<<<<< HEAD
     
     // 특정 텍스트 퀴즈 ID에 해당하는 선택지 목록을 가져오는 메서드
+=======
+//    // 특정 텍스트 퀴즈 ID에 해당하는 선택지 목록을 가져오는 메서드
+>>>>>>> main
 //    public List<TextDistractor> findByTextQuiz_TextQuizId(int textQuizId) {
 //        List<TextDistractor> distractors = textdistractorRepository.findByTextQuiz_TextQuizId(textQuizId);
 //        if (distractors.isEmpty()) {
