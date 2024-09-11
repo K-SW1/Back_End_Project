@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.Data;  // getter, setter, equals, hashCode, toString
 
+import java.time.LocalDate;
+
 
 @Entity
 @Data
@@ -30,7 +32,7 @@ public class Diary {
 
     private String memo;
 
-    private String date;
+    private LocalDate date;
 
 
 }

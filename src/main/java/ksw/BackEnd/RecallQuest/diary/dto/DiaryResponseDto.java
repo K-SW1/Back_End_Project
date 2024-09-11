@@ -14,8 +14,6 @@ public class DiaryResponseDto {
 
     private int diaryId;
 
-    private String userLoginId; //회원 아이디
-
     private Long memberSeq;
 
     private String name;

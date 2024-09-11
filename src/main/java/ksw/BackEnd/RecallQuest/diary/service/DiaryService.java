@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Service
@@ -36,14 +39,22 @@ public class DiaryService {
 
         Member member = memberDao.findByMemberSeq(login.getMember().getMemberSeq());
 
-        // Diary 객체 생성
-        Diary diary = Diary.builder()
-                .member(member)
-                .name(requestDto.getName())
-                .time(requestDto.getTime())
-                .memo(requestDto.getMemo())
-                .date(requestDto.getDate())
-                .build();
+        // 날짜 포맷 설정
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+        Diary diary;
+        try {
+            diary = Diary.builder()
+                    .member(member)
+                    .name(requestDto.getName())
+                    .time(requestDto.getTime())
+                    .memo(requestDto.getMemo())
+                    .date(LocalDate.parse(requestDto.getDate(), formatter))
+                    .build();
+        } catch (DateTimeParseException e) {
+            // 잘못된 날짜 포맷에 대한 예외 처리
+            throw new IllegalArgumentException("Invalid date format. Expected format is yyyyMMdd", e);
+        }
 
         // 일기 저장
         return jpaDiaryDao.save(diary);
@@ -52,19 +63,29 @@ public class DiaryService {
     /**
      * 모든 일기 조회
      */
-    public List<Diary> getAllDiaries() {
+    public List<Diary> getDiariesByDate(LocalDate date) {
         String username = getUsernameFromSecurityContext();
         Login login = loginDao.findByUserLoginId(username);
         Member loggedInMember = login.getMember();
-        return jpaDiaryDao.findAllByMember(loggedInMember);
+        return jpaDiaryDao.findAllByMemberAndDate(loggedInMember, date);
     }
+
+    private String getUsernameFromSecurityContext() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
+    }
+
 
     /**
      * 일기 삭제
      */
     @Transactional
     public void deleteDiary(int diaryId) throws IOException, IllegalAccessException {
-        String username = getUsernameFromSecurityContext();
+        String username = ggetUsernameFromSecurityContext();
         Login login = loginDao.findByUserLoginId(username);
         Member loggedInMember = login.getMember();
 
@@ -78,7 +99,7 @@ public class DiaryService {
         jpaDiaryDao.delete(diary);
     }
 
-    private String getUsernameFromSecurityContext() {
+    private String ggetUsernameFromSecurityContext() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             return ((UserDetails) principal).getUsername();

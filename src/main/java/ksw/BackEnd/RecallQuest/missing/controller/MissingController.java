@@ -47,22 +47,14 @@ public class MissingController {
 //        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
 //    }
 
-    @GetMapping("/name/{name}")
-    public ResponseEntity<ResBodyModel> getByName(@PathVariable String name) {
-        System.out.println("Requested name: " + name);
-        Missing missing = missingService.getByName(name);
-        System.out.println("Missing found: " + missing);
-        MissingResponseDto responseDto = missingMapper.toResponseDto(missing);
-        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
-    }
 
 
     // 지역별 실종자 목록을 날짜 기준으로 내림차순 정렬하여 조회
-    @GetMapping("/area/{area}")
-    public ResponseEntity<ResBodyModel> getByAreaSortedByDate(@PathVariable String area) {
-        List<MissingResponseDto> responseDtos = missingMapper.toResponseDtoList(missingService.getByAreaSortedByDate(area));
-        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
-    }
+//    @GetMapping("/area/{area}")
+//    public ResponseEntity<ResBodyModel> getByAreaSortedByDate(@PathVariable String area) {
+//        List<MissingResponseDto> responseDtos = missingMapper.toResponseDtoList(missingService.getByAreaSortedByDate(area));
+//        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
+//    }
 
 
 }

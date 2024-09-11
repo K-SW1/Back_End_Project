@@ -7,6 +7,7 @@ import ksw.BackEnd.RecallQuest.common.Exception.diary.diaryNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -34,5 +35,10 @@ public class JpaDiaryDao {
 
     public List<Diary> findAllByMember(Member member) {
         return diaryRepository.findAllByMember(member);
+    }
+
+    // 추가: 특정 회원의 특정 날짜에 작성된 일기 조회
+    public List<Diary> findAllByMemberAndDate(Member member, LocalDate date) {
+        return diaryRepository.findAllByMemberAndDate(member, date);
     }
 }

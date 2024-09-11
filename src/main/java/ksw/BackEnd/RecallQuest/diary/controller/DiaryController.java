@@ -10,11 +10,13 @@ import ksw.BackEnd.RecallQuest.common.KsResponse;
 import ksw.BackEnd.RecallQuest.common.code.SuccessCode;
 import ksw.BackEnd.RecallQuest.common.model.ResBodyModel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -42,13 +44,14 @@ public class DiaryController {
     /**
      * 모든 일기 조회 - 멤버 seq 확인 해서 조회
      */
-    @GetMapping("/all")
-    public ResponseEntity<ResBodyModel> getAllDiaries() {
-        List<Diary> diaries = diaryService.getAllDiaries();
+
+    @GetMapping("/by-date")  //http://localhost:8088/diary/by-date?date=2024-09-11
+    public ResponseEntity<ResBodyModel> getDiariesByDate(
+            @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        List<Diary> diaries = diaryService.getDiariesByDate(date);
         List<DiaryResponseDto> responseDtos = diaryMapper.toResponseDtoList(diaries);
         return KsResponse.toResponse(SuccessCode.SUCCESS, responseDtos);
     }
-
 
     /**
      * 일기 삭제
