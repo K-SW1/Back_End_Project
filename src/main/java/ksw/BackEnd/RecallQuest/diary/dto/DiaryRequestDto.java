@@ -24,6 +24,6 @@ public class DiaryRequestDto {
 
     private String memo;
 
-    private String date;
+    private String date;  //LocalDate
 
 }
