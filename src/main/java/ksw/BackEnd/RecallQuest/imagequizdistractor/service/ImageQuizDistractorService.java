@@ -12,6 +12,8 @@ import ksw.BackEnd.RecallQuest.imagequizdistractor.dto.UpdateRequestDto;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.repository.DistractorImageRepository;
 import ksw.BackEnd.RecallQuest.imagequizdistractor.repository.ImageQuizDistractorRepository;
 import ksw.BackEnd.RecallQuest.imagequiz.repository.ImageQuizRepository;
+import ksw.BackEnd.RecallQuest.member.dao.LoginDao;
+import ksw.BackEnd.RecallQuest.member.dao.MemberDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +36,10 @@ public class ImageQuizDistractorService {
     private final DistractorImageDao distractorImageDao;
     private final ImageQuizDistractorDao imageQuizDistractorDao;
 
-    private final String FOLDER_PATH="/Users/gim-yena/Desktop/imageDistractor/";
+    private final MemberDao memberDao;
+    private final LoginDao loginDao;
+
+    private final String FOLDER_PATH="C:/Users/user/Desktop/";
 
     /**
      * 선택지와 선택지 이미지 함께 저장
