@@ -3,6 +3,8 @@ package ksw.BackEnd.RecallQuest.entity;
 import jakarta.persistence.*; // 모든 클래스와 인터페이스를 가져와서 사용
 import lombok.*; // Lombok 관련 import
 import lombok.Data;  // getter, setter, equals, hashCode, toString
+import java.util.List;
+
 
 @Entity
 @Data
@@ -28,4 +30,17 @@ public class ImageQuiz {
     private String hint; // 힌트
 
     private String imageUrl; // 이미지 URL 추가
+
+    // OneToMany 관계 추가
+    @OneToMany(mappedBy = "imageQuiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ImagequizDistractor> distractors; // 선택지 리스트
+
+    // distractors getter 추가
+    public List<ImagequizDistractor> getDistractors() {
+        return distractors;
+    }
+
+    public void setDistractors(List<ImagequizDistractor> distractors) {
+        this.distractors = distractors;
+    }
 }

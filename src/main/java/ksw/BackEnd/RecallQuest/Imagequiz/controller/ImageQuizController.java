@@ -5,8 +5,7 @@ import ksw.BackEnd.RecallQuest.Imagequiz.dto.ImageQuizResponseDto;
 import ksw.BackEnd.RecallQuest.Imagequiz.dto.ImageQuizWithDistractorsResponseDto;
 import ksw.BackEnd.RecallQuest.Imagequiz.mapper.ImageQuizMapper;
 import ksw.BackEnd.RecallQuest.Imagequiz.service.ImageQuizService;
-import ksw.BackEnd.RecallQuest.Imagequiz.mapper.ImageQuizMapper;
-//import ksw.BackEnd.RecallQuest.Imagequizdistractor.service.ImageDistractorService;
+import ksw.BackEnd.RecallQuest.ImagequizDistractor.service.ImageDistractorService;
 import ksw.BackEnd.RecallQuest.entity.ImageQuiz;
 import ksw.BackEnd.RecallQuest.jwt.dto.CustomUserDetails;
 import ksw.BackEnd.RecallQuest.common.KsResponse;
@@ -31,8 +30,8 @@ public class ImageQuizController {
 
     private final ImageQuizService imageQuizService;
     private final ImageQuizMapper imageQuizMapper;
-//    private final ImageDistractorMapper imageDistractorMapper;
-//    private final ImageDistractorService imageDistractorService;
+    private final ImageQuizMapper imageDistractorMapper;
+    private final ImageDistractorService imageDistractorService;
 
 
     /**
@@ -97,12 +96,12 @@ public class ImageQuizController {
     /**
      * 이미지 퀴즈 및 보기 정답 조회
      */
-//    @GetMapping("/{imageQuizId}/details")
-//    public ResponseEntity<ResBodyModel> getImageQuizWithDistractors(@PathVariable int imageQuizId) throws IllegalAccessException {
-//        ImageQuiz imageQuiz = imageDistractorService.getImageQuizWithDistractors(imageQuizId);
-//        ImageQuizWithDistractorsResponseDto responseDto = imageDistractorMapper.toResponseDto(imageQuiz);
-//        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
-//    }
+    @GetMapping("/{imageQuizId}/details")
+    public ResponseEntity<ResBodyModel> getImageQuizWithDistractors(@PathVariable int imageQuizId) throws IllegalAccessException {
+        ImageQuiz imageQuiz = imageDistractorService.getImageQuizWithDistractors(imageQuizId);
+        ImageQuizWithDistractorsResponseDto responseDto = imageDistractorMapper.toResponseDto(imageQuiz);
+        return KsResponse.toResponse(SuccessCode.SUCCESS, responseDto);
+    }
 
     /**
      * 이미지 퀴즈 삭제
