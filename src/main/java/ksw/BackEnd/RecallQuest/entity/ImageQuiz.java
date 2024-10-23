@@ -1,73 +1,46 @@
 package ksw.BackEnd.RecallQuest.entity;
 
-import jakarta.persistence.*;
-import ksw.BackEnd.RecallQuest.imagequiz.dto.ImageQuizRequestDto;
-import ksw.BackEnd.RecallQuest.imagequiz.dto.UpdateRequestDto;
-import lombok.*;
-
-import java.util.ArrayList;
-import java.util.HashSet;
+import jakarta.persistence.*; // 모든 클래스와 인터페이스를 가져와서 사용
+import lombok.*; // Lombok 관련 import
+import lombok.Data;  // getter, setter, equals, hashCode, toString
 import java.util.List;
-import java.util.Set;
 
+
+@Entity
+@Data
 @Getter
 @Setter
-@NoArgsConstructor
-@Table(name = "image_quiz")
-@AllArgsConstructor
-@Entity
+@NoArgsConstructor // Lombok가 매개변수가 없는 기본 생성자를 생성합니다
+@AllArgsConstructor // Lombok가 모든 필드를 포함하는 생성자를 생성합니다
+@Builder
+@Table(name = "imagequiz") // 테이블 이름 설정
 public class ImageQuiz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "image_quiz_seq")
-    private Long imageQuizSeq;
+    @Column(name = "image_quiz_id")
+    private int imageQuizId; // 이미지 퀴즈 ID
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_seq")
-    private Member member;
+    private Member member; // 사용자와의 관계
 
-    private String question;
+    private String question; // 질문
 
-    private String hint;
+    private String hint; // 힌트
 
-    @OneToMany(
-            mappedBy = "imageQuiz",
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            orphanRemoval = true
-    ) //문제에 대한 이미지
-    private List<QuestionImage> questionImages = new ArrayList<>();
+    private String imageUrl; // 이미지 URL 추가
 
-    @OneToMany(
-            mappedBy = "imageQuiz",
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            orphanRemoval = true
-    )
-    private List<ImageQuizDistractor> imageQuizDistractors = new ArrayList<>();
+    // OneToMany 관계 추가
+    @OneToMany(mappedBy = "imageQuiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ImagequizDistractor> distractors; // 선택지 리스트
 
-
-    @Builder
-    public ImageQuiz(String question, String hint, Member member) {
-        this.question = question;
-        this.hint = hint;
-        this.member = member;
+    // distractors getter 추가
+    public List<ImagequizDistractor> getDistractors() {
+        return distractors;
     }
 
-    public void changeInfo (UpdateRequestDto updateRequestDto) {
-        this.question = updateRequestDto.getRevisedQuestion();
-        this.hint =  updateRequestDto.getHint();
+    public void setDistractors(List<ImagequizDistractor> distractors) {
+        this.distractors = distractors;
     }
-
-    public void addImage (QuestionImage questionImage) {
-        this.questionImages.add(questionImage);
-    }
-
-//    public static ImageQuiz createdImageQuiz(Member member, OrderItem orderItem){
-//        ImageQuiz imageQuiz = new ImageQuiz();
-//        imageQuiz.setMember(member);
-//        order.addOrderItem(orderItem);
-//        return order;
-//    }
-
-
 }

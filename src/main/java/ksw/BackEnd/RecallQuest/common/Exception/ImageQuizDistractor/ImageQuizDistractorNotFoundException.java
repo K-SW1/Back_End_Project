@@ -6,13 +6,18 @@ public class ImageQuizDistractorNotFoundException extends EntityNotFoundExceptio
 
     private Integer status;
 
-    ImageQuizDistractorNotFoundException(){}
+    public ImageQuizDistractorNotFoundException() {}
+
     public ImageQuizDistractorNotFoundException(String message) {
         super(message);
     }
-    ImageQuizDistractorNotFoundException(String message, Integer status) {
+
+    public ImageQuizDistractorNotFoundException(String message, Integer status) {
         super(message);
         this.status = status;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
 }
